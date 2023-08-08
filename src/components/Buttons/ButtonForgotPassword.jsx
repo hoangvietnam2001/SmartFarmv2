@@ -1,6 +1,5 @@
 import {StyleSheet, Text, TouchableOpacity, ToastAndroid} from 'react-native';
 import React from 'react';
-// import {Style} from '../../screens/auth/Login/Style';
 export default function ButtonForgotPassword() {
 	const handleShowToast = () => {
 		ToastAndroid.showWithGravity(

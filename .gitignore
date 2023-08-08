@@ -66,4 +66,4 @@ yarn-error.log
 /coverage
 
 # config 
-src/utils/config.js
+src/utils/config.jsx
