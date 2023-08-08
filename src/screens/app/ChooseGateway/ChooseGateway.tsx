@@ -88,7 +88,7 @@ export default function ChooseGateway({navigation}: {navigation: any}) {
 
 			<TouchableOpacity
 				style={styles.bgButton}
-				onPress={() => navigation.navigate('Loading')}>
+				onPress={() => navigation.navigate('MainDrawer')}>
 				<LinearGradient
 					style={styles.button}
 					colors={['#07BD89', '#006E8C', '#002E32']}

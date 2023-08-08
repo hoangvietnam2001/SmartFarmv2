@@ -1,15 +1,17 @@
+
 import {StatusBar, StyleSheet, Text, View, Platform} from 'react-native';
 import React, {useEffect} from 'react';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Splash, Login, ChooseGateway} from './src/screens';
-import LoadingGateway from './src/screens/app/LoadGateway/LoadingGateway';
+import MainDrawer from './src/navigators/Drawer/MainDrawer';
 const Stack = createNativeStackNavigator();
 
 const AuthScreen = () => {
 	return (
-		<Stack.Navigator initialRouteName="Splash" screenOptions={{headerShown:false}}>
+		<Stack.Navigator
+			initialRouteName="Splash"
+			screenOptions={{headerShown: false}}>
 			<Stack.Screen name={'Splash'} component={Splash} />
 			<Stack.Screen name={'Login'} component={Login} />
 		</Stack.Navigator>
@@ -18,9 +20,9 @@ const AuthScreen = () => {
 
 const AppScreen = () => {
 	return (
-		<Stack.Navigator screenOptions={{headerShown:false}}>
+		<Stack.Navigator screenOptions={{headerShown: false}}>
 			<Stack.Screen name={'ChooseGateway'} component={ChooseGateway} />
-			<Stack.Screen name={'Loading'} component={LoadingGateway} />
+			<Stack.Screen name={'MainDrawer'} component={MainDrawer} />
 		</Stack.Navigator>
 	);
 };
