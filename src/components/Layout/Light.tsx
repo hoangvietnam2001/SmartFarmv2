@@ -50,8 +50,8 @@ const OptionModal: React.FC<Props2> = ({data = [], style, onSelectTitle}) =>{
     return(
         <View style={[style]}>
             <View>
-            {data.map((doc: any) => (
-                <TouchableOpacity onPress={()=>handleSelectTitle(doc.title)} style = {styles.item}>
+            {data.map((doc: any, index: number) => (
+                <TouchableOpacity onPress={()=>handleSelectTitle(doc.title)} style = {styles.item} key={index}>
                     <Button title={doc.title}></Button>
                 </TouchableOpacity>
                 ))}
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
         marginBottom: 0,
     },
     percent:{
-        marginLeft: 50,
+        marginLeft: 42,
         lineHeight: 20,
         width: 40,
         borderWidth: 0.5,

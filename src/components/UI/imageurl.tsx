@@ -1,0 +1,1 @@
+export const  URL = 'http://103.160.2.183:5002/static/icons/64/'

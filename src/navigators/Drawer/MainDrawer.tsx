@@ -1,12 +1,48 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
 import {createDrawerNavigator } from '@react-navigation/drawer'
 import MainTab from "../Tab/MainTab";
 import Notification from "../../screens/Notification/Notification";
 import CustomDrawer from "./CustomDrawer";
+import AccountScreen from "../../screens/MyAccount/AccountScreen";
+import { createStackNavigator } from "@react-navigation/stack";
+import GreenHouseDevice from "../../screens/GreenHouse/DeviceScreen";
+import { View } from "react-native";
+import ScheduleScreen from "../../screens/Setting/ScheduleScreen";
+import ScriptScreen from "../../screens/Setting/ScriptScreen";
+import GreenHouseDB from "../../services/Relays/GreenHouseDB";
+// const ArrGreenHouse = [
+//     {
+//         id:1 ,
+//         name: 'Nhà Kính 1',
+//         component: MainTab
+//     },
+//     {
+//         id:2 , 
+//         name:'Nhà Kính 2',
+//         component: MainTab,
+//     },
+//     {
+//         id:3 ,
+//         name:'Nhà Kính 3',
+//         component: MainTab,
+//     }
+// ]
+const GreenHouse = new GreenHouseDB();
+
+
 
 const Drawer = createDrawerNavigator();
-
+const Stack = createStackNavigator();
 const MainDrawer = () =>{
+    const [arr, setArr]: any = useState([]);
+    useEffect(()=>{
+        async function GetGreenHouse() {
+            const a  = await GreenHouse.GetGreenhouseByFarmId('63a3d99dc69cef7476812bea');
+            console.log(a);
+            setArr(a);
+        }
+        GetGreenHouse();
+    },[])
     return(
         <Drawer.Navigator
             screenOptions={{
@@ -19,13 +55,28 @@ const MainDrawer = () =>{
             }}
             drawerContent={ props =><CustomDrawer {...props}/>}
         >
+            {
+                arr.map((doc:any, index:number ) =>{
+                    return (
+                        <Drawer.Screen key={index} name={doc.name} component={MainTab}/>
+                    );
+                })
+            }
+            <Drawer.Screen
+                name="THÔNG BÁO"
+                component={Notification}
+            />
             <Drawer.Screen 
-                name="Nhà kính"
-                component={MainTab}
+                name="TÀI KHOẢN CỦA TÔI"
+                component={AccountScreen}
             />
             <Drawer.Screen
-                name="Thông báo"
-                component={Notification}
+                name="Lập lịch"
+                component={ScheduleScreen}
+            />
+            <Drawer.Screen
+                name="Kịch bản"
+                component={ScriptScreen}
             />
         </Drawer.Navigator>
     );

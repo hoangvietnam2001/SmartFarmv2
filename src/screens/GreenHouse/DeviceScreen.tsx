@@ -1,29 +1,37 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { ScrollView, Switch } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet } from "react-native";
 import { Text, View ,Image} from "react-native";
 import WaterPump from "../../components/Layout/WaterPump";
 import Light from "../../components/Layout/Light";
-
+import RelayDB from "../../services/Relays/RelayDB";
+const Relay = new RelayDB();
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
 const GreenHouseDevice = ({navigation}: {navigation: any}) =>{
-    return(
-        <ScrollView>
+    const [devices , setDevices] = useState([]);
 
-        <View style = {styles.container}>
-            <WaterPump
-                style = {{}}
-                />
-            <Light
-                style = {{}}
-                />
-            <WaterPump
-                style = {{}}
-                />
-        </View>
-                </ScrollView>
+
+    useEffect(()=>{
+        async function GetDevices (){
+            setDevices(await Relay.GetAllRelays());
+        }
+        GetDevices();
+    },[])
+    return(
+        <ScrollView style = {styles.container}>
+
+                {
+                    devices.map((route: any, index: number)=>(
+                        <WaterPump
+                            key={index}
+                            route={route}
+                            style = {{}}
+                        />
+                    ))
+                }
+        </ScrollView>
     );
 
 
@@ -35,8 +43,7 @@ const styles = StyleSheet.create({
         width: WIDTH,
         height: HEIGHT,
         flex: 1,
-        alignItems: "center",
-        backgroundColor: '#FFFFFF'
+        backgroundColor: 'white'
     },
 });
 export default GreenHouseDevice;

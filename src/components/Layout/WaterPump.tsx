@@ -9,6 +9,7 @@ import { CheckBox } from "react-native-elements/dist/checkbox/CheckBox";
 import SelectCalendarWater from "./OptionModal";
 import IconSim from 'react-native-vector-icons/SimpleLineIcons'
 import Picker from "./Picker";
+import { URL } from "../UI/imageurl";
 
 let listCalendar = [
     {
@@ -34,6 +35,7 @@ const func = [
 ]
 interface Props{
     style: StyleProp<ViewStyle>
+    route: any
 }
 interface Props2{
     data?: any[];
@@ -49,8 +51,8 @@ const OptionModal: React.FC<Props2> = ({data = [], style, onSelectTitle}) =>{
     return(
         <View style={[style]}>
             <View>
-            {data.map((doc: any) => (
-                <TouchableOpacity onPress={()=>handleSelectTitle(doc.title)} style = {styles.item}>
+            {data.map((doc: any, index: number) => (
+                <TouchableOpacity onPress={()=>handleSelectTitle(doc.title)} style = {styles.item} key={index}>
                     <Button title={doc.title}></Button>
                 </TouchableOpacity>
                 ))}
@@ -60,9 +62,9 @@ const OptionModal: React.FC<Props2> = ({data = [], style, onSelectTitle}) =>{
 )
 }
 
-const WaterPump:React.FC<Props> = ({style}) =>{
+const WaterPump:React.FC<Props> = ({style, route}) =>{
     const [isChecked, setCheck] = useState(false);
-    const [isEnabled, setEnable] = useState(false);
+    const [isEnabled, setEnable] = useState(route.status === 1? true: false);
     const [isShowed, setShow] = useState(false);
     const [Open, setOpen] = useState(false);
     const [value, setValue] = useState('');
@@ -79,8 +81,9 @@ const WaterPump:React.FC<Props> = ({style}) =>{
             <View style = {[styles.waterbox, style]}>
                 <View style = {styles.header}>
                     <View>
-                        <Text style = {styles.title}>Máy bơm 1</Text>
-                        <Text style = {styles.ID}>ID: 1</Text>
+                        {/* hiển thị tên Máy bơm */}
+                        <Text style = {styles.title}>{route.name}</Text> 
+                        {/* Hiển thị ID máy bơm */}
                     </View>
                     <IconSim name="options-vertical" size = {20} style = {styles.icon} onPress={()=>setOpen(!Open)}/>
                     {Open &&(
@@ -92,11 +95,12 @@ const WaterPump:React.FC<Props> = ({style}) =>{
                 </View>
                 <View style = {styles.box}>
                     <View style = {styles.imagebox}>
-                        <Image style = {styles.image} source={require("../../components/UI/waterpump.png")}></Image>
+                        <Image style = {styles.image} source={{uri: URL+route.avatar}}></Image>
                     </View>
                     <View style = {{}}>
                         <View style = {styles.boxStatus}>
                             <Text>Trạng thái:</Text>     
+                            {/* Công tắc máy bơm */}
                             <Switch
                                 style = {{marginLeft: 42}}
                                 value = {isEnabled}
@@ -105,32 +109,7 @@ const WaterPump:React.FC<Props> = ({style}) =>{
                                 onChange={handleWater}
                             />
                         </View>
-                       <Text style = {styles.statustitle}>Đang bật</Text>
-                        <View style = {styles.boxCheck}>
-                            <CheckBox
-                                checked={isChecked}
-                                // Use ThemeProvider to make change for all checkbox
-                                iconType="material-community"
-                                checkedIcon="checkbox-marked"
-                                uncheckedIcon="checkbox-blank-outline"
-                                checkedColor="#81b0ff"
-                                containerStyle = {styles.checkbox}
-                                onPress={handleCheck}
-                                title={'Đặt lịch cho máy bơm'}
-                                size={20}
-                                />
-                            
-                        </View>
-                        <View style = {styles.boxCalendar}>
-                            <Text>Lịch: </Text>
-                            <Picker
-                                value={isShowed}
-                                data={listCalendar}
-                                style = {{}}
-                                
-                            />
-                        </View>
-                        
+                       <Text style = {styles.statustitle}>Đang {isEnabled?'Bật':'Tắt'}</Text>
                     </View>
                 </View>
             </View>
@@ -149,9 +128,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     title:{
+        width: WIDTH/2,
         color:'#13313D',
         fontWeight: '700',
-        fontSize: 16
+        fontSize: 16,
+        marginBottom: 15,
     },
     option:{
         position:'absolute',
@@ -159,19 +140,20 @@ const styles = StyleSheet.create({
         left: WIDTH/1.42
     },
     icon:{
-        left: WIDTH/1.6,
+        left: WIDTH/3.1,
         top: 10
     },
     ID:{
         color: 'black',
-        fontWeight: '400'
+        fontWeight: '400',
+        width: WIDTH/1.5,
     },
     item:{
 
     },
     waterbox:{
         width: WIDTH,
-        
+        height: HEIGHT/5.5,
         borderBottomWidth: 1,
         borderColor: '#DDDDDD',
         marginTop: 5,
@@ -180,14 +162,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     imagebox: {
+        width: WIDTH/3.5,
+        height: WIDTH/5.5,
        justifyContent: "center",
        alignItems: "center",
     },
     image:{
-        width: WIDTH/ 6.25,
-        height: WIDTH/ 6.25 ,
-        marginLeft: 28,
-        marginRight: 42,
+        width: WIDTH/ 5.5,
+        height: WIDTH/ 5.5 ,
     },
     boxStatus:{
         flexDirection: 'row',
