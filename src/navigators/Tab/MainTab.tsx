@@ -1,12 +1,10 @@
 import React from "react";
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {createStackNavigator} from '@react-navigation/stack'
-import GreenHouseInfo from "../../screens/GreenHouse/InfoScreen";
-import GreenHouseDevice from "../../screens/GreenHouse/DeviceScreen";
+import GreenHouseInfo from "../../screens/app/GreenHouse/InfoScreen";
+import GreenHouseDevice from "../../screens/app/GreenHouse/DeviceScreen";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
-
-
 
 
 const MainTab = ({navigation}:{navigation:any}) =>{
@@ -46,5 +44,4 @@ const MainTab = ({navigation}:{navigation:any}) =>{
             </Tab.Navigator>
     )
 }
-
 export default MainTab;

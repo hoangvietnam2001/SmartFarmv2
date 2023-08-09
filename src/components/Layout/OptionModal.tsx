@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { View, Text, StyleProp, ViewStyle,StyleSheet, TouchableOpacity } from "react-native";
-import IconEnt from 'react-native-vector-icons/Entypo'
 import {CheckBox} from 'react-native-elements';
 interface Props{
     data?: any[];

@@ -1,9 +1,3 @@
-import React from "react"; 
-import MainTab from "../Tab/MainTab";
-import Notification from "../../screens/Notification/Notification";
-import AccountScreen from "../../screens/MyAccount/AccountScreen";
-
-
 export const ArrayDrawer = [
     {
         id: 1,
