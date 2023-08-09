@@ -1,15 +1,15 @@
-import React, { useEffect,useState } from "react";
-import {createDrawerNavigator } from '@react-navigation/drawer'
+import React, { useEffect, useState } from "react";
+import { createDrawerNavigator } from '@react-navigation/drawer'
 import MainTab from "../Tab/MainTab";
+import { View, TouchableOpacity, Alert } from 'react-native'
 import Notification from "../../screens/Notification/Notification";
 import CustomDrawer from "./CustomDrawer";
 import AccountScreen from "../../screens/MyAccount/AccountScreen";
 import { createStackNavigator } from "@react-navigation/stack";
-import GreenHouseDevice from "../../screens/GreenHouse/DeviceScreen";
-import { View } from "react-native";
 import ScheduleScreen from "../../screens/Setting/ScheduleScreen";
 import ScriptScreen from "../../screens/Setting/ScriptScreen";
 import GreenHouseDB from "../../services/Relays/GreenHouseDB";
+import { Header, Icon } from "react-native-elements";
 // const ArrGreenHouse = [
 //     {
 //         id:1 ,
@@ -33,32 +33,51 @@ const GreenHouse = new GreenHouseDB();
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
-const MainDrawer = () =>{
+const MainDrawer = () => {
     const [arr, setArr]: any = useState([]);
-    useEffect(()=>{
+    useEffect(() => {
         async function GetGreenHouse() {
-            const a  = await GreenHouse.GetGreenhouseByFarmId('63a3d99dc69cef7476812bea');
-            console.log(a);
+            const a = await GreenHouse.GetGreenhouseByFarmId('63a3d99dc69cef7476812bea');
             setArr(a);
         }
         GetGreenHouse();
-    },[])
-    return(
+    }, [])
+    return (
         <Drawer.Navigator
             screenOptions={{
-                // đổi màu trắng cho biểu tượng
-                headerTitleStyle:{
+
+                headerTitleStyle: {
                     fontSize: 16,
                     color: '#FFF'
                 },
-                headerStyle: {backgroundColor: '#2C698D'}
+                headerStyle: {
+                    backgroundColor: '#2C698D',
+                }
             }}
-            drawerContent={ props =><CustomDrawer {...props}/>}
+            drawerContent={props => <CustomDrawer {...props} />}
         >
             {
-                arr.map((doc:any, index:number ) =>{
+                arr.map((doc: any, index: number) => {
                     return (
-                        <Drawer.Screen key={index} name={doc.name} component={MainTab}/>
+                        <Drawer.Screen
+                            key={index}
+                            name={doc.name}
+                            component={MainTab}
+                            options={{
+                                headerRight: () => (
+                                    <View style={{ width: 50 }}>
+                                        <Icon
+                                            name="add-box"
+                                            type="MaterialIcons"
+                                            size={30}
+                                            color={''}
+                                            style={{}}
+                                            onPress={() => {Alert.alert('Chưa được cung cấp chức năng') }}
+                                        />
+                                    </View>
+                                ),
+                            }}
+                        />
                     );
                 })
             }
@@ -66,7 +85,7 @@ const MainDrawer = () =>{
                 name="THÔNG BÁO"
                 component={Notification}
             />
-            <Drawer.Screen 
+            <Drawer.Screen
                 name="TÀI KHOẢN CỦA TÔI"
                 component={AccountScreen}
             />

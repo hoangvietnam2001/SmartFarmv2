@@ -10,16 +10,6 @@ export const ArrayDrawer = [
         name:"NHÀ KÍNH",
         parentID: 0,
     },
-    // {
-    //     id: 5, 
-    //     name:'Nhà Kính 2',
-    //     parentID: 1,
-    // },
-    // {
-    //     id: 6, 
-    //     name:'Nhà Kính 3',
-    //     parentID: 1,
-    // },
     {
         id: 2,
         name:'THÔNG BÁO',
