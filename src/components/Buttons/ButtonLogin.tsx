@@ -6,11 +6,13 @@ import {
 	Alert,
 	ToastAndroid,
 } from 'react-native';
-import React from 'react'; 
+import React from 'react';
 import {LinearGradient} from 'react-native-linear-gradient';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {URL_LOGIN_POST} from '../../utils/config';
+import {useDispatch} from 'react-redux';
+import {loginSuccess} from '../../redux/slices/authSlice';
 
 export default function ButtonLogin({
 	navigation,
@@ -21,8 +23,10 @@ export default function ButtonLogin({
 	userName: string;
 	passWord: string;
 }) {
+	const dispatch = useDispatch();
+
 	const handleLogin = async () => {
-		console.log(userName, '--', passWord);
+		console.log(userName, '--', passWord);	
 		if (userName == '' || passWord === '') {
 			ToastAndroid.showWithGravity(
 				'Vui lòng nhập đầy đủ thông tin',
@@ -37,6 +41,9 @@ export default function ButtonLogin({
 				});
 
 				if (response.data.code === 200) {
+					
+					dispatch(loginSuccess(response.data.body))
+					
 					navigation.navigate('AppScreen', {screen: 'ChooseGateway'});
 
 					await AsyncStorage.setItem('username', userName);
@@ -49,6 +56,8 @@ export default function ButtonLogin({
 
 					await AsyncStorage.setItem('accessToken', accessToken);
 					await AsyncStorage.setItem('refreshToken', refreshToken);
+					console.log('Danh sach gateway', response.data.body.user.farmList);
+
 					// console.log(
 					// 	'Access token',
 					// 	await AsyncStorage.getItem('accessToken'),
@@ -68,7 +77,6 @@ export default function ButtonLogin({
 			}
 		}
 	};
-
 
 	return (
 		<LinearGradient

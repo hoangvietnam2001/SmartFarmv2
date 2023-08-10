@@ -12,6 +12,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {WIDTH} from '../../../constants/Size';
+import ItemChooseGateway from '../../../components/ItemChooseGateway/ItemChooseGateway';
+import { useSelector } from 'react-redux';
 
 export default function ChooseGateway({navigation}: {navigation: any}) {
 	const [check, setCheck] = useState(false);
@@ -24,6 +26,8 @@ export default function ChooseGateway({navigation}: {navigation: any}) {
 		navigation.navigate('AuthScreen', {screen: 'Login'});
 	};
 
+	// const user = useSelector(state=>state.auth.user);
+	
 	// handle check
 	const handleCheck = (id: number) => {
 		if (id) {
@@ -48,6 +52,8 @@ export default function ChooseGateway({navigation}: {navigation: any}) {
 			status: false,
 		},
 	];
+
+
 	const Item = ({item}: {item: any}) => {
 	
 		return (
@@ -79,7 +85,7 @@ export default function ChooseGateway({navigation}: {navigation: any}) {
 					style={styles.flatlist}
 					data={data}
 					renderItem={({item}) => {
-						return <Item item={item} />;
+						return <ItemChooseGateway item={item} />;
 					}}
 					keyExtractor={item => item.id.toString()}
 					showsVerticalScrollIndicator={false}
