@@ -20,7 +20,6 @@ const GreenHouseDevice = ({navigation}: {navigation: any}) =>{
     },[])
     return(
         <ScrollView style = {styles.container}>
-
                 {
                     devices.map((route: any, index: number)=>(
                         <WaterPump

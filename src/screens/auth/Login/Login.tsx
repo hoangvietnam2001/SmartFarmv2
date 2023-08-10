@@ -16,6 +16,10 @@ import ButtonForgotPassword from '../../../components/Buttons/ButtonForgotPasswo
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import FarmDB from '../../../services/FarmsDB';
+import GreenHouseDB from '../../../services/Relays/GreenHouseDB';
+
+const DB = new FarmDB();
 export default function Login({navigation}: {navigation: any}) {
 	const [focusedField, setFocusedField] = useState(null);
 	const [userName, setUserName] = useState('');
@@ -23,6 +27,11 @@ export default function Login({navigation}: {navigation: any}) {
 	const [visible, setVisible] = useState(true);
 
 	useEffect(() => {
+		async function GEtFarmId() {
+			const data = await DB.getByUserID('jsda');
+			console.log(data)
+		}
+		GEtFarmId();
 		const setField = async () => {
 			const username = await AsyncStorage.getItem('username');
 			const password = await AsyncStorage.getItem('password');
