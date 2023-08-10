@@ -27,6 +27,9 @@ const MainTab = ({navigation}:{navigation:any}) =>{
                         tabBarLabel:'Thông tin',
                     }}
                 />
+
+
+                
                 <Tab.Screen 
                     name="Device" 
                     component={GreenHouseDevice}

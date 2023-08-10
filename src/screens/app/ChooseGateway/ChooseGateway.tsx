@@ -13,8 +13,30 @@ import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {WIDTH} from '../../../constants/Size';
 
+
+
+const data = [
+	{
+		id: 1,
+		name: 'Gateway trồng Sâm',
+		status: false,
+	},
+	{
+		id: 2,
+		name: 'Gateway trồng Dưa',
+		status: false,
+	},
+	{
+		id: 3,
+		name: 'Gateway trồng Cà phê',
+		status: false,
+	},
+];
+
 export default function ChooseGateway({navigation}: {navigation: any}) {
 	const [check, setCheck] = useState(false);
+	const [ArrFarm, SetArr] = useState([...data]);
+	const [select,setselect] = useState(0);
 
 	const handleLoginOtherAccount = async () => {
 		await AsyncStorage.removeItem('accessToken');
@@ -25,35 +47,16 @@ export default function ChooseGateway({navigation}: {navigation: any}) {
 	};
 
 	// handle check
-	const handleCheck = (id: number) => {
-		if (id) {
-			setCheck(!check);
-		}
+	const handleCheck = (id: number, data: any) => {
+			setselect(id);
+			console.log(id);
 	};
 
-	const data = [
-		{
-			id: 1,
-			name: 'Gateway trồng Sâm',
-			status: false,
-		},
-		{
-			id: 2,
-			name: 'Gateway trồng Dưa',
-			status: false,
-		},
-		{
-			id: 3,
-			name: 'Gateway trồng Cà phê',
-			status: false,
-		},
-	];
-	const Item = ({item}: {item: any}) => {
-	
+	const Item = ({item, check}: {item: any, check: boolean}) => {
 		return (
 			<View style={styles.item}>
 				<Text style={styles.itemName}>{item.name}</Text>
-				<TouchableOpacity onPress={() => handleCheck(item.id)}>
+				<TouchableOpacity onPress={() => handleCheck(item.id, item)}>
 					<Icon
 						name={check ? 'check-circle' : 'circle-thin'}
 						size={18}
@@ -77,9 +80,12 @@ export default function ChooseGateway({navigation}: {navigation: any}) {
 			<View style={styles.bgFlatlist}>
 				<FlatList
 					style={styles.flatlist}
-					data={data}
+					data={ArrFarm}
 					renderItem={({item}) => {
-						return <Item item={item} />;
+						const selected = select === item.id;
+						return <Item item={item} 
+							check = {selected}
+						/>;
 					}}
 					keyExtractor={item => item.id.toString()}
 					showsVerticalScrollIndicator={false}

@@ -3,31 +3,14 @@ import React, { useEffect, useState } from "react";
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import MainTab from "../Tab/MainTab";
 import { View, TouchableOpacity, Alert } from 'react-native'
-import Notification from "../../screens/Notification/Notification";
+import Notification from "../../screens/app/Notification/Notification";
 import CustomDrawer from "./CustomDrawer";
-import AccountScreen from "../../screens/MyAccount/AccountScreen";
+import AccountScreen from "../../screens/app/MyAccount/AccountScreen";
 import { createStackNavigator } from "@react-navigation/stack";
-import ScheduleScreen from "../../screens/Setting/ScheduleScreen";
-import ScriptScreen from "../../screens/Setting/ScriptScreen";
+import ScheduleScreen from "../../screens/app/Setting/ScheduleScreen";
+import ScriptScreen from "../../screens/app/Setting/ScriptScreen";
 import GreenHouseDB from "../../services/Relays/GreenHouseDB";
 import { Header, Icon } from "react-native-elements";
-// const ArrGreenHouse = [
-//     {
-//         id:1 ,
-//         name: 'Nhà Kính 1',
-//         component: MainTab
-//     },
-//     {
-//         id:2 , 
-//         name:'Nhà Kính 2',
-//         component: MainTab,
-//     },
-//     {
-//         id:3 ,
-//         name:'Nhà Kính 3',
-//         component: MainTab,
-//     }
-// ]
 const GreenHouse = new GreenHouseDB();
 
 

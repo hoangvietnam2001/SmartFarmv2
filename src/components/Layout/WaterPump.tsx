@@ -1,16 +1,12 @@
 import React, { useState } from "react";
-import { Button, Switch, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
+import { Button, Switch, TouchableOpacity, TouchableWithoutFeedback , Alert} from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet } from "react-native";
 import { Text, View, Image } from "react-native";
 import { StyleProp } from "react-native";
 import { ViewStyle } from "react-native";
-import { CheckBox } from "react-native-elements/dist/checkbox/CheckBox";
-import SelectCalendarWater from "./OptionModal";
 import IconSim from 'react-native-vector-icons/SimpleLineIcons'
-import Picker from "./Picker";
-import { URL } from "../UI/imageurl";
-import set from "date-fns/set";
+import { URL } from "../../assets/images/imageurl";
 
 let listCalendar = [
     {
@@ -83,7 +79,14 @@ const WaterPump: React.FC<Props> = ({ style, route }) => {
             <View style={styles.header}>
                 <View>
                     {/* hiển thị tên Máy bơm */}
-                    <Text style={styles.title}>{route.name}</Text>
+                    <Text 
+                        onLongPress={()=>{
+                            setTimeout(() => {
+                                Alert.alert('Cảnh báo đổi tên');
+                            },);
+                        }} 
+                        style={styles.title}
+                    >{route.name}</Text>
                     {/* Hiển thị ID máy bơm */}
                 </View>
 

@@ -10,6 +10,20 @@ import GreenHouseDB from '../../services/Relays/GreenHouseDB';
 
 const GreenHouse = new GreenHouseDB();
 
+const HeaderDrawer = () =>(
+  <View style={styles.header}>
+  <View style={styles.imageView}>
+    <Image style={styles.accountimage} source={require('../../assets/images/gau.png')}></Image>
+  </View>
+  <View style={styles.info} >
+    <View style={{ width: 150 }}>
+      <Text style={styles.accountname}>Header</Text>
+      <Text style={styles.email}>Header@gmail.com</Text>
+    </View>
+    <IconMa name='account-edit' size={20} style={{ marginLeft: 30, }} />
+  </View>
+</View>
+)
 
 const CustomDrawer = (props: any) => {
   const { state, descriptors, navigation } = props;
@@ -24,19 +38,9 @@ const CustomDrawer = (props: any) => {
   return (
     <View style={styles.container}>
       <LinearGradient colors={['#99FF66', '#009999', '#2C698D']} style={styles.header}>
-        <View style={styles.header}>
-          <View style={styles.imageView}>
-            <Image style={styles.accountimage} source={require('../../components/UI/gau.png')}></Image>
-          </View>
-          <View style={styles.info} >
-            <View style={{ width: 150 }}>
-              <Text style={styles.accountname}>Header</Text>
-              <Text style={styles.email}>Header@gmail.com</Text>
-            </View>
-            <IconMa name='account-edit' size={20} style={{ marginLeft: 30, }} />
-          </View>
-        </View>
+        <HeaderDrawer/>
       </LinearGradient>
+      {/* Thân drawer */}
       <DrawerContentScrollView>
         <View>
           {ArrayDrawer
@@ -76,7 +80,7 @@ const CustomDrawer = (props: any) => {
                         handleShowMenu(route, index); // Chuyển đến màn hình tương ứng với mục được chọn
                       }}
                     >
-                      <Text style={styles.itemname}>{route.name}</Text>
+                      <Text style={styles.itemname}>{route.name}</Text> 
                     </TouchableOpacity>
                   }
                   {/* Hiển thị các mục con nếu có */}
