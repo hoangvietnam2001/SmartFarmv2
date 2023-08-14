@@ -20,7 +20,7 @@ import FarmDB from '../../../services/FarmsDB';
 import GreenHouseDB from '../../../services/Relays/GreenHouseDB';
 
 const DB = new FarmDB();
-export default function Login({navigation}: {navigation: any}) {
+export default function DuyLogin({navigation}: {navigation: any}) {
 	const [focusedField, setFocusedField] = useState(null);
 	const [userName, setUserName] = useState('');
 	const [passWord, setPassWord] = useState('');
