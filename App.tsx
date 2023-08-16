@@ -5,7 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Splash, Login, ChooseGateway} from './src/screens';
 import MainDrawer from './src/navigators/Drawer/MainDrawer';
 import {Provider} from 'react-redux';
-import store from './src/redux/store/authStore';
+import store from './src/redux/store/store';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +21,7 @@ const AuthScreen = () => {
 };
 
 const AppScreen = () => {
+	
 	return (
 		<Stack.Navigator screenOptions={{headerShown: false}}>
 			<Stack.Screen name={'ChooseGateway'} component={ChooseGateway} />

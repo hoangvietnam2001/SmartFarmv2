@@ -4,22 +4,19 @@ const authSlice = createSlice({
 	name: 'auth',
 	initialState: {
 		isAuthenticated: false,
-		user: null,
-		// farmList: [], // Thêm trường farmList
+		// user: null,
 	},
-    reducers:{
-        loginSuccess(state, action) {
-            state.isAuthenticated = true;
-            state.user = action.payload.user;
-            // state.farmList = action.payload.user.farmList; // Lưu farmList vào Redux Store
-          },
-        logout(state) {
-            state.isAuthenticated = false;
-            state.user = null;
-            // state.farmList = []; // Xóa farmList khi đăng xuất
-          },
-    }
+	reducers: {
+		loginSuccess(state) {
+			state.isAuthenticated = true;
+			// state.user = action.payload.user;
+		},
+		logout(state) {
+			state.isAuthenticated = false;
+			// state.user = null;
+		},
+	},
 });
 
-export const { loginSuccess, logout } = authSlice.actions;
+export const {loginSuccess, logout} = authSlice.actions;
 export default authSlice.reducer;

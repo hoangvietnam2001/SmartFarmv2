@@ -10,7 +10,6 @@ import {useState, useEffect} from 'react';
 import Spinner from 'react-native-spinkit';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-
 export default function LoadingGateway({navigation}) {
 	let [isLoading, setIsLoading] = useState(true);
 	let [error, setError] = useState();
@@ -29,6 +28,8 @@ export default function LoadingGateway({navigation}) {
 					setError(error);
 				},
 			);
+
+
 	}, []);
 
 	const getContent = () => {
@@ -59,15 +60,14 @@ export default function LoadingGateway({navigation}) {
 		return (
 			<>
 				<TouchableOpacity
-					onPress={()=>navigation.navigate('AuthScreen',{screen:'Login'})}
+					onPress={() => navigation.navigate('AuthScreen', {screen: 'Login'})}
 					style={{
 						backgroundColor: 'red',
 						width: 200,
 						height: 50,
 						borderRadius: 10,
 						justifyContent: 'center',
-					}}
-					>
+					}}>
 					<Text>Trả về màn hình chính đặt ở đây</Text>
 				</TouchableOpacity>
 			</>

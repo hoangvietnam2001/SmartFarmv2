@@ -1,16 +1,16 @@
 import axios from 'axios';
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { URL_GET_GATEWAY } from '../../utils/config';
 export default class Farms {
 	Farm() {}
 
 	async getFarm() {
 		try {
-			const getAccessToken = await AsyncStorage.getItem('accessToken');
-			if (getAccessToken) {
-				const accessToken = JSON.parse(getAccessToken).token;
-
-			}
-		} catch (error) {}
+			const getFarmList =await axios.get(URL_GET_GATEWAY);
+			console.log(getFarmList);
+		} catch (error) {
+			throw error;
+		}
 	}
 }

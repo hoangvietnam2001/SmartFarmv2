@@ -1,6 +1,6 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {URL_REFRESH_TOKEN_POST} from '../utils/config';
+import {URL_REFRESH_TOKEN_POST,BASE_URL} from '../utils/config';
 import moment from 'moment';
 const makeAuthorizedRequest = async (url, method, data) => {
 	try {

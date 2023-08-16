@@ -2,29 +2,24 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function ItemChooseGateway({item}: {item: any}) {
-	const [check, setCheck] = useState(false);
-	// handle check
-	const handleCheck = (id: number) => {
-		if (id) {
-			setCheck(!check);
-		}
-	};
+export default function ItemChooseGateway({item,handleCheck,selectedItem}: {item: any,handleCheck:any,selectedItem:any}) {
 
+	const {ID} = item;
+	
 	return (
 		<TouchableOpacity
 			style={styles.item}
 			onPress={() => {
-				handleCheck(item.id);
-				console.log(item.id);
+				handleCheck(ID);
 			}}>
-			<Text style={styles.itemName}>{item.name}</Text>
+			<Text style={styles.itemName}>{item.name
+			}</Text>
 			<TouchableOpacity
 				onPress={() => {
-					handleCheck(item.id);
+					handleCheck(ID);
 				}}>
 				<Icon
-					name={check ? 'check-circle' : 'circle-thin'}
+					name={selectedItem === ID ? 'check-circle' : 'circle-thin'}
 					size={18}
 					color={'#005A6F'}
 					style={styles.itemIcon}
@@ -46,9 +41,10 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		marginHorizontal: 5,
 		borderRadius: 10,
-		borderWidth: 1,
+		borderWidth: 1.3,
 		borderColor: '#000',
 		alignItems: 'center',
+		marginBottom:1
 	},
 	itemName: {
 		marginHorizontal: 12,
