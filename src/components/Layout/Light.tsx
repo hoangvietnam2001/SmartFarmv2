@@ -96,6 +96,7 @@ const Light:React.FC<Props> = ({style}) =>{
                 </View>
                 <View style = {styles.box}>
                     <View style = {styles.imagebox}>
+
                         <Image style = {styles.image} source={require("../../assets/images/light.png")}></Image>
                     </View>
                     <View style = {{}}>

@@ -7,8 +7,6 @@ const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 
-
-
 const MainTab = ({navigation}:{navigation:any}) =>{
     return(
             <Tab.Navigator 
@@ -29,6 +27,9 @@ const MainTab = ({navigation}:{navigation:any}) =>{
                         tabBarLabel:'Thông tin',
                     }}
                 />
+
+
+                
                 <Tab.Screen 
                     name="Device" 
                     component={GreenHouseDevice}
@@ -46,5 +47,4 @@ const MainTab = ({navigation}:{navigation:any}) =>{
             </Tab.Navigator>
     )
 }
-
 export default MainTab;

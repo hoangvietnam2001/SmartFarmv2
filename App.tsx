@@ -10,14 +10,14 @@ import store from './src/redux/store/store';
 const Stack = createNativeStackNavigator();
 
 const AuthScreen = () => {
-	return (
-		<Stack.Navigator
-			initialRouteName="Splash"
-			screenOptions={{headerShown: false}}>
-			<Stack.Screen name={'Splash'} component={Splash} />
-			<Stack.Screen name={'Login'} component={Login} />
-		</Stack.Navigator>
-	);
+  return (
+    <Stack.Navigator
+      initialRouteName="Splash"
+      screenOptions={{ headerShown: false }}>
+      <Stack.Screen name={'Splash'} component={Splash} />
+      <Stack.Screen name={'Login'} component={Login} />
+    </Stack.Navigator>
+  );
 };
 
 const AppScreen = () => {
@@ -29,7 +29,6 @@ const AppScreen = () => {
 		</Stack.Navigator>
 	);
 };
-
 export default function App() {
 	return (
 		<>
