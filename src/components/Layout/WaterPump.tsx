@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Button, Switch, TouchableOpacity, TouchableWithoutFeedback , Alert} from "react-native";
+import React, { useState , useEffect,} from "react";
+import { Button, Switch, TouchableOpacity, TextInput } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet } from "react-native";
 import { Text, View, Image } from "react-native";
@@ -8,31 +8,16 @@ import { ViewStyle } from "react-native";
 import IconSim from 'react-native-vector-icons/SimpleLineIcons'
 import { URL } from "../../assets/images/imageurl";
 
-let listCalendar = [
-    {
-        id: 1,
-        title: 'Bật máy buổi chiều'
-    },
-    {
-        id: 2,
-        title: 'Chiều'
-    },
-    {
-        id: 3,
-        title: 'Tối'
-    }
-]
 const func = [
-    {
-        title: 'Sửa'
-    },
     {
         title: 'Xoá'
     }
 ]
 interface Props {
     style: StyleProp<ViewStyle>
-    route: any
+    route: any,
+    onPress: any,
+    status: boolean, 
 }
 interface Props2 {
     data?: any[];
@@ -59,34 +44,48 @@ const OptionModal: React.FC<Props2> = ({ data = [], style, onSelectTitle }) => {
     )
 }
 
-const WaterPump: React.FC<Props> = ({ style, route }) => {
-    const [isChecked, setCheck] = useState(false);
+const WaterPump: React.FC<Props> = ({ style, route, onPress, status }) => {
     const [isEnabled, setEnable] = useState(route.status === 1 ? true : false);
-    const [isShowed, setShow] = useState(false);
     const [Open, setOpen] = useState(false);
-    const [value, setValue] = useState('');
+    const [isEdit, setEdit] = useState(false);
+    const [valueEdit, setValueEdit] = useState(route.name);
     const handleWater = () => {
         setEnable(!isEnabled);
     };
-    const handleCheck = () => {
-        setCheck(!isChecked);
-    };
-    const handleShow = () => {
-        setShow(!isShowed)
-    };
+    const handleChangeText = (value: string) => {
+            setValueEdit(value);
+    }
+    
+    useEffect(()=>{
+
+    },[status])
     return (
         <View style={[styles.waterbox, style]}>
             <View style={styles.header}>
                 <View>
                     {/* hiển thị tên Máy bơm */}
-                    <Text 
-                        onLongPress={()=>{
-                            setTimeout(() => {
-                                Alert.alert('Cảnh báo đổi tên');
-                            },);
-                        }} 
-                        style={styles.title}
-                    >{route.name}</Text>
+                    {
+                        isEdit === true ?
+                            <TextInput
+                                style={styles.edit}
+                                value={valueEdit}
+                                onChangeText={(value) => handleChangeText(value)}
+                                onBlur={() => {
+                                    setEdit(false)
+                                }}
+                                placeholder={route.name}
+                                autoFocus
+                            />
+                            :
+                            <Text
+                                onLongPress={() => {
+                                    onPress()
+                                }}
+                                onPress={()=>{}}
+                                style={styles.title}
+                            >{valueEdit}</Text>
+                    }
+
                     {/* Hiển thị ID máy bơm */}
                 </View>
 
@@ -122,7 +121,6 @@ const WaterPump: React.FC<Props> = ({ style, route }) => {
     );
 
 
-
 };
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
@@ -134,10 +132,19 @@ const styles = StyleSheet.create({
     },
     title: {
         width: WIDTH / 2,
+        height: 30,
+        lineHeight: 30,
         color: '#13313D',
         fontWeight: '700',
         fontSize: 16,
         marginBottom: 15,
+    },
+    edit: {
+        width: WIDTH / 2,
+        height: 30,
+        padding: 0,
+        marginBottom: 15,
+
     },
     option: {
         position: 'absolute',

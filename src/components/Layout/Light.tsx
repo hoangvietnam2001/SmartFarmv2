@@ -8,27 +8,13 @@ import { ViewStyle } from "react-native";
 import { CheckBox } from "react-native-elements/dist/checkbox/CheckBox";
 import IconSim from 'react-native-vector-icons/SimpleLineIcons'
 import IconEn from 'react-native-vector-icons/Entypo'
-import Picker from "./Picker";
 import { Slider } from "react-native-elements";
 
-let listCalendar = [
-    {
-        id: 1,
-        title: 'Bật máy buổi chiều'
-    },
-    {
-        id: 2,
-        title: 'Chiều'
-    },
-    {   
-        id: 3,
-        title: 'Tối'
-    }
-]
+
 const func = [
-    {
-        title:'Sửa'
-    },
+    // {
+    //     title:'Sửa'
+    // },
     {
         title:'Xoá'
     }
@@ -61,7 +47,7 @@ const OptionModal: React.FC<Props2> = ({data = [], style, onSelectTitle}) =>{
 )
 }
 
-const Light:React.FC<Props> = ({style}) =>{
+const Light:React.FC<Props> = (props:Props) =>{
     const [isChecked, setCheck] = useState(false);
     const [isEnabled, setEnable] = useState(false);
     const [isShowed, setShow] = useState(false);
@@ -80,7 +66,7 @@ const Light:React.FC<Props> = ({style}) =>{
         setValue(value)
     }
     return(
-            <View style = {[styles.waterbox, style]}>
+            <View style = {[styles.waterbox, props.style]}>
                 <View style = {styles.header}>
                     <View>
                         <Text style = {styles.title}>Bóng đèn 1</Text>
@@ -148,12 +134,6 @@ const Light:React.FC<Props> = ({style}) =>{
                         </View>
                         <View style = {styles.boxCalendar}>
                             <Text>Lịch: </Text>
-                            <Picker
-                                value={isShowed}
-                                data={listCalendar}
-                                style = {{}}
-                                
-                            />
                         </View>
                         
                     </View>

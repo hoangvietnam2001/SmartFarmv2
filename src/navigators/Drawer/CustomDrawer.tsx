@@ -7,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient'
 import IconMa from 'react-native-vector-icons/MaterialCommunityIcons'
 import { ArrayDrawer } from './ArrayDrawer';
 import GreenHouseDB from '../../services/Relays/GreenHouseDB';
+import Notifi from '../../components/Layout/Notifi';
 
 const GreenHouse = new GreenHouseDB();
 
