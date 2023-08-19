@@ -10,7 +10,7 @@ import {useState, useEffect} from 'react';
 import Spinner from 'react-native-spinkit';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export default function LoadingGateway({navigation}) {
+export default function LoadingGateway({navigation}:{navigation:any}) {
 	let [isLoading, setIsLoading] = useState(true);
 	let [error, setError] = useState();
 	let [response, setResponse] = useState({});

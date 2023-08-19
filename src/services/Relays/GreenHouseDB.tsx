@@ -3,8 +3,6 @@ import React from 'react';
 import Axios from 'axios';
 import { URL_GREEN_HOUSE } from '../../utils/config';
 import FarmDB from '../FarmsDB';
-import a from 'react-native-spinkit'
-const URL = 'http://103.160.2.183:5001/api/greenhouses/'
 const Farm = new FarmDB();
 export default class GreenHouseDB {
 	GreenHouseDB() {}
