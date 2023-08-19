@@ -22,49 +22,50 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
     const dimissShow = () => {
         setShow(false)
     }
-    const handleModalClosed = (value: any)=>{
+    const handleModalClosed = (value: any) => {
         setShowConfirm(value)
     }
     useEffect(() => {
         async function GetDevices() {
             const a = await Relay.GetAllRelays()
-            console.log(a);
             setDevices(a);
         }
         GetDevices();
     }, [])
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView >
+            <ScrollView showsVerticalScrollIndicator={false} >
                 {
                     devices.map((route: any, index: number) => (
-                            
-                            route.type === 0 ?
+                        
+                        route.type === 0 ?
                             (
                                 <WaterPump
-                                status = {showConfirm}
-                                key={index}
-                                route={route}
-                                style={{}}
-                                onPress={handleShowNotifi}
-                            />
+                                    status={showConfirm}
+                                    key={index}
+                                    route={route}
+                                    style={{}}
+                                    onPress={handleShowNotifi}
+                                />
                             )
                             :
                             (
                                 <Light
-                                    style = {{}}
+                                    key={index}
+                                    style={{}}
+                                    route={route}
                                 />
                             )
-                        
-                       
+
+
                     ))
                 }
             </ScrollView>
-                <Notifi
-                    show={show}
-                    onPress={dimissShow}
-                    onModalClosed={handleModalClosed}
-                />
+            <Notifi
+                show={show}
+                onPress={dimissShow}
+                onModalClosed={handleModalClosed}
+            />
         </SafeAreaView>
     );
 
