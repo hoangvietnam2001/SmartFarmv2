@@ -1,13 +1,14 @@
-import { StatusBar, StyleSheet, Text, View, Platform } from 'react-native';
-import React from 'react'
-import { NavigationContainer } from '@react-navigation/native';
+import {StatusBar, StyleSheet, Text, View, Platform} from 'react-native';
+import React, {useEffect} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {Splash, Login, ChooseGateway} from './src/screens';
 import MainDrawer from './src/navigators/Drawer/MainDrawer';
-import { createStackNavigator } from '@react-navigation/stack';
-import { Splash, Login, ChooseGateway } from './src/screens';
-import { Provider } from 'react-redux'
-import store from './src/redux/store';
+import {Provider} from 'react-redux';
+import store from './src/redux/store/store';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
+
 const AuthScreen = () => {
   return (
     <Stack.Navigator
@@ -20,24 +21,29 @@ const AuthScreen = () => {
 };
 
 const AppScreen = () => {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name={'ChooseGateway'} component={ChooseGateway} />
-      <Stack.Screen name={'MainDrawer'} component={MainDrawer} />
-    </Stack.Navigator>
-  );
+	
+	return (
+		<Stack.Navigator screenOptions={{headerShown: false}}>
+			<Stack.Screen name={'ChooseGateway'} component={ChooseGateway} />
+			<Stack.Screen name={'MainDrawer'} component={MainDrawer} />
+		</Stack.Navigator>
+	);
 };
 export default function App() {
-  return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="AuthScreen" component={AuthScreen} />
-          <Stack.Screen name="AppScreen" component={AppScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
-  )
+	return (
+		<>
+		<Provider store={store}>
+			<StatusBar barStyle={'dark-content'} backgroundColor={'#fff'} />
+			<NavigationContainer>
+				<Stack.Navigator screenOptions={{headerShown: false}}>
+					<Stack.Screen name="AuthScreen" component={AuthScreen} />
+					<Stack.Screen name="AppScreen" component={AppScreen} />
+				</Stack.Navigator>
+			</NavigationContainer>
+		</Provider>
+			
+		</>
+	);
 }
 
 const styles = StyleSheet.create({});

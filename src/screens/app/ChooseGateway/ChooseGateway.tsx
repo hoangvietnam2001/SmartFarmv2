@@ -6,66 +6,98 @@ import {
 	SafeAreaView,
 	FlatList,
 	TouchableOpacity,
+	Alert,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import LinearGradient from 'react-native-linear-gradient';
+import React, {useState, useEffect, useMemo} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {WIDTH} from '../../../constants/Size';
+import ItemChooseGateway from '../../../components/ItemChooseGateway/ItemChooseGateway';
+import {useSelector, useDispatch} from 'react-redux';
+import {logout} from '../../../redux/slices/authSlice';
+import axios from 'axios';
+import {URL_GET_GATEWAY} from '../../../utils/config';
+import ModalChooseGateway from '../../../components/Modals/ModalChooseGateway';
+import ButtonContinue from '../../../components/Buttons/ButtonContinue';
 
+export default function ChooseGateway({
+	navigation,
+}: {
+	navigation: any;
+	route: any;
+}) {
+	const [farmList, setFarmList] = useState([]);
+	const [allGateWay, setAllGateWay] = useState([]);
+	const [selectedItemId, setSelectedItemId] = useState(null);
 
+	const dispatch = useDispatch();
+	const isAuthenticated = useSelector(
+		(state: any) => state.user.isAuthenticated,
+	);
 
-const data = [
-	{
-		id: 1,
-		name: 'Gateway trồng Sâm',
-		status: false,
-	},
-	{
-		id: 2,
-		name: 'Gateway trồng Dưa',
-		status: false,
-	},
-	{
-		id: 3,
-		name: 'Gateway trồng Cà phê',
-		status: false,
-	},
-];
+	// lấy ra danh sách id farmList
+	useEffect(() => {
+		const getFarmList = async () => {
+			const user = await AsyncStorage.getItem('user');
+			if (user) {
+				const farmList = JSON.parse(user).farmList;
+				setFarmList(farmList);
+			}
+		};
+		getFarmList();
+	}, [isAuthenticated]);
 
-export default function ChooseGateway({navigation}: {navigation: any}) {
-	const [check, setCheck] = useState(false);
-	const [ArrFarm, SetArr] = useState([...data]);
-	const [select,setselect] = useState(0);
+	// lấy ra thong tin đầy đủ của gateway
+	useEffect(() => {
+		const getFullFarmInfo = async () => {
+			try {
+				const response = await axios.get(URL_GET_GATEWAY);
+				setAllGateWay(response.data.msg);
+			} catch (error) {
+				console.log('Get gateway error ', error);
+			}
+		};
+		getFullFarmInfo();
+	}, []);
 
+	// danh sach gateway chỉ gồm ID và tên gateway
+	const gateWays = useMemo(() => {
+		if (farmList && allGateWay) {
+			return farmList.map((idFarm: any) => {
+				const gateWay: any = allGateWay.find(
+					(item: any) => item._id === idFarm.ID,
+				);
+				return gateWay ? {ID: gateWay._id, name: gateWay.name} : [];
+			});
+		} else {
+			return [];
+		}
+	}, [farmList, allGateWay]);
+
+	// handleCheck
+	const handleCheck = (itemId: any) => {
+		setSelectedItemId(itemId === selectedItemId ? null : itemId);
+	};
+
+	// handleLoginOtherAccount
 	const handleLoginOtherAccount = async () => {
 		await AsyncStorage.removeItem('accessToken');
 		await AsyncStorage.removeItem('refreshToken');
-		await AsyncStorage.removeItem('username');
-		await AsyncStorage.removeItem('password');
+		await AsyncStorage.removeItem('user');
+		// await AsyncStorage.removeItem('username');
+		// await AsyncStorage.removeItem('password');
+		dispatch(logout());
 		navigation.navigate('AuthScreen', {screen: 'Login'});
 	};
 
-	// handle check
-	const handleCheck = (id: number, data: any) => {
-			setselect(id);
-			console.log(id);
+	// handle modal
+	const [showAlert, setShowAlert] = useState(false);
+	const handleShowAlert = () => {
+		//không chọn gateway nào sẽ hiện alert
+		setShowAlert(true);
 	};
-
-	const Item = ({item, check}: {item: any, check: boolean}) => {
-		return (
-			<View style={styles.item}>
-				<Text style={styles.itemName}>{item.name}</Text>
-				<TouchableOpacity onPress={() => handleCheck(item.id, item)}>
-					<Icon
-						name={check ? 'check-circle' : 'circle-thin'}
-						size={18}
-						color={'#005A6F'}
-						style={styles.itemIcon}
-					/>
-				</TouchableOpacity>
-			</View>
-		);
+	const handleCloseAlert = () => {
+		// button close modal
+		setShowAlert(false);
 	};
 
 	return (
@@ -74,37 +106,45 @@ export default function ChooseGateway({navigation}: {navigation: any}) {
 				barStyle={'light-content'}
 				backgroundColor={'rgba(44, 105, 141, 1)'}
 			/>
+
+			{/* Hiện modal khi chưa chọn gateway*/}
+			<ModalChooseGateway
+				visible={showAlert}
+				message="Bạn cần chọn Gateway để sử dụng"
+				onClose={handleCloseAlert}
+			/>
 			<Text style={styles.title}>Chọn Gateway sử dụng</Text>
 
 			{/* List gateway  */}
 			<View style={styles.bgFlatlist}>
 				<FlatList
 					style={styles.flatlist}
-					data={ArrFarm}
+					data={gateWays}
 					renderItem={({item}) => {
-						const selected = select === item.id;
-						return <Item item={item} 
-							check = {selected}
-						/>;
+						return (
+							<ItemChooseGateway
+								item={item}
+								handleCheck={handleCheck}
+								selectedItem={selectedItemId}
+							/>
+						);
 					}}
-					keyExtractor={item => item.id.toString()}
+					keyExtractor={(item: any, index) => index.toString()}
 					showsVerticalScrollIndicator={false}
 				/>
 			</View>
 
-			<TouchableOpacity
-				style={styles.bgButton}
-				onPress={() => navigation.navigate('MainDrawer')}>
-				<LinearGradient
-					style={styles.button}
-					colors={['#07BD89', '#006E8C', '#002E32']}
-					start={{x: 0, y: 0}}
-					end={{x: 1, y: 0}}>
-					<Text style={styles.textButton}>Tiếp tục</Text>
-				</LinearGradient>
-			</TouchableOpacity>
+			{/* button continue  */}
+			<ButtonContinue
+				navigation={navigation}
+				selectedItemId={selectedItemId}
+				handleShowAlert={handleShowAlert}
+			/>
 
-			<TouchableOpacity onPress={handleLoginOtherAccount}>
+			<TouchableOpacity
+				onPress={() => {
+					handleLoginOtherAccount();
+				}}>
 				<Text style={styles.loginOther}>Đăng nhập bằng tài khoản khác</Text>
 			</TouchableOpacity>
 		</SafeAreaView>

@@ -7,28 +7,18 @@ export default function Splash({navigation}: {navigation: any}) {
 		const checkLoginStatus = async () => {
 			const getAccess = await AsyncStorage.getItem('accessToken');
 			const accessToken = JSON.parse(getAccess!);
-			console.log(typeof accessToken);
+			
 			if (accessToken) {
 				navigation.navigate('AppScreen', {screen: 'ChooseGateway'});
 			} else {
 				setTimeout(
 					() => navigation.navigate('AuthScreen', {screen: 'Login'}),
-					3000,
+					2500,
 				);
 			}
 		};
 		checkLoginStatus();
 	}, []);
-
-	// const getData = async () => {
-	// 	try {
-	// 		const response = await makeAuthorizedRequest('users','GET');
-	// 		console.log(response);
-	// 	} catch (error) {
-	// 		console.error('Lỗi khi gửi yêu cầu:', error);
-	// 	}
-	// };
-	// getData();
 
 	return (
 		<View style={styles.container}>

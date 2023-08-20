@@ -192,11 +192,11 @@ const styles = StyleSheet.create({
         marginLeft: 42,
         lineHeight: 20,
         width: 40,
-        borderWidth: 0.5,
         flexDirection: 'row'
     },
     percentnumber: {
-        width: 25,
+        textAlign: "center",
+        width: 30,
         color: 'black',
         fontSize: 14,
         fontWeight: '700'

@@ -14,5 +14,15 @@ export default class RelayDB {
             console.log(e.message);
         }
     }
+    async GetRelaysByGreenHouseId(GreenHouseID: string){
+        try{
+            const response = await Axios.get(URL_RELAYS);
+            const data = response.data.body.results;
+            return data.filter((doc: any)=>doc.greenhouseId === GreenHouseID);
+        }
+        catch(e: any){
+            console.log(e.message);
+        }
+    }
     
 }

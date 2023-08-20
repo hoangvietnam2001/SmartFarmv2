@@ -7,6 +7,8 @@ import RelayDB from "../../../services/Relays/RelayDB";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Notifi from "../../../components/Layout/Notifi";
 import Light from "../../../components/Layout/Light";
+import { useSelector } from "react-redux";
+import { Text } from "react-native";
 const Relay = new RelayDB();
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
@@ -16,6 +18,7 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
     const [devices, setDevices]: any = useState([]);
     const [show, setShow] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
+    const Relays = useSelector((state: any) => state.farm.Relays);
     const handleShowNotifi = () => {
         setShow(true);
     }
@@ -26,18 +29,14 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
         setShowConfirm(value)
     }
     useEffect(() => {
-        async function GetDevices() {
-            const a = await Relay.GetAllRelays()
-            setDevices(a);
-        }
-        GetDevices();
+
     }, [])
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false} >
-                {
-                    devices.map((route: any, index: number) => (
-                        
+                {Relays !== ''? (
+                    Relays.map((route: any, index: number) => (
+
                         route.type === 0 ?
                             (
                                 <WaterPump
@@ -58,7 +57,12 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
                             )
 
 
-                    ))
+                    )))
+                    :
+                    (
+
+                        <Text>sjdh</Text>
+                    )
                 }
             </ScrollView>
             <Notifi
