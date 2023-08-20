@@ -57,7 +57,6 @@ const WaterPump: React.FC<Props> = ({ style, route, onPress, status }) => {
     }
     
     useEffect(()=>{
-
     },[status])
     return (
         <View style={[styles.waterbox, style]}>

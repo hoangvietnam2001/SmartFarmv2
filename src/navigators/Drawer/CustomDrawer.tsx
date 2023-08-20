@@ -8,38 +8,35 @@ import IconMa from 'react-native-vector-icons/MaterialCommunityIcons'
 import { ArrayDrawer } from './ArrayDrawer';
 import GreenHouseDB from '../../services/Relays/GreenHouseDB';
 import Notifi from '../../components/Layout/Notifi';
+import { useDispatch, useSelector } from 'react-redux';
+import RelayDB from '../../services/Relays/RelayDB';
+import { setRelay } from '../../redux/slices/GreenHouseSlice';
 
 const GreenHouse = new GreenHouseDB();
-
-const HeaderDrawer = () =>(
+const Relay = new RelayDB();
+const HeaderDrawer = () => (
   <View style={styles.header}>
-  <View style={styles.imageView}>
-    <Image style={styles.accountimage} source={require('../../assets/images/gau.png')}></Image>
-  </View>
-  <View style={styles.info} >
-    <View style={{ width: 150 }}>
-      <Text style={styles.accountname}>Header</Text>
-      <Text style={styles.email}>Header@gmail.com</Text>
+    <View style={styles.imageView}>
+      <Image style={styles.accountimage} source={require('../../assets/images/gau.png')}></Image>
     </View>
-    <IconMa name='account-edit' size={20} style={{ marginLeft: 30, }} />
+    <View style={styles.info} >
+      <View style={{ width: 150 }}>
+        <Text style={styles.accountname}>Header</Text>
+        <Text style={styles.email}>Header@gmail.com</Text>
+      </View>
+      <IconMa name='account-edit' size={20} style={{ marginLeft: 30, }} />
+    </View>
   </View>
-</View>
 )
 
 const CustomDrawer = (props: any) => {
   const { state, descriptors, navigation } = props;
-  const [Arr, setArr]: any = useState([]);
-    useEffect(()=>{
-        async function GetGreenHouse() {
-            const a  = await GreenHouse.GetGreenhouseByFarmId('63a3d99dc69cef7476812bea');
-            setArr(a);
-        }
-        GetGreenHouse();
-    },[])
+  const GreenHouses = useSelector((state: any) => state.farm.GreenHouses)
+  const dispatch = useDispatch();
   return (
     <View style={styles.container}>
       <LinearGradient colors={['#99FF66', '#009999', '#2C698D']} style={styles.header}>
-        <HeaderDrawer/>
+        <HeaderDrawer />
       </LinearGradient>
       {/* Thân drawer */}
       <DrawerContentScrollView>
@@ -53,13 +50,13 @@ const CustomDrawer = (props: any) => {
               const handleShowMenu = (route: any, index: number) => {
                 if (ArrayDrawer.filter((item: any) => item.parentID === route.id).length > 0
                 ) {
-                    setShow(!Show);
+                  setShow(!Show);
                 } else {
                   if (route.id === 1) {
-                    if (Arr.length > 0){
+                    if (GreenHouses.length > 0) {
                       setShowGreenHouse(!ShowGreenHouse);
                     }
-                    else{
+                    else {
                       ToastAndroid.show('Nhà kính chưa hoạt động', ToastAndroid.SHORT);
                     }
                   }
@@ -68,7 +65,9 @@ const CustomDrawer = (props: any) => {
                   }
                 }
               };
-              const handleChild = (route: any) => {
+              const handleChild = async (route: any) => {
+                const a = await Relay.GetRelaysByGreenHouseId(route?.id);
+                dispatch(setRelay(a));
                 navigation.navigate(route.name)
               }
               return (
@@ -81,7 +80,7 @@ const CustomDrawer = (props: any) => {
                         handleShowMenu(route, index); // Chuyển đến màn hình tương ứng với mục được chọn
                       }}
                     >
-                      <Text style={styles.itemname}>{route.name}</Text> 
+                      <Text style={styles.itemname}>{route.name}</Text>
                     </TouchableOpacity>
                   }
                   {/* Hiển thị các mục con nếu có */}
@@ -110,24 +109,24 @@ const CustomDrawer = (props: any) => {
                   }
                   {
                     ShowGreenHouse &&
-                    Arr.length > 0 &&
-                    Arr
-                    .map((item: any, index: number) => {
-                      let isFocused = state.routes[state.index].name === item.name;
-                      const color = isFocused ? '#000033' : '#2C698D';
-                      return (
-                        <TouchableOpacity
-                          key={index}
-                          style={[styles.childitem, { backgroundColor: color }]}
-                          onPress={() => {
-                            handleChild(item); // Chuyển đến màn hình tương ứng với mục được chọn
-                          }}
-                        >
-                          <Text style={styles.itemchildname}>{item.name}</Text>
-                        </TouchableOpacity>
+                    GreenHouses &&
+                    GreenHouses
+                      .map((item: any, index: number) => {
+                        let isFocused = state.routes[state.index].name === item.name;
+                        const color = isFocused ? '#000033' : '#2C698D';
+                        return (
+                          <TouchableOpacity
+                            key={index}
+                            style={[styles.childitem, { backgroundColor: color }]}
+                            onPress={() => {
+                              handleChild(item); // Chuyển đến màn hình tương ứng với mục được chọn
+                            }}
+                          >
+                            <Text style={styles.itemchildname}>{item.name}</Text>
+                          </TouchableOpacity>
+                        )
+                      }
                       )
-                    }
-                    )
                   }
                 </View>
               );

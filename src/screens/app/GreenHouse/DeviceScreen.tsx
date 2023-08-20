@@ -7,6 +7,8 @@ import RelayDB from "../../../services/Relays/RelayDB";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Notifi from "../../../components/Layout/Notifi";
 import Light from "../../../components/Layout/Light";
+import { useSelector } from "react-redux";
+import { Text } from "react-native";
 const Relay = new RelayDB();
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
@@ -16,55 +18,58 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
     const [devices, setDevices]: any = useState([]);
     const [show, setShow] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
+    const Relays = useSelector((state: any) => state.farm.Relays);
     const handleShowNotifi = () => {
         setShow(true);
     }
     const dimissShow = () => {
         setShow(false)
     }
-    const handleModalClosed = (value: any)=>{
+    const handleModalClosed = (value: any) => {
         setShowConfirm(value)
     }
     useEffect(() => {
-        async function GetDevices() {
-            const a = await Relay.GetAllRelays()
-            console.log(a);
-            setDevices(a);
-        }
-        GetDevices();
+
     }, [])
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView >
-                {
-                    devices.map((route: any, index: number) => (
-                            
-                            route.type === 0 ?
+            <ScrollView showsVerticalScrollIndicator={false} >
+                {Relays !== ''? (
+                    Relays.map((route: any, index: number) => (
+
+                        route.type === 0 ?
                             (
                                 <WaterPump
-                                status = {showConfirm}
-                                key={index}
-                                route={route}
-                                style={{}}
-                                onPress={handleShowNotifi}
-                            />
+                                    status={showConfirm}
+                                    key={index}
+                                    route={route}
+                                    style={{}}
+                                    onPress={handleShowNotifi}
+                                />
                             )
                             :
                             (
                                 <Light
-                                    style = {{}}
+                                    key={index}
+                                    style={{}}
+                                    route={route}
                                 />
                             )
-                        
-                       
-                    ))
+
+
+                    )))
+                    :
+                    (
+
+                        <Text>sjdh</Text>
+                    )
                 }
             </ScrollView>
-                <Notifi
-                    show={show}
-                    onPress={dimissShow}
-                    onModalClosed={handleModalClosed}
-                />
+            <Notifi
+                show={show}
+                onPress={dimissShow}
+                onModalClosed={handleModalClosed}
+            />
         </SafeAreaView>
     );
 
