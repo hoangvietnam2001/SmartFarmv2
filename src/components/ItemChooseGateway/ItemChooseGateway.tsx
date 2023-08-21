@@ -1,23 +1,29 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { setFarmID, setGreenHouse } from '../../redux/slices/GreenHouseSlice';
+import GreenHouseDB from '../../services/Relays/GreenHouseDB';
+const GreenHouse = new GreenHouseDB();
 export default function ItemChooseGateway({item,handleCheck,selectedItem}: {item: any,handleCheck:any,selectedItem:any}) {
-
+	const dispatch = useDispatch();
 	const {ID} = item;
 	
 	return (
 		<TouchableOpacity
 			style={styles.item}
-			onPress={() => {
+			onPress={async() => {
+				const a = await GreenHouse.GetGreenhouseByFarmId(ID);
 				handleCheck(ID);
+				dispatch(setGreenHouse(a));
 			}}>
-			<Text style={styles.itemName}>{item.name
-			}</Text>
+			<Text style={styles.itemName}>{item.name}</Text>
 			<TouchableOpacity
 				onPress={() => {
 					handleCheck(ID);
-				}}>
+					console.log(ID)
+					dispatch(setFarmID(ID))}}
+			>
 				<Icon
 					name={selectedItem === ID ? 'check-circle' : 'circle-thin'}
 					size={18}

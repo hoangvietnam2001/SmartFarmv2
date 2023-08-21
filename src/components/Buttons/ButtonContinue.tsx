@@ -2,13 +2,13 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {WIDTH} from '../../constants/Size';
 import LinearGradient from 'react-native-linear-gradient';
+import { useSelector } from 'react-redux';
 export default function ButtonContinue({navigation,selectedItemId,handleShowAlert}: {navigation: any,selectedItemId:any,handleShowAlert:any}) {
 	return (
 		<TouchableOpacity
 			style={styles.bgButton}
 			onPress={() => {
 				if (selectedItemId) {
-					 console.log(selectedItemId);
 					navigation.navigate('MainDrawer');
 				} else {
 					handleShowAlert();

@@ -23,8 +23,8 @@ export default class GreenHouseDB {
         const data = response.data.body.results;
         return data;
     }
-    catch{
-        console.log('không truy vấn được.')
+    catch(e: any){
+        console.log('không truy vấn được.' + e.message)
     }
   }
   
