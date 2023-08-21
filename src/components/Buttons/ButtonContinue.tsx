@@ -28,7 +28,7 @@ export default function ButtonContinue({navigation,selectedItemId,handleShowAler
 const styles = StyleSheet.create({
 	bgButton: {
 		width: WIDTH - 46,
-		marginTop: 20,
+		marginTop: 60,
 	},
 	button: {
 		height: 44,

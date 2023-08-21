@@ -27,11 +27,6 @@ export default function DuyLogin({navigation}: {navigation: any}) {
 	const [visible, setVisible] = useState(true);
 
 	useEffect(() => {
-		// async function GEtFarmId() {
-		// 	const data = await DB.getByUserID('jsda');
-		// 	console.log(data)
-		// }
-		// GEtFarmId();
 		const setField = async () => {
 			const username = await AsyncStorage.getItem('username');
 			const password = await AsyncStorage.getItem('password');
