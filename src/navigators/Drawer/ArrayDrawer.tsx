@@ -7,7 +7,7 @@ export const ArrayDrawer = [
     {
         id: 2,
         name:'THÔNG BÁO',
-        parentID: 0,
+        parentID: 10,
     },
     ,{
         id : 7,
@@ -29,4 +29,14 @@ export const ArrayDrawer = [
         name:'TÀI KHOẢN CỦA TÔI',
         parentID: 0,
     },
+    {
+        id: 10, 
+        name: 'CẬP NHẬT',
+        parentID: 0,
+    },
+    {
+        id: 11, 
+        name: 'Đăng xuất',
+        parentID: 10,
+    }
 ];

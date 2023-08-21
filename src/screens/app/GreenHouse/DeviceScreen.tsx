@@ -34,7 +34,8 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false} >
-                {Relays !== ''? (
+                {
+                Relays !== null? (
                     Relays.map((route: any, index: number) => (
 
                         route.type === 0 ?
