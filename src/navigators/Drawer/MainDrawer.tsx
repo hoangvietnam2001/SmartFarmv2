@@ -14,6 +14,10 @@ import { HEIGHT } from '../../constants/Size';
 import { useSelector } from 'react-redux';
 import { Icon } from 'react-native-elements'
 import RelayDB from '../../services/Relays/RelayDB';
+import { Login } from '../../screens';
+import { useNavigation } from '@react-navigation/native';
+import { logout } from '../../services/Login/LoginDB';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const GreenHouse = new GreenHouseDB();
 const Relay = new RelayDB();
 
@@ -21,11 +25,18 @@ const Relay = new RelayDB();
 const Drawer = createDrawerNavigator();
 const MainDrawer = () => {
 	const [isLoading, setIsLoading] = useState(true);
-	const [error, setError] = useState();
-	const [arr, setArr] = useState([]);
+	const [refreshToken, setToken] = useState('');
 	const farm = useSelector((state: any) => state.farm)
+	const navigation: any = useNavigation();
 
 
+	useEffect(()=>{
+		async function GetToken (){
+			const refresh: any = await AsyncStorage.getItem('user');
+			setToken(JSON.parse(refresh).refreshToken);
+		}
+		GetToken();
+	},[])
 	// thời gian load api ảo
 	setTimeout(() => {
 		setIsLoading(false);
@@ -68,7 +79,6 @@ const MainDrawer = () => {
 					}}
 					drawerContent={props => <CustomDrawer {...props} />}>
 
-					<Drawer.Screen name="THÔNG BÁO" component={Notification} />
 					{farm.GreenHouses &&
 						farm.GreenHouses.map((doc: any, index: number) => {
 							return (
@@ -87,9 +97,12 @@ const MainDrawer = () => {
 							);
 						})
 					}
+					<Drawer.Screen name="THÔNG BÁO" component={Notification} />
 					<Drawer.Screen name="TÀI KHOẢN CỦA TÔI" component={AccountScreen} />
 					<Drawer.Screen name="Lập lịch" component={ScheduleScreen} />
 					<Drawer.Screen name="Kịch bản" component={ScriptScreen} />
+					<Drawer.Screen name='CẬP NHẬT' component={ScriptScreen}/>
+					<Drawer.Screen name='Đăng xuất' component={()=><View></View>}/>
 
 				</Drawer.Navigator>
 			)}

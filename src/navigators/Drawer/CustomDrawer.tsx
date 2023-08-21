@@ -1,33 +1,19 @@
 import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Dimensions, ToastAndroid, Modal } from 'react-native';
-import { Image } from 'react-native-elements';
+import { Badge, Icon, Image } from 'react-native-elements';
 import { State, TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient'
-import IconMa from 'react-native-vector-icons/MaterialCommunityIcons'
 import { ArrayDrawer } from './ArrayDrawer';
 import GreenHouseDB from '../../services/Relays/GreenHouseDB';
-import Notifi from '../../components/Layout/Notifi';
 import { useDispatch, useSelector } from 'react-redux';
 import RelayDB from '../../services/Relays/RelayDB';
 import { setRelay } from '../../redux/slices/GreenHouseSlice';
+import HeaderDrawer from '../../components/Layout/HeaderDrawer';
 
 const GreenHouse = new GreenHouseDB();
 const Relay = new RelayDB();
-const HeaderDrawer = () => (
-  <View style={styles.header}>
-    <View style={styles.imageView}>
-      <Image style={styles.accountimage} source={require('../../assets/images/gau.png')}></Image>
-    </View>
-    <View style={styles.info} >
-      <View style={{ width: 150 }}>
-        <Text style={styles.accountname}>Header</Text>
-        <Text style={styles.email}>Header@gmail.com</Text>
-      </View>
-      <IconMa name='account-edit' size={20} style={{ marginLeft: 30, }} />
-    </View>
-  </View>
-)
+
 
 const CustomDrawer = (props: any) => {
   const { state, descriptors, navigation } = props;
@@ -75,12 +61,13 @@ const CustomDrawer = (props: any) => {
                   {
                     route.parentID === 0 &&
                     <TouchableOpacity
-                      style={[styles.item, { backgroundColor: color }]}
+                      style={[styles.item, { backgroundColor: color, }]}
                       onPress={() => {
                         handleShowMenu(route, index); // Chuyển đến màn hình tương ứng với mục được chọn
                       }}
                     >
                       <Text style={styles.itemname}>{route.name}</Text>
+
                     </TouchableOpacity>
                   }
                   {/* Hiển thị các mục con nếu có */}
@@ -101,6 +88,25 @@ const CustomDrawer = (props: any) => {
                             }}
                           >
                             <Text style={styles.itemchildname}>{item.name}</Text>
+                            {
+                              item.name === 'THÔNG BÁO' && (
+                                <View style={{ width: 25, right: 20, }}>
+                                  <Icon
+                                    name='notifications'
+                                    color={'white'}
+                                    size={20}
+                                    style={{}}
+                                  />
+                                  <Badge
+                                    status='error'
+                                    value='10'
+                                    containerStyle={{position:'absolute', top: -5, left: 15, }}
+                                    textStyle={{ fontSize: 10 }}
+                                    badgeStyle={{ width: 20, height: 15 }}
+                                  />
+                                </View>
+                              )
+                            }
                           </TouchableOpacity>
                         )
                       }
@@ -123,6 +129,7 @@ const CustomDrawer = (props: any) => {
                             }}
                           >
                             <Text style={styles.itemchildname}>{item.name}</Text>
+                           
                           </TouchableOpacity>
                         )
                       }
@@ -181,11 +188,15 @@ const styles = StyleSheet.create({
   },
   item: {
     height: 40,
-    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
   },
   childitem: {
     height: 40,
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   itemchildname: {
     marginLeft: 20,
@@ -197,7 +208,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     color: 'white',
     fontSize: 14,
-    fontWeight: '400'
+    fontWeight: '400',
+    lineHeight: 40,
   },
 
 });
