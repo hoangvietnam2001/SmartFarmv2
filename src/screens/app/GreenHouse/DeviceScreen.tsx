@@ -9,57 +9,71 @@ import Notifi from '../../../components/Layout/Notifi';
 import Light from '../../../components/Layout/Light';
 import {useSelector} from 'react-redux';
 import {Text} from 'react-native';
+const Relay = new RelayDB();
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
 
 // code doan lay ra sensor
 
-const GreenHouseDevice = ({navigation}: {navigation: any}) => {
-	const [devices, setDevices]: any = useState([]);
-	const [show, setShow] = useState(false);
-	const [showConfirm, setShowConfirm] = useState(false);
-	const Relays = useSelector((state: any) => state.farm.Relays);
-	const handleShowNotifi = () => {
-		setShow(true);
-	};
-	const dimissShow = () => {
-		setShow(false);
-	};
-	const handleModalClosed = (value: any) => {
-		setShowConfirm(value);
-	};
-	useEffect(() => {}, []);
-	return (
-		<SafeAreaView style={styles.container}>
-			<ScrollView showsVerticalScrollIndicator={false}>
-				{Relays !== '' ? (
-					Relays.map((route: any, index: number) =>
-						route.type === 0 ? (
-							<WaterPump
-								status={showConfirm}
-								key={index}
-								route={route}
-								style={{}}
-								onPress={handleShowNotifi}
-							/>
-						) : (
-							<Light key={index} style={{}} route={route} />
-						),
+const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
+    const [devices, setDevices]: any = useState([]);
+    const [show, setShow] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
+    const Relays = useSelector((state: any) => state.farm.Relays);
+    const handleShowNotifi = () => {
+        setShow(true);
+    }
+    const dimissShow = () => {
+        setShow(false)
+    }
+    const handleModalClosed = (value: any) => {
+        setShowConfirm(value)
+    }
+  
+    return (
+        <SafeAreaView style={styles.container}>
+            <ScrollView showsVerticalScrollIndicator={false} >
+                {Relays !== null? (
+                    Relays.map((route: any, index: number) => (
+
+                        route.type === 0 ?
+                            (
+                                <WaterPump
+                                    status={showConfirm}
+                                    key={index}
+                                    route={route}
+                                    style={{}}
+                                    onPress={handleShowNotifi}
+                                />
+                            )
+                            :
+                            (
+                                <Light
+                                    key={index}
+                                    style={{}}
+                                    route={route}
+                                />
+                            )
+                    )))
+                    :
+                    (
+						<View
+							style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+							<Text style={styles.textError}>Không tìm thấy thiết bị</Text>
+						</View>
 					)
-				) : (
-					<View
-						style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-						<Text style={styles.textError}>Không tìm thấy thiết bị</Text>
-					</View>
-				)}
-			</ScrollView>
-			<Notifi
-				show={show}
-				onPress={dimissShow}
-				onModalClosed={handleModalClosed}
-			/>
-		</SafeAreaView>
-	);
+                }
+            </ScrollView>
+            <Notifi
+                show={show}
+                onPress={dimissShow}
+                onModalClosed={handleModalClosed}
+            />
+        </SafeAreaView>
+    );
+
+
+
 };
 
 const styles = StyleSheet.create({

@@ -7,6 +7,17 @@ import AccountScreen from '../../screens/app/MyAccount/AccountScreen';
 import {View, Text} from 'react-native';
 import ScheduleScreen from '../../screens/app/Setting/ScheduleScreen';
 import ScriptScreen from '../../screens/app/Setting/ScriptScreen';
+import GreenHouseDB from '../../services/Relays/GreenHouseDB';
+import Spinner from 'react-native-spinkit';
+import { StyleSheet } from 'react-native';
+import { HEIGHT } from '../../constants/Size';
+import { Icon } from 'react-native-elements'
+import RelayDB from '../../services/Relays/RelayDB';
+import { Login } from '../../screens';
+import { useNavigation } from '@react-navigation/native';
+import { logout } from '../../services/Login/LoginDB';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {useSelector} from 'react-redux';
 import DeviceScanScreen from '../../screens/app/DeviceScan/DeviceScanScreen';
 import LoadingScreen from '../../screens/app/LoaddingScreen/LoadingScreen';
@@ -14,8 +25,18 @@ import LoadingScreen from '../../screens/app/LoaddingScreen/LoadingScreen';
 const Drawer = createDrawerNavigator();
 const MainDrawer = () => {
 	const [isLoading, setIsLoading] = useState(true);
-	const farm = useSelector((state: any) => state.farm);
+	const [refreshToken, setToken] = useState('');
+	const farm = useSelector((state: any) => state.farm)
+	const navigation: any = useNavigation();
 
+
+	useEffect(()=>{
+		async function GetToken (){
+			const refresh: any = await AsyncStorage.getItem('user');
+			setToken(JSON.parse(refresh).refreshToken);
+		}
+		GetToken();
+	},[])
 	// thời gian load api ảo
 	setTimeout(() => {
 		setIsLoading(false);
@@ -37,7 +58,7 @@ const MainDrawer = () => {
 						headerTitleAlign: 'center',
 					}}
 					drawerContent={props => <CustomDrawer {...props} />}>
-					<Drawer.Screen name="THÔNG BÁO" component={Notification} />
+
 					{farm.GreenHouses &&
 						farm.GreenHouses.map((doc: any, index: number) => {
 							return (
@@ -50,10 +71,15 @@ const MainDrawer = () => {
 									}}
 								/>
 							);
-						})}
+						})
+					}
+					<Drawer.Screen name="THÔNG BÁO" component={Notification} />
 					<Drawer.Screen name="TÀI KHOẢN CỦA TÔI" component={AccountScreen} />
 					<Drawer.Screen name="Lập lịch" component={ScheduleScreen} />
 					<Drawer.Screen name="Kịch bản" component={ScriptScreen} />
+					<Drawer.Screen name='CẬP NHẬT' component={ScriptScreen}/>
+					<Drawer.Screen name='Đăng xuất' component={ScheduleScreen}/>
+
 					<Drawer.Screen name="QUÉT THIẾT BỊ" component={DeviceScanScreen} />
 				</Drawer.Navigator>
 			)}

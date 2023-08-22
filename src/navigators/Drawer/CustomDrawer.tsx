@@ -12,50 +12,29 @@ import {
 	ToastAndroid,
 	Modal,
 } from 'react-native';
-import {Image} from 'react-native-elements';
+import {Badge, Icon, Image} from 'react-native-elements';
 import {State, TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import IconMa from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ArrayDrawer} from './ArrayDrawer';
 import GreenHouseDB from '../../services/Relays/GreenHouseDB';
 import Notifi from '../../components/Layout/Notifi';
-import LoadingScreen from '../../screens/app/LoaddingScreen/LoadingScreen';
 import {useDispatch, useSelector} from 'react-redux';
+import HeaderDrawer from '../../components/Layout/HeaderDrawer';
+import LoadingScreen from '../../screens/app/LoaddingScreen/LoadingScreen';
 import {setRelay, setGreenHouseId} from '../../redux/slices/GreenHouseSlice';
 import SensorDB from '../../services/Sensors/SensorDB';
 import {setSensor} from '../../redux/slices/sensorSlice';
 import DeviceScanDB from '../../services/DeviceScan/DeviceScanDB';
 import RelayDB from '../../services/Relays/RelayDB';
-
 const Relay = new RelayDB();
 const Sensor = new SensorDB();
 const DeviceScan = new DeviceScanDB();
 
-const HeaderDrawer = () => {
-	return (
-		<View style={styles.header}>
-			<View style={styles.imageView}>
-				<Image
-					style={styles.accountimage}
-					source={require('../../assets/images/gau.png')}></Image>
-			</View>
-			<View style={styles.info}>
-				<View style={{width: 150}}>
-					<Text style={styles.accountname}>userName</Text>
-					<Text style={styles.email}>name</Text>
-				</View>
-				<IconMa name="account-edit" size={20} style={{marginLeft: 30}} />
-			</View>
-		</View>
-	);
-};
-
 const CustomDrawer = (props: any) => {
-	const dispatch = useDispatch();
 	const {state, descriptors, navigation} = props;
 	const GreenHouses = useSelector((state: any) => state.farm.GreenHouses);
-	
-
+	const dispatch = useDispatch();
 	return (
 		<View style={styles.container}>
 			<LinearGradient
@@ -63,6 +42,7 @@ const CustomDrawer = (props: any) => {
 				style={styles.header}>
 				<HeaderDrawer />
 			</LinearGradient>
+			{/* Thân drawer */}
 			<DrawerContentScrollView>
 				<View>
 					{ArrayDrawer.map((route: any, index: number) => {
@@ -92,7 +72,6 @@ const CustomDrawer = (props: any) => {
 							}
 						};
 						const handleChild = async (route: any) => {
-
 							navigation.navigate(route.name);
 
 							const relays = await Relay.GetRelaysByGreenHouseId(route?.id);
@@ -127,10 +106,30 @@ const CustomDrawer = (props: any) => {
 												key={index}
 												style={[styles.childitem, {backgroundColor: color}]}
 												onPress={() => {
-													console.log('route id:', route.id);
 													handleChild(item); // Chuyển đến màn hình tương ứng với mục được chọn
 												}}>
 												<Text style={styles.itemchildname}>{item.name}</Text>
+												{item.name === 'THÔNG BÁO' && (
+													<View style={{width: 25, right: 20}}>
+														<Icon
+															name="notifications"
+															color={'white'}
+															size={20}
+															style={{}}
+														/>
+														<Badge
+															status="error"
+															value="10"
+															containerStyle={{
+																position: 'absolute',
+																top: -5,
+																left: 15,
+															}}
+															textStyle={{fontSize: 10}}
+															badgeStyle={{width: 20, height: 15}}
+														/>
+													</View>
+												)}
 											</TouchableOpacity>
 										);
 									})}
@@ -145,8 +144,7 @@ const CustomDrawer = (props: any) => {
 												key={index}
 												style={[styles.childitem, {backgroundColor: color}]}
 												onPress={() => {
-													handleChild(item);
-													// Chuyển đến màn hình tương ứng với mục được chọn
+													handleChild(item); // Chuyển đến màn hình tương ứng với mục được chọn
 												}}>
 												<Text style={styles.itemchildname}>{item.name}</Text>
 											</TouchableOpacity>
@@ -202,11 +200,15 @@ const styles = StyleSheet.create({
 	optionView: {},
 	item: {
 		height: 40,
-		justifyContent: 'center',
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
 	},
 	childitem: {
 		height: 40,
-		justifyContent: 'center',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
 	},
 	itemchildname: {
 		marginLeft: 20,
@@ -219,6 +221,7 @@ const styles = StyleSheet.create({
 		color: 'white',
 		fontSize: 14,
 		fontWeight: '400',
+		lineHeight: 40,
 	},
 });
 

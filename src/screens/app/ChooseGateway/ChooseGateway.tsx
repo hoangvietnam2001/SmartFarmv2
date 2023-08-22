@@ -28,7 +28,6 @@ export default function ChooseGateway({
 	const [farmList, setFarmList] = useState([]);
 	const [allGateWay, setAllGateWay] = useState([]);
 	const [selectedItemId, setSelectedItemId] = useState(null);
-
 	const dispatch = useDispatch();
 	const isAuthenticated = useSelector(
 		(state: any) => state.user.isAuthenticated,
@@ -155,7 +154,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		alignItems: 'center',
-		backgroundColor:'#fff'
+		backgroundColor: '#fff',
 	},
 	title: {
 		marginTop: 37,
@@ -167,7 +166,7 @@ const styles = StyleSheet.create({
 	},
 	bgFlatlist: {
 		height: 400,
-		backgroundColor:'#fff'
+		backgroundColor: '#fff',
 	},
 	flatlist: {
 		width: WIDTH - 46,
@@ -180,3 +179,10 @@ const styles = StyleSheet.create({
 		lineHeight: 18.23,
 	},
 });
+function setUser(arg0: any): any {
+	throw new Error('Function not implemented.');
+}
+
+function userDB(userName: any): any {
+	throw new Error('Function not implemented.');
+}

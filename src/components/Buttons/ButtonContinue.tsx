@@ -2,12 +2,15 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {WIDTH} from '../../constants/Size';
 import LinearGradient from 'react-native-linear-gradient';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function ButtonContinue({navigation,selectedItemId,handleShowAlert}: {navigation: any,selectedItemId:any,handleShowAlert:any}) {
+	const dispatch = useDispatch();
 	return (
 		<TouchableOpacity
 			style={styles.bgButton}
-			onPress={() => {
+			onPress={async() => {
+				const user = await AsyncStorage.getItem('user');
 				if (selectedItemId) {
 					navigation.navigate('MainDrawer');
 				} else {

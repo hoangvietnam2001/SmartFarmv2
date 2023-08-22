@@ -24,13 +24,13 @@ export default function ItemSensor({item}: {item: any}) {
 		uri = 'http://112.137.129.232:3700/static/icons/sun.png';
 	} else if (item.type == 4) {
 		unit = 'ppm';
-		uri = 'http://112.137.129.232:3700/static/icons/temp.png';// đang đặt tạm do chưa có ảnh
+		uri = 'http://112.137.129.232:3700/static/icons/64/icon%20TT22%20%2818%29.png';// đang đặt tạm do chưa có ảnh
 	} else if (item.type == 5 || item.type == 7 || item.type == 8) {
 		unit = 'độ C';
 		uri = 'http://112.137.129.232:3700/static/icons/temp.png';
 	} else if (item.type === 12) {
 		unit = 'ppm';
-		uri = 'http://112.137.129.232:3700/static/icons/temp.png';// đang đặt tạm do chưa có ảnh
+		uri = 'http://112.137.129.232:3700/static/icons/64/icon%20TT22%20%2817%29.png';// đang đặt tạm do chưa có ảnh
 	}
 
 	if (item.active) {
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 15,
 		borderBottomWidth: 1,
 		borderBottomColor: '#000',
-		paddingBottom: 20,
+		paddingBottom: 15,
 		marginTop: 15,
 	},
 	left: {
