@@ -29,4 +29,9 @@ export const ArrayDrawer = [
         name:'TÀI KHOẢN CỦA TÔI',
         parentID: 0,
     },
+    {
+        id: 13, 
+        name:'QUÉT THIẾT BỊ',
+        parentID: 0,
+    },
 ];

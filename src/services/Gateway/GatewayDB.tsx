@@ -7,7 +7,7 @@ export default class Farms {
 
 	async getFarm() {
 		try {
-			const getFarmList =await axios.get(URL_GET_GATEWAY);
+			const getFarmList = await axios.get(URL_GET_GATEWAY);
 		} catch (error) {
 			throw error;
 		}

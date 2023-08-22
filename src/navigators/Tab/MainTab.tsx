@@ -3,6 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {createStackNavigator} from '@react-navigation/stack'
 import GreenHouseInfo from "../../screens/app/GreenHouse/InfoScreen";
 import GreenHouseDevice from "../../screens/app/GreenHouse/DeviceScreen";
+import SensorScreen from "../../screens/app/Sensor/SensorScreen";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -38,8 +39,8 @@ const MainTab = ({navigation}:{navigation:any}) =>{
                     }}
                 />
                 <Tab.Screen 
-                    name="Cảm biến" 
-                    component={GreenHouseDevice}
+                    name="Sensor" 
+                    component={SensorScreen}
                     options={{
                         tabBarLabel:'Cảm biến'
                     }}

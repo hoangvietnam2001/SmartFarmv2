@@ -16,11 +16,9 @@ import ButtonForgotPassword from '../../../components/Buttons/ButtonForgotPasswo
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import FarmDB from '../../../services/FarmsDB';
 import GreenHouseDB from '../../../services/Relays/GreenHouseDB';
 
-const DB = new FarmDB();
-export default function DuyLogin({navigation}: {navigation: any}) {
+export default function Login({navigation}: {navigation: any}) {
 	const [focusedField, setFocusedField] = useState(null);
 	const [userName, setUserName] = useState('');
 	const [passWord, setPassWord] = useState('');
