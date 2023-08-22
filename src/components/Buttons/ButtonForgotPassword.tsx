@@ -20,7 +20,7 @@ export default function ButtonForgotPassword() {
 
 const styles = StyleSheet.create({
 	forgot: {
-		width: 110,
+		backgroundColor:'#fff',
 		marginTop: 15,
 	},
 	textForgot: {

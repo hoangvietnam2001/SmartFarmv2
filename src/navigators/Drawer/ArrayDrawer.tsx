@@ -38,5 +38,10 @@ export const ArrayDrawer = [
         id: 11, 
         name: 'Đăng xuất',
         parentID: 10,
-    }
+    },
+    {
+        id: 13, 
+        name:'QUÉT THIẾT BỊ',
+        parentID: 0,
+    },
 ];

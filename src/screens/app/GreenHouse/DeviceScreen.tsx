@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { ScrollView, Switch } from "react-native";
-import { Dimensions } from "react-native";
-import { StyleSheet } from "react-native";
-import WaterPump from "../../../components/Layout/WaterPump";
-import RelayDB from "../../../services/Relays/RelayDB";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Notifi from "../../../components/Layout/Notifi";
-import Light from "../../../components/Layout/Light";
-import { useSelector } from "react-redux";
-import { Text } from "react-native";
+import React, {useEffect, useState} from 'react';
+import {ScrollView, Switch, View} from 'react-native';
+import {Dimensions} from 'react-native';
+import {StyleSheet} from 'react-native';
+import WaterPump from '../../../components/Layout/WaterPump';
+import RelayDB from '../../../services/Relays/RelayDB';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Notifi from '../../../components/Layout/Notifi';
+import Light from '../../../components/Layout/Light';
+import {useSelector} from 'react-redux';
+import {Text} from 'react-native';
 const Relay = new RelayDB();
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
 
+// code doan lay ra sensor
 
 const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
     const [devices, setDevices]: any = useState([]);
@@ -28,14 +29,11 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
     const handleModalClosed = (value: any) => {
         setShowConfirm(value)
     }
-    useEffect(() => {
-
-    }, [])
+  
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false} >
-                {
-                Relays !== null? (
+                {Relays !== null? (
                     Relays.map((route: any, index: number) => (
 
                         route.type === 0 ?
@@ -56,14 +54,14 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
                                     route={route}
                                 />
                             )
-
-
                     )))
                     :
                     (
-
-                        <Text>sjdh</Text>
-                    )
+						<View
+							style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+							<Text style={styles.textError}>Không tìm thấy thiết bị</Text>
+						</View>
+					)
                 }
             </ScrollView>
             <Notifi
@@ -79,12 +77,19 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        width: WIDTH,
-        height: HEIGHT,
-        flex: 1,
-        backgroundColor: 'white',
-    },
-
+	container: {
+		width: WIDTH,
+		height: HEIGHT,
+		flex: 1,
+		backgroundColor: 'white',
+	},
+	textError: {
+		fontSize: 20,
+		letterSpacing: 0.5,
+		lineHeight: 28.4,
+		fontWeight: '700',
+		fontFamily: 'Roboto-Regular',
+		color: '#13313D',
+	},
 });
 export default GreenHouseDevice;
