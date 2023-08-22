@@ -10,7 +10,7 @@ import MyTabs from './src/navigators/Tab/Demo';
 
 const Stack = createNativeStackNavigator();
 
-const AuthScreen = () => {
+export const AuthScreen = () => {
   return (
     <Stack.Navigator
       initialRouteName="Splash"
