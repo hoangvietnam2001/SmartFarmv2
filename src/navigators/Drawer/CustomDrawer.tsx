@@ -15,14 +15,11 @@ import {
 import {Badge, Icon, Image} from 'react-native-elements';
 import {State, TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
-import IconMa from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ArrayDrawer} from './ArrayDrawer';
-import GreenHouseDB from '../../services/Relays/GreenHouseDB';
-import Notifi from '../../components/Layout/Notifi';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setGreenHouse } from '../../redux/slices/GreenHouseSlice';
 import HeaderDrawer from '../../components/Layout/HeaderDrawer';
-import LoadingScreen from '../../screens/app/LoaddingScreen/LoadingScreen';
-import {setRelay, setGreenHouseId} from '../../redux/slices/GreenHouseSlice';
+import {setRelay} from '../../redux/slices/GreenHouseSlice';
 import SensorDB from '../../services/Sensors/SensorDB';
 import {setSensor} from '../../redux/slices/sensorSlice';
 import DeviceScanDB from '../../services/DeviceScan/DeviceScanDB';
@@ -32,67 +29,63 @@ const Sensor = new SensorDB();
 const DeviceScan = new DeviceScanDB();
 
 const CustomDrawer = (props: any) => {
-	const {state, descriptors, navigation} = props;
-	const GreenHouses = useSelector((state: any) => state.farm.GreenHouses);
-	const dispatch = useDispatch();
-	return (
-		<View style={styles.container}>
-			<LinearGradient
-				colors={['#99FF66', '#009999', '#2C698D']}
-				style={styles.header}>
-				<HeaderDrawer />
-			</LinearGradient>
-			{/* Thân drawer */}
-			<DrawerContentScrollView>
-				<View>
-					{ArrayDrawer.map((route: any, index: number) => {
-						let isFocused = state.routes[state.index].name === route.name;
-						const color = isFocused ? '#000033' : '#2C698D';
-						const [Show, setShow] = useState(false);
-						const [ShowGreenHouse, setShowGreenHouse] = useState(false);
-						const handleShowMenu = (route: any, index: number) => {
-							if (
-								ArrayDrawer.filter((item: any) => item.parentID === route.id)
-									.length > 0
-							) {
-								setShow(!Show);
-							} else {
-								if (route.id === 1) {
-									if (GreenHouses.length > 0) {
-										setShowGreenHouse(!ShowGreenHouse);
-									} else {
-										ToastAndroid.show(
-											'Nhà kính chưa hoạt động',
-											ToastAndroid.SHORT,
-										);
-									}
-								} else {
-									navigation.navigate(route.name);
-								}
-							}
-						};
-						const handleChild = async (route: any) => {
-							navigation.navigate(route.name);
+  const { state, descriptors, navigation } = props;
+  const GreenHouses = useSelector((state: any) => state.farm.GreenHouses)
+  const dispatch = useDispatch();
+  return (
+    <View style={styles.container}>
+      <LinearGradient colors={['#99FF66', '#009999', '#2C698D']} style={styles.header}>
+        <HeaderDrawer />
+      </LinearGradient>
+      {/* Thân drawer */}
+      <DrawerContentScrollView>
+        <View>
+          {ArrayDrawer
+            .map((route: any, index: number) => {
+              let isFocused = state.routes[state.index].name === route.name;
+              const color = isFocused ? '#000033' : '#2C698D';
+              const [Show, setShow] = useState(false);
+              const [ShowGreenHouse, setShowGreenHouse] = useState(false);
+              const handleShowMenu = (route: any, index: number) => {
+                if (ArrayDrawer.filter((item: any) => item.parentID === route.id).length > 0
+                ) {
+                  setShow(!Show);
+                } else {
+                  if (route.id === 1) {
+                    if (GreenHouses.length > 0) {
+                      setShowGreenHouse(!ShowGreenHouse);
+                    }
+                    else {
+                      ToastAndroid.show('Nhà kính chưa hoạt động', ToastAndroid.SHORT);
+                    }
+                  }
+                  else {
+                    navigation.navigate(route.name);
+                  }
+                }
+              };
+              const handleChild = async (route: any) => {
+                const a = await Relay.GetRelaysByGreenHouseId(route?.id);
+                const sensors = await Sensor.GetSensorWithGreenHouseID(route?.id);
+                dispatch(setRelay(a));
+                dispatch(setSensor(sensors));
+                navigation.navigate(route.name)
+              }
+              return (
+                <View key={route.id}>
+                  {
+                    route.parentID === 0 &&
+                    <TouchableOpacity
+                      style={[styles.item, { backgroundColor: color, }]}
+                      onPress={() => {
+                        handleShowMenu(route, index); // Chuyển đến màn hình tương ứng với mục được chọn
+                      }}
+                    >
+                      <Text style={styles.itemname}>{route.name}</Text>
 
-							const relays = await Relay.GetRelaysByGreenHouseId(route?.id);
-							const sensors = await Sensor.GetSensorWithGreenHouseID(route?.id);
-
-							dispatch(setRelay(relays));
-							dispatch(setSensor(sensors));
-							dispatch(setGreenHouseId(route.id));
-						};
-						return (
-							<View key={route.id}>
-								{route.parentID === 0 && (
-									<TouchableOpacity
-										style={[styles.item, {backgroundColor: color}]}
-										onPress={() => {
-											handleShowMenu(route, index); // Chuyển đến màn hình tương ứng với mục được chọn
-										}}>
-										<Text style={styles.itemname}>{route.name}</Text>
-									</TouchableOpacity>
-								)}
-								{/* Hiển thị các mục con nếu có */}
+                    </TouchableOpacity>
+                  }
+                  {/* Hiển thị các mục con nếu có */}
 
 								{Show &&
 									ArrayDrawer.filter(

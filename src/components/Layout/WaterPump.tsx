@@ -1,5 +1,5 @@
-import React, { useState , useEffect,} from "react";
-import { Button, Switch, TouchableOpacity, TextInput } from "react-native";
+import React, { useState, useEffect, } from "react";
+import { Button, Switch, TouchableOpacity, TextInput, Alert } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet } from "react-native";
 import { Text, View, Image } from "react-native";
@@ -7,36 +7,39 @@ import { StyleProp } from "react-native";
 import { ViewStyle } from "react-native";
 import IconSim from 'react-native-vector-icons/SimpleLineIcons'
 import { URL } from "../../assets/images/imageurl";
+import { useDispatch } from "react-redux";
+import { setModalDelete } from "../../redux/slices/GreenHouseSlice";
 
 const func = [
+    {
+        title: 'Sửa'
+    },
     {
         title: 'Xoá'
     }
 ]
 interface Props {
-    style: StyleProp<ViewStyle>
+    style?: StyleProp<ViewStyle>
     route: any,
-    onPress: any,
-    status: boolean, 
+    status: boolean,
+    onReturnID: (value: string) => void
 }
 interface Props2 {
     data?: any[];
     style?: StyleProp<ViewStyle>;
-    onSelectTitle?: (selectedTitle: string) => void;
 }
-const OptionModal: React.FC<Props2> = ({ data = [], style, onSelectTitle }) => {
-    const handleSelectTitle = (title: string) => {
-        if (onSelectTitle) {
-            onSelectTitle(title);
+const OptionModal: React.FC<Props2> = ({ data = [], style }) => {
+    const dispatch = useDispatch();
+    const handleSelectTitle = (index: any) => {
+        if (index === 1) {
+            dispatch(setModalDelete(true))
         }
     };
     return (
         <View style={[style]}>
             <View>
                 {data.map((doc: any, index: number) => (
-                    <TouchableOpacity onPress={() => handleSelectTitle(doc.title)} style={styles.item} key={index}>
-                        <Button title={doc.title}></Button>
-                    </TouchableOpacity>
+                    <Button title={doc.title} onPress={() => handleSelectTitle(index)} key={index}></Button>
                 ))}
             </View>
 
@@ -44,51 +47,28 @@ const OptionModal: React.FC<Props2> = ({ data = [], style, onSelectTitle }) => {
     )
 }
 
-const WaterPump: React.FC<Props> = ({ style, route, onPress, status }) => {
+const WaterPump: React.FC<Props> = ({ style, route, status, onReturnID }) => {
     const [isEnabled, setEnable] = useState(route.status === 1 ? true : false);
     const [Open, setOpen] = useState(false);
-    const [isEdit, setEdit] = useState(false);
-    const [valueEdit, setValueEdit] = useState(route.name);
     const handleWater = () => {
         setEnable(!isEnabled);
     };
-    const handleChangeText = (value: string) => {
-            setValueEdit(value);
-    }
-    
-    useEffect(()=>{
-    },[status])
+
+    useEffect(() => {
+    }, [status])
     return (
         <View style={[styles.waterbox, style]}>
             <View style={styles.header}>
                 <View>
-                    {/* hiển thị tên Máy bơm */}
-                    {
-                        isEdit === true ?
-                            <TextInput
-                                style={styles.edit}
-                                value={valueEdit}
-                                onChangeText={(value) => handleChangeText(value)}
-                                onBlur={() => {
-                                    setEdit(false)
-                                }}
-                                placeholder={route.name}
-                                autoFocus
-                            />
-                            :
-                            <Text
-                                onLongPress={() => {
-                                    onPress()
-                                }}
-                                onPress={()=>{}}
-                                style={styles.title}
-                            >{valueEdit}</Text>
-                    }
-
-                    {/* Hiển thị ID máy bơm */}
+                    <Text
+                        style={styles.title}
+                    >{route.name}</Text>
                 </View>
 
-                <IconSim name="options-vertical" size={20} style={styles.icon} onPress={() => setOpen(!Open)} />
+                <IconSim name="options-vertical" size={20} style={styles.icon} onPress={() => {
+                    onReturnID(route.id)
+                    setOpen(!Open)
+                }} />
                 {Open && (
                     <OptionModal
                         data={func}
@@ -103,7 +83,6 @@ const WaterPump: React.FC<Props> = ({ style, route, onPress, status }) => {
                 <View style={{}}>
                     <View style={styles.boxStatus}>
                         <Text>Trạng thái:</Text>
-                        {/* Công tắc máy bơm */}
                         <Switch
                             style={{ marginLeft: 42 }}
                             value={isEnabled}
@@ -121,8 +100,8 @@ const WaterPump: React.FC<Props> = ({ style, route, onPress, status }) => {
 
 
 };
-const WIDTH = Dimensions.get('screen').width;
-const HEIGHT = Dimensions.get('screen').height;
+const WIDTH = Dimensions.get('window').width;
+const HEIGHT = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     header: {
         marginLeft: 28,
@@ -136,7 +115,7 @@ const styles = StyleSheet.create({
         color: '#13313D',
         fontWeight: '700',
         fontSize: 16,
-        marginBottom: 15,
+        marginBottom: 1,
     },
     edit: {
         width: WIDTH / 2,
@@ -164,17 +143,17 @@ const styles = StyleSheet.create({
     },
     waterbox: {
         width: WIDTH,
-        height: HEIGHT / 5.5,
+        height: 130,
         borderBottomWidth: 1,
         borderColor: '#DDDDDD',
         marginTop: 5,
     },
     box: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     imagebox: {
         width: WIDTH / 3.5,
-        height: WIDTH / 5.5,
         justifyContent: "center",
         alignItems: "center",
     },

@@ -14,15 +14,15 @@ import { shortenText } from "../../constants/Function";
 
 
 const func = [
-    // {
-    //     title:'Sửa'
-    // },
+    {
+        title:'Sửa'
+    },
     {
         title: 'Xoá'
     }
 ]
 interface Props {
-    style: StyleProp<ViewStyle>
+    style?: StyleProp<ViewStyle>
     route: any,
 }
 interface Props2 {
@@ -135,7 +135,6 @@ const styles = StyleSheet.create({
         marginLeft: 28,
         marginTop: 5,
         flexDirection: 'row',
-        marginBottom: 15,
     },
     title: {
         width: WIDTH / 2,
@@ -163,30 +162,30 @@ const styles = StyleSheet.create({
     },
     waterbox: {
         width: WIDTH,
-
+        height: 130,
         borderBottomWidth: 1,
         borderColor: '#DDDDDD',
         marginTop: 5,
     },
     box: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems:'center'
     },
     imagebox: {
         width: WIDTH / 3.5,
-        height: WIDTH / 5.5,
+        // height: WIDTH / 5.5,
         justifyContent: "center",
         alignItems: "center",
     },
     image: {
-        width: WIDTH / 6.25,
-        height: WIDTH / 6.25,
-        marginLeft: 28,
-        marginRight: 42,
+        width: WIDTH / 5.5,
+        height: WIDTH / 5.5,
     },
     boxStatus: {
         flexDirection: 'row',
         alignItems: "center",
         marginBottom: 0,
+        marginTop:10,
     },
     percent: {
         marginLeft: 42,
@@ -211,41 +210,5 @@ const styles = StyleSheet.create({
         fontSize: 13,
         fontWeight: '700'
     },
-    boxCheck: {
-        flexDirection: 'row',
-        alignItems: "center",
-        marginBottom: 8,
-    },
-    checkbox: {
-        padding: 0,
-        margin: 0,
-        marginLeft: 0,
-        backgroundColor: 'white',
-        borderWidth: 0,
-    },
-    boxCalendar: {
-        flexDirection: "row",
-        marginBottom: 15,
-        alignItems: "center",
-
-    },
-    lstCalendar: {
-        margin: 0,
-        padding: 0,
-        marginLeft: 5,
-    },
-    viewlstCalendar: {
-        borderWidth: 0.5,
-        bottom: 20,
-        backgroundColor: 'white',
-        borderRadius: 5,
-    },
-    chevon: {
-        flexDirection: 'row',
-        justifyContent: "center",
-        alignItems: "center",
-        borderWidth: 0.5,
-        marginLeft: 15,
-    }
 });
 export default Light;
