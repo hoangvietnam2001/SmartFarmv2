@@ -8,7 +8,7 @@ import { ArrayDrawer } from './ArrayDrawer';
 import GreenHouseDB from '../../services/Relays/GreenHouseDB';
 import { useDispatch, useSelector } from 'react-redux';
 import RelayDB from '../../services/Relays/RelayDB';
-import { setRelay } from '../../redux/slices/GreenHouseSlice';
+import { setGreenHouse, setRelay } from '../../redux/slices/GreenHouseSlice';
 import HeaderDrawer from '../../components/Layout/HeaderDrawer';
 
 const GreenHouse = new GreenHouseDB();
@@ -25,7 +25,7 @@ const CustomDrawer = (props: any) => {
         <HeaderDrawer />
       </LinearGradient>
       {/* Thân drawer */}
-      <DrawerContentScrollView>
+      <DrawerContentScrollView showsVerticalScrollIndicator = {false}>
         <View>
           {ArrayDrawer
             .map((route: any, index: number) => {
@@ -54,6 +54,7 @@ const CustomDrawer = (props: any) => {
               const handleChild = async (route: any) => {
                 const a = await Relay.GetRelaysByGreenHouseId(route?.id);
                 dispatch(setRelay(a));
+                dispatch(setGreenHouse(route));
                 navigation.navigate(route.name)
               }
               return (

@@ -31,12 +31,5 @@ export default class GreenHouseDB {
   async GetFarm(){
     const data = Farm.getByUserID('sdasd');
     
-    // const Arr:any = [];
-    // const b = data.map(async(doc:any)=>{
-    //   await Axios.get('http://103.160.2.183:5001/api/farms/'+ doc.ID);
-     
-    //   // console.log(a.data.msg.name);
-    // })
-    // console.log(b);
   }
 }

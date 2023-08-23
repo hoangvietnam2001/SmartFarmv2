@@ -1,13 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import GreenHouseInfo from "../../screens/app/GreenHouse/InfoScreen";
 import GreenHouseDevice from "../../screens/app/GreenHouse/DeviceScreen";
+import { setDate } from "date-fns";
+import GreenHouseDB from "../../services/Relays/GreenHouseDB";
+import { useDispatch } from "react-redux";
+import RelayDB from "../../services/Relays/RelayDB";
+import { setGreenHouse, setRelay } from "../../redux/slices/GreenHouseSlice";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+const Relay =  new RelayDB();
 
-
-const MainTab = ({ navigation }: { navigation: any }) => {
+const MainTab = ({ navigation, route }: { navigation: any, route: any }) => {
+    const {GreenHouse} = route.params;
+    const dispatch = useDispatch();
+    useEffect(()=>{
+        async function SetData() {
+            dispatch(setGreenHouse(GreenHouse));
+            const a = await Relay.GetRelaysByGreenHouseId(GreenHouse.id);
+            dispatch(setRelay(a));
+        }
+        SetData();
+    },[])
     return (
         <Tab.Navigator
 
@@ -15,10 +30,9 @@ const MainTab = ({ navigation }: { navigation: any }) => {
                 headerShown: false,
                 tabBarIcon: () => null,
                 tabBarLabelStyle: {
-                    marginVertical: 15
+                    marginBottom: 15
                 },
                 tabBarStyle:{
-                    borderBottomWidth:5
                 },
             }}
         >

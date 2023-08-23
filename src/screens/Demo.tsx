@@ -5,8 +5,7 @@ import { ViewStyle } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { Button } from 'react-native';
 import { ScrollView, View, Text ,FlatList} from 'react-native';
-import SelectCalendarWater from '../components/Layout/OptionModal';
-import OptionModal from '../components/Layout/OptionModal';
+
 
 const MyComponent = () => {
     const [show, setShow] = useState(false);
@@ -22,7 +21,6 @@ const MyComponent = () => {
     return (
         <View style={styles.container}>
             
-           <OptionModal/>
           
         </View>
 
