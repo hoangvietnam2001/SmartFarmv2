@@ -1,9 +1,7 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+
 import Axios from 'axios';
 import { URL_GREEN_HOUSE } from '../../utils/config';
-import FarmDB from '../FarmsDB';
-const Farm = new FarmDB();
+
 export default class GreenHouseDB {
 	GreenHouseDB() {}
 	async GetAllGreenHouse() {
@@ -28,8 +26,4 @@ export default class GreenHouseDB {
     }
   }
   
-  async GetFarm(){
-    const data = Farm.getByUserID('sdasd');
-    
-  }
 }

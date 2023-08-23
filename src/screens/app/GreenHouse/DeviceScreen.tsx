@@ -15,6 +15,7 @@ const Relay = new RelayDB();
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
 
+// code doan lay ra sensor
 
 const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
     const [loading, setIsLoading] = useState(false);

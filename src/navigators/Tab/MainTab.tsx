@@ -3,11 +3,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import GreenHouseInfo from "../../screens/app/GreenHouse/InfoScreen";
 import GreenHouseDevice from "../../screens/app/GreenHouse/DeviceScreen";
-import { setDate } from "date-fns";
-import GreenHouseDB from "../../services/Relays/GreenHouseDB";
 import { useDispatch } from "react-redux";
 import RelayDB from "../../services/Relays/RelayDB";
 import { setGreenHouse, setRelay } from "../../redux/slices/GreenHouseSlice";
+import SensorScreen from '../../screens/app/Sensor/SensorScreen';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 const Relay =  new RelayDB();
