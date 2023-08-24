@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setFarmID, setGreenHouses } from '../../redux/slices/GreenHouseSlice';
 import GreenHouseDB from '../../services/Relays/GreenHouseDB';
 const GreenHouse = new GreenHouseDB();

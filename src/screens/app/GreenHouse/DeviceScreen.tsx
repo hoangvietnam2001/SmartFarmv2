@@ -30,7 +30,6 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
     const image = useSelector((state: any) => state.farm.image)
     const enableModalDelete = useSelector((state: any) => state.farm.enableModalDelete);
     const refreshing: boolean = useSelector((state: any) => state.farm.refreshing);
-
     const dispatch = useDispatch();
     const handleSaveModalAdd = async () => {
         const object =
@@ -102,9 +101,7 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
                                         onReturnID={(value) => setRelayID(value)}
                                     />
                                 )
-
                         )))
-
                 }
             </ScrollView>
             <Modal
@@ -129,11 +126,7 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
             </Modal>
         </SafeAreaView>
     );
-
-
-
 };
-
 const styles = StyleSheet.create({
     container: {
         width: WIDTH,
