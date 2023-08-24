@@ -171,11 +171,7 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
             </Modal>
         </SafeAreaView>
     );
-
-
-
 };
-
 const styles = StyleSheet.create({
     container: {
         width: WIDTH,

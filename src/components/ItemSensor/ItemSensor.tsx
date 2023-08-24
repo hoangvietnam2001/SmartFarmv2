@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View, Image} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -8,6 +8,10 @@ export default function ItemSensor({item}: {item: any}) {
 	const sensors = useSelector((state: any) => state.sensor.Sensors);
 	const [sensor, setSensor] = useState(sensors);
 
+	useEffect(() => {
+		setSensor(sensors);
+	}, [sensors]);
+	
 	const formattedDate = moment(sensor.updatedAt).format(
 		'DD/MM/YYYY, HH:mm:ss A',
 	);
@@ -24,13 +28,15 @@ export default function ItemSensor({item}: {item: any}) {
 		uri = 'http://112.137.129.232:3700/static/icons/sun.png';
 	} else if (item.type == 4) {
 		unit = 'ppm';
-		uri = 'http://112.137.129.232:3700/static/icons/64/icon%20TT22%20%2818%29.png';// đang đặt tạm do chưa có ảnh
+		uri =
+			'http://112.137.129.232:3700/static/icons/64/icon%20TT22%20%2818%29.png';
 	} else if (item.type == 5 || item.type == 7 || item.type == 8) {
 		unit = 'độ C';
 		uri = 'http://112.137.129.232:3700/static/icons/temp.png';
 	} else if (item.type === 12) {
 		unit = 'ppm';
-		uri = 'http://112.137.129.232:3700/static/icons/64/icon%20TT22%20%2817%29.png';// đang đặt tạm do chưa có ảnh
+		uri =
+			'http://112.137.129.232:3700/static/icons/64/icon%20TT22%20%2817%29.png';
 	}
 
 	if (item.active) {
@@ -39,7 +45,7 @@ export default function ItemSensor({item}: {item: any}) {
 		status = 'không hoạt động';
 	}
 
-	return ( 
+	return (
 		<View style={styles.itemRound}>
 			<View style={styles.left}>
 				<Text style={styles.name}>{item.name}</Text>
@@ -79,7 +85,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 15,
 		borderBottomWidth: 1,
 		borderBottomColor: '#000',
-		paddingBottom: 15,
+		paddingBottom: 20,
 		marginTop: 15,
 	},
 	left: {

@@ -4,6 +4,7 @@ const GreenHouseSlice = createSlice({
   name: "GreenHouse",
   initialState: {
     farmID: '',
+	greenHouseId: '',
     GreenHouses: [],
     Relays: [],
     enableModalAdd: {status:false},
@@ -22,6 +23,9 @@ const GreenHouseSlice = createSlice({
     setFarmID: (state: any, action: any) => {
       state.farmID = action.payload;
     },
+	setGreenHouseId: (state: any, action: any) => {
+		state.greenHouseId = action.payload;
+	},
     setGreenHouses:(state: any, action: any)=>{
       state.GreenHouses = action.payload;
     },
@@ -77,6 +81,7 @@ export const { setFarmID,
   setImage,
   setModalDelete,
   setRefreshing,
-  setRelayUpdate
+  setRelayUpdate,
+  setGreenHouseId
 } = GreenHouseSlice.actions;
-export const Farm =  GreenHouseSlice.reducer;
+export const Farm = GreenHouseSlice.reducer;
