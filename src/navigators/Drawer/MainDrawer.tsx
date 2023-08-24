@@ -91,16 +91,17 @@ const MainDrawer = ({navigation}: {navigation: any}) => {
 					<Drawer.Screen name="Lập lịch" component={ScheduleScreen} />
 					<Drawer.Screen name="Kịch bản" component={ScriptScreen} />
 					<Drawer.Screen name="CẬP NHẬT" component={ScriptScreen} />
-					{/* <Drawer.Screen
+					<Drawer.Screen
 						name="Đăng xuất"
-						// listeners={async () => {
-						// 	await AsyncStorage.clear();
-						// 	dispatch(logout());
-						// 	navigation.navigate('Login');
-						// }}
-						component={ScriptScreen}
+						listeners={async () => {
+							await AsyncStorage.clear();
+							dispatch(logout());
+							navigation.navigate('Login');
+						}}
+						// component={ScriptScreen}
 					>
-					</Drawer.Screen> */}
+						{()=>null}
+					</Drawer.Screen>
 					<Drawer.Screen name="QUÉT THIẾT BỊ" component={DeviceScanScreen} />
 				</Drawer.Navigator>
 			)}
