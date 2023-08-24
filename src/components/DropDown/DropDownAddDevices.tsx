@@ -6,7 +6,6 @@ import { setPin, setShowPin, setShowType, setType } from '../../redux/slices/Gre
 
 interface Props {
     data: any[]
-    onPress: any
 }
 
 export default function DropDownAddDevice(props: Props) {
@@ -22,7 +21,6 @@ export default function DropDownAddDevice(props: Props) {
             dispatch(setShowType(false))
             dispatch(setType(value))
         }
-        props.onPress?.()
     };
     return (
         <ScrollView style={styles.containder} showsVerticalScrollIndicator = {false}>

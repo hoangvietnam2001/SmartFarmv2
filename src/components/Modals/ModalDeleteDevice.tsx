@@ -15,7 +15,6 @@ export default function ModalDeleteDevice(props: Props) {
     const dispatch = useDispatch();
     const handleDelete = async () => {
         setIsLoading(true)
-        console.log(props.RelayID);
         const response = await Relay.Delete(props.RelayID);
         if (response === 200) {
             setIsLoading(false);

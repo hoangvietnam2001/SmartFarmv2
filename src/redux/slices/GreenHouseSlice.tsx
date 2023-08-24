@@ -6,7 +6,7 @@ const GreenHouseSlice = createSlice({
     farmID: '',
     GreenHouses: [],
     Relays: [],
-    enableModalAdd: false,
+    enableModalAdd: {status:false},
     showDropDownTypes: false,
     showDropDownPin: false,
     Type: {value:'', name:''},
@@ -16,6 +16,7 @@ const GreenHouseSlice = createSlice({
     image: '',
     enableModalDelete: false,
     refreshing: false,
+    RelayUpdate:{},
   },
   reducers: {
     setFarmID: (state: any, action: any) => {
@@ -27,7 +28,7 @@ const GreenHouseSlice = createSlice({
     setRelay: (state: any, action: any)=>{
       state.Relays = action.payload;
     },
-    setModalAdd:(state, action)=>{
+    setModalAdd:(state: any, action)=>{
       state.enableModalAdd = action.payload;
     },
     setShowType:(state: any, action)=>{
@@ -56,7 +57,11 @@ const GreenHouseSlice = createSlice({
     },
     setRefreshing: (state, action)=>{
       state.refreshing = action.payload
-    }
+    },
+    setRelayUpdate: (state, action)=>{
+      state.refreshing = action.payload
+    },
+    
 }})
 
 export const { setFarmID, 
@@ -71,6 +76,7 @@ export const { setFarmID,
   setNameDevice,
   setImage,
   setModalDelete,
-  setRefreshing
+  setRefreshing,
+  setRelayUpdate
 } = GreenHouseSlice.actions;
 export const Farm =  GreenHouseSlice.reducer;

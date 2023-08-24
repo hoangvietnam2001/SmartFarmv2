@@ -4,30 +4,28 @@ import MainTab from '../Tab/MainTab';
 import Notification from '../../screens/app/Notification/Notification';
 import CustomDrawer from './CustomDrawer';
 import AccountScreen from '../../screens/app/MyAccount/AccountScreen';
-import { View, Text, TouchableOpacity, Modal } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import ScheduleScreen from '../../screens/app/Setting/ScheduleScreen';
 import ScriptScreen from '../../screens/app/Setting/ScriptScreen';
-import Spinner from 'react-native-spinkit';
-import { StyleSheet } from 'react-native';
-import { HEIGHT } from '../../constants/Size';
 import { useDispatch, useSelector } from 'react-redux';
 import { Icon } from 'react-native-elements'
-import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import ModalAddDevice from '../../components/Modals/ModalAddDevice';
-import { setModalAdd } from '../../redux/slices/GreenHouseSlice';
+import { setImage, setModalAdd, setNameDevice, setPin, setType } from '../../redux/slices/GreenHouseSlice';
 import DeviceScanScreen from '../../screens/app/DeviceScan/DeviceScanScreen';
 import LoadingScreen from '../../screens/app/LoaddingScreen/LoadingScreen';
 
 const Drawer = createDrawerNavigator();
 const MainDrawer = ({navigation}:{navigation: any}) => {
 	const [isLoading, setIsLoading] = useState(true);
-	const [visible, setVisible] = useState(true);
 	const [refreshToken, setToken] = useState('');
 	const farm = useSelector((state: any) => state.farm)
 	const dispatch = useDispatch();
 	const handleModalAdd = () =>{
-		dispatch(setModalAdd(true));
+		dispatch(setNameDevice(''))
+		dispatch(setImage(''));
+		dispatch(setPin(-1))
+		dispatch(setType({}))
+		dispatch(setModalAdd({status:true, type: 0}));
 	}
 	useEffect(() => {
 		async function GetToken() {
@@ -36,7 +34,6 @@ const MainDrawer = ({navigation}:{navigation: any}) => {
 		}
 		GetToken();
 	}, [])
-	// thời gian load api ảo
 	setTimeout(() => {
 		setIsLoading(false);
 	}, 2000);
