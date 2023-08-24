@@ -15,7 +15,7 @@ import {Icon} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ModalAddDevice from '../../components/Modals/ModalAddDevice';
-import {setModalAdd} from '../../redux/slices/GreenHouseSlice';
+import { setImage, setModalAdd, setNameDevice, setPin, setType } from '../../redux/slices/GreenHouseSlice';
 import DeviceScanScreen from '../../screens/app/DeviceScan/DeviceScanScreen';
 import LoadingScreen from '../../screens/app/LoaddingScreen/LoadingScreen';
 import {AuthScreen} from '../../../App';
@@ -28,17 +28,20 @@ const MainDrawer = ({navigation}: {navigation: any}) => {
 	const [refreshToken, setToken] = useState('');
 	const farm = useSelector((state: any) => state.farm);
 	const dispatch = useDispatch();
-	const handleModalAdd = () => {
-		dispatch(setModalAdd(true));
-	};
+	const handleModalAdd = () =>{
+		dispatch(setNameDevice(''))
+		dispatch(setImage(''));
+		dispatch(setPin(-1))
+		dispatch(setType({}))
+		dispatch(setModalAdd({status:true, type: 0}));
+	}
 	useEffect(() => {
 		async function GetToken() {
 			const refresh: any = await AsyncStorage.getItem('user');
 			setToken(JSON.parse(refresh).refreshToken);
 		}
 		GetToken();
-	}, []);
-	// thời gian load api ảo
+	}, [])
 	setTimeout(() => {
 		setIsLoading(false);
 	}, 2000);
@@ -95,9 +98,9 @@ const MainDrawer = ({navigation}: {navigation: any}) => {
 							dispatch(logout());
 							navigation.navigate('Login');
 						}}
-						// component={AuthScreen}
+						// component={ScriptScreen}
 					>
-						{() => null}
+						{()=>null}
 					</Drawer.Screen>
 					<Drawer.Screen name="QUÉT THIẾT BỊ" component={DeviceScanScreen} />
 				</Drawer.Navigator>

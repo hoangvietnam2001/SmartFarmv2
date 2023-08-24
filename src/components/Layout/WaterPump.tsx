@@ -1,5 +1,5 @@
 import React, { useState, useEffect, } from "react";
-import { Button, Switch, TouchableOpacity, TextInput, Alert } from "react-native";
+import { Button, Switch, TouchableOpacity, TextInput, Alert, TouchableWithoutFeedback } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet } from "react-native";
 import { Text, View, Image } from "react-native";
@@ -7,45 +7,17 @@ import { StyleProp } from "react-native";
 import { ViewStyle } from "react-native";
 import IconSim from 'react-native-vector-icons/SimpleLineIcons'
 import { URL } from "../../assets/images/imageurl";
-import { useDispatch } from "react-redux";
-import { setModalDelete } from "../../redux/slices/GreenHouseSlice";
+import OptionModal from "./OptionModify";
 
-const func = [
-    {
-        title: 'Sửa'
-    },
-    {
-        title: 'Xoá'
-    }
-]
+
 interface Props {
     style?: StyleProp<ViewStyle>
     route: any,
     status: boolean,
     onReturnID: (value: string) => void
+    onClick?: () => void
 }
-interface Props2 {
-    data?: any[];
-    style?: StyleProp<ViewStyle>;
-}
-const OptionModal: React.FC<Props2> = ({ data = [], style }) => {
-    const dispatch = useDispatch();
-    const handleSelectTitle = (index: any) => {
-        if (index === 1) {
-            dispatch(setModalDelete(true))
-        }
-    };
-    return (
-        <View style={[style]}>
-            <View>
-                {data.map((doc: any, index: number) => (
-                    <Button title={doc.title} onPress={() => handleSelectTitle(index)} key={index}></Button>
-                ))}
-            </View>
 
-        </View>
-    )
-}
 
 const WaterPump: React.FC<Props> = ({ style, route, status, onReturnID }) => {
     const [isEnabled, setEnable] = useState(route.status === 1 ? true : false);
@@ -53,48 +25,57 @@ const WaterPump: React.FC<Props> = ({ style, route, status, onReturnID }) => {
     const handleWater = () => {
         setEnable(!isEnabled);
     };
-
+    const handleClick = () => {
+        setOpen(false);
+    }
     useEffect(() => {
-    }, [status])
+        if (Open)
+        setTimeout(() => {
+            setOpen(false)
+        }, 1800);
+    }, [Open])
     return (
-        <View style={[styles.waterbox, style]}>
-            <View style={styles.header}>
-                <View>
-                    <Text
-                        style={styles.title}
-                    >{route.name}</Text>
-                </View>
-
-                <IconSim name="options-vertical" size={20} style={styles.icon} onPress={() => {
-                    onReturnID(route.id)
-                    setOpen(!Open)
-                }} />
-                {Open && (
-                    <OptionModal
-                        data={func}
-                        style={styles.option}
-                    />
-                )}
-            </View>
-            <View style={styles.box}>
-                <View style={styles.imagebox}>
-                    <Image style={styles.image} source={{ uri: URL + route.avatar }}></Image>
-                </View>
-                <View style={{}}>
-                    <View style={styles.boxStatus}>
-                        <Text>Trạng thái:</Text>
-                        <Switch
-                            style={{ marginLeft: 42 }}
-                            value={isEnabled}
-                            trackColor={{ false: '#767577', true: '#81b0ff' }}
-                            thumbColor={'#81b0ff'}
-                            onChange={handleWater}
-                        />
+        <>
+            <View style={[styles.waterbox, style]}>
+                <View style={styles.header}>
+                    <View>
+                        <Text
+                            style={styles.title}
+                        >{route.name}</Text>
                     </View>
-                    <Text style={styles.statustitle}>Đang {isEnabled ? 'Bật' : 'Tắt'}</Text>
+                    <IconSim name="options-vertical" size={20} style={styles.icon} onPress={() => {
+                        onReturnID(route.id)
+                        setOpen(!Open)
+
+                    }} />
+                    {Open && (
+                        <OptionModal
+                            item={route}
+                            onClick={handleClick}
+                            style={styles.option}
+                        />
+                    )}
+                </View>
+                <View style={styles.box}>
+                    <View style={styles.imagebox}>
+                        <Image style={styles.image} source={{ uri: URL + route.avatar }}></Image>
+                    </View>
+                    <View style={{}}>
+                        <View style={styles.boxStatus}>
+                            <Text>Trạng thái:</Text>
+                            <Switch
+                                style={{ marginLeft: 42 }}
+                                value={isEnabled}
+                                trackColor={{ false: '#767577', true: '#81b0ff' }}
+                                thumbColor={'#81b0ff'}
+                                onChange={handleWater}
+                            />
+                        </View>
+                        <Text style={styles.statustitle}>Đang {isEnabled ? 'Bật' : 'Tắt'}</Text>
+                    </View>
                 </View>
             </View>
-        </View>
+        </>
 
     );
 

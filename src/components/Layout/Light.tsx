@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Switch, TouchableOpacity } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet } from "react-native";
@@ -11,73 +11,51 @@ import IconEn from 'react-native-vector-icons/Entypo'
 import { Slider } from "react-native-elements";
 import { URL } from "../../assets/images/imageurl";
 import { shortenText } from "../../constants/Function";
+import { useDispatch } from "react-redux";
+import { setModalDelete } from "../../redux/slices/GreenHouseSlice";
+import OptionModal from "./OptionModify";
 
 
-const func = [
-    {
-        title:'Sửa'
-    },
-    {
-        title: 'Xoá'
-    }
-]
+
 interface Props {
     style?: StyleProp<ViewStyle>
     route: any,
+    onReturnID?: (value: string) => void
 }
-interface Props2 {
-    data?: any[];
-    style?: StyleProp<ViewStyle>;
-    onSelectTitle?: (selectedTitle: string) => void;
-}
-const OptionModal: React.FC<Props2> = ({ data = [], style, onSelectTitle }) => {
-    const handleSelectTitle = (title: string) => {
-        if (onSelectTitle) {
-            onSelectTitle(title);
-        }
-    };
-    return (
-        <View style={[style]}>
-            <View>
-                {data.map((doc: any, index: number) => (
-                    <TouchableOpacity onPress={() => handleSelectTitle(doc.title)} style={styles.item} key={index}>
-                        <Button title={doc.title}></Button>
-                    </TouchableOpacity>
-                ))}
-            </View>
 
-        </View>
-    )
-}
 
 const Light: React.FC<Props> = (props: Props) => {
-    const [isChecked, setCheck] = useState(false);
-    const [isEnabled, setEnable] = useState(false);
-    const [isShowed, setShow] = useState(false);
     const [Open, setOpen] = useState(false);
     const [value, setValue] = useState(0);
-    const handleWater = () => {
-        setEnable(!isEnabled);
-    };
-    const handleCheck = () => {
-        setCheck(!isChecked);
-    };
-    const handleShow = () => {
-        setShow(!isShowed)
-    };
+
     const handleSlider = (value: number) => {
         setValue(value)
     }
+    const handleClick = () =>{
+        setOpen(false);
+    }
+    useEffect(() => {
+        if (Open)
+        setTimeout(() => {
+            setOpen(false)
+        }, 1800);
+    }, [Open])
     return (
         <View style={[styles.waterbox, props.style]}>
             <View style={styles.header}>
                 <View>
                     <Text style={styles.title}>{shortenText(props.route.name)}</Text>
                 </View>
-                <IconSim name="options-vertical" size={20} style={styles.icon} onPress={() => setOpen(!Open)} />
+                <IconSim name="options-vertical" size={20} style={styles.icon} onPress={() => {
+                    if (props.onReturnID)
+                        props.onReturnID(props.route.id)
+                    setOpen(!Open)
+                }
+                } />
                 {Open && (
                     <OptionModal
-                        data={func}
+                        item={props.route}
+                        onClick={handleClick}
                         style={styles.option}
                     />
                 )}
@@ -169,7 +147,7 @@ const styles = StyleSheet.create({
     },
     box: {
         flexDirection: 'row',
-        alignItems:'center'
+        alignItems: 'center'
     },
     imagebox: {
         width: WIDTH / 3.5,
@@ -185,7 +163,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: "center",
         marginBottom: 0,
-        marginTop:10,
+        marginTop: 10,
     },
     percent: {
         marginLeft: 42,

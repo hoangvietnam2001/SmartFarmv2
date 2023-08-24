@@ -4,3 +4,5 @@ export function shortenText (Text: string){
     }
     return Text;
 }
+
+

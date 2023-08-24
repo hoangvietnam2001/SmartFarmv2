@@ -12,7 +12,7 @@ export default function Splash({navigation}: {navigation: any}) {
 				navigation.navigate('AppScreen', {screen: 'ChooseGateway'});
 			} else {
 				setTimeout(
-					() => navigation.navigate('AuthScreen', {screen: 'Login'}),
+					() => navigation.replace('AuthScreen', {screen: 'Login'}),
 					2500,
 				);
 			}
