@@ -8,8 +8,9 @@ import { ViewStyle } from "react-native";
 import IconSim from 'react-native-vector-icons/SimpleLineIcons'
 import { URL } from "../../assets/images/imageurl";
 import OptionModal from "./OptionModify";
+import RelayDB from "../../services/Relays/RelayDB";
 
-
+const Relay = new RelayDB();
 interface Props {
     style?: StyleProp<ViewStyle>
     route: any,
@@ -22,11 +23,13 @@ interface Props {
 const WaterPump: React.FC<Props> = ({ style, route, status, onReturnID }) => {
     const [isEnabled, setEnable] = useState(route.status === 1 ? true : false);
     const [Open, setOpen] = useState(false);
-    const handleWater = () => {
+    const handleWater = async() => {
         setEnable(!isEnabled);
+        // await Relay.UpdateStatus(route.id, {});
     };
     const handleClick = () => {
         setOpen(false);
+
     }
     useEffect(() => {
         if (Open)
@@ -45,6 +48,7 @@ const WaterPump: React.FC<Props> = ({ style, route, status, onReturnID }) => {
                     </View>
                     <IconSim name="options-vertical" size={20} style={styles.icon} onPress={() => {
                         onReturnID(route.id)
+                        console.log(route)
                         setOpen(!Open)
 
                     }} />
@@ -58,7 +62,7 @@ const WaterPump: React.FC<Props> = ({ style, route, status, onReturnID }) => {
                 </View>
                 <View style={styles.box}>
                     <View style={styles.imagebox}>
-                        <Image style={styles.image} source={{ uri: URL + route.avatar }}></Image>
+                        <Image style={styles.image} source={{ uri: URL + (route.avatar === 'null'?'icon TT22 (9).png':route.avatar)}}></Image>
                     </View>
                     <View style={{}}>
                         <View style={styles.boxStatus}>

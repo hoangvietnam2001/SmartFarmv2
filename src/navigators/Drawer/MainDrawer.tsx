@@ -9,7 +9,6 @@ import ScheduleScreen from '../../screens/app/Setting/ScheduleScreen';
 import ScriptScreen from '../../screens/app/Setting/ScriptScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { Icon } from 'react-native-elements';
-import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setImage, setModalAdd, setNameDevice, setPin, setType } from '../../redux/slices/GreenHouseSlice';
 import DeviceScanScreen from '../../screens/app/DeviceScan/DeviceScanScreen';
@@ -84,12 +83,12 @@ const MainDrawer = () => {
 								/>
 							);
 						})}
-					<Drawer.Screen name="THÔNG BÁO" component={Notification} />
-					<Drawer.Screen name="TÀI KHOẢN CỦA TÔI" component={AccountScreen} />
+					<Drawer.Screen name="Thông báo" component={Notification} />
+					<Drawer.Screen name="Tài khoản của tôi" component={AccountScreen} />
 					<Drawer.Screen name="Lập lịch" component={ScheduleScreen} />
 					<Drawer.Screen name="Kịch bản" component={ScriptScreen} />
-					<Drawer.Screen name="CẬP NHẬT" component={ScriptScreen} />
-					<Drawer.Screen name="QUÉT THIẾT BỊ" component={DeviceScanScreen} />
+					<Drawer.Screen name="Cập nhật" component={ScriptScreen} />
+					<Drawer.Screen name="Quét thiết bị" component={DeviceScanScreen} />
 				</Drawer.Navigator>
 			)}
 		</>

@@ -58,7 +58,7 @@ const Light: React.FC<Props> = (props: Props) => {
             </View>
             <View style={styles.box}>
                 <View style={styles.imagebox}>
-                    <Image style={styles.image} source={{ uri: URL + props.route.avatar }}></Image>
+                    <Image style={styles.image} source={{ uri: URL + (props.route.avatar === 'null'?'icon TT22 (9).png':props.route.avatar) }}></Image>
                 </View>
                 <View style={{}}>
                     <View style={styles.boxStatus}>

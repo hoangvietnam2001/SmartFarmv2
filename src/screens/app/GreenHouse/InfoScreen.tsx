@@ -44,6 +44,8 @@ const styles = StyleSheet.create({
 		backgroundColor: 'white',
 	},
 	item: {
+		position: 'absolute',
+		bottom:0,
 		flexDirection: 'row',
 	},
 	box: {
