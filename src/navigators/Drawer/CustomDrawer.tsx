@@ -27,14 +27,40 @@ import SensorDB from '../../services/Sensors/SensorDB';
 import {setSensor} from '../../redux/slices/sensorSlice';
 import DeviceScanDB from '../../services/DeviceScan/DeviceScanDB';
 import RelayDB from '../../services/Relays/RelayDB';
+import { useNavigation } from '@react-navigation/native';
+import { NavigationActions } from 'react-navigation';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const Relay = new RelayDB();
 const Sensor = new SensorDB();
 const DeviceScan = new DeviceScanDB();
 
+	const HandleLogOut = async () => {
+		const navigation: any = useNavigation();
+		try {
+			navigation.reset({
+				index: 0,
+				routes: [{name:'Login'}]
+			  });
+		}
+		catch (e: any) {
+			console.log(e.message);
+		}
+
+	}
 const CustomDrawer = (props: any) => {
 	const {state, descriptors, navigation} = props;
 	const GreenHouses = useSelector((state: any) => state.farm.GreenHouses);
 	const dispatch = useDispatch();
+	const HandleLogOut = async () => {
+		try {
+			await AsyncStorage.clear();
+			navigation.navigate('Login')
+		}
+		catch (e: any) {
+			console.log(e.message);
+		}
+
+	}
 	return (
 		<View style={styles.container}>
 			<LinearGradient
@@ -148,10 +174,13 @@ const CustomDrawer = (props: any) => {
 											</TouchableOpacity>
 										);
 									})}
+								
 							</View>
 						);
 					})}
 				</View>
+
+				<DrawerItem labelStyle = {{color: '#FFF'}} label='Đăng xuất' onPress={HandleLogOut}/>
 			</DrawerContentScrollView>
 		</View>
 	);
