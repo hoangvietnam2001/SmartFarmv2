@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Modal, ScrollView, Switch, ToastAndroid, RefreshControl, ActivityIndicator, TouchableWithoutFeedback, FlatList } from "react-native";
+import { Modal, ToastAndroid, RefreshControl, ActivityIndicator, FlatList } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet } from "react-native";
 import WaterPump from "../../../components/Layout/WaterPump";
 import RelayDB from "../../../services/Relays/RelayDB";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Notifi from "../../../components/Layout/Notifi";
 import Light from "../../../components/Layout/Light";
 import { useDispatch, useSelector } from "react-redux";
 import ModalAddDevice from "../../../components/Modals/ModalAddDevice";

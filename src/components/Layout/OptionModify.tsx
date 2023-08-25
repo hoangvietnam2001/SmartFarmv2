@@ -14,10 +14,10 @@ const func = [
 
 interface Props {
     style?: StyleProp<ViewStyle>;
-    onClick:()=>void
+    onClick: () => void
     item: {}
 }
-const OptionModal= (props:Props) => {
+const OptionModal = (props: Props) => {
     const dispatch = useDispatch();
     const handleSelectTitle = (index: any) => {
         props.onClick?.()
@@ -25,7 +25,7 @@ const OptionModal= (props:Props) => {
             dispatch(setModalDelete(true))
         }
         else {
-            dispatch(setModalAdd({status: true, type: 1}))
+            dispatch(setModalAdd({ status: true, type: 1 }))
         }
     };
     return (
