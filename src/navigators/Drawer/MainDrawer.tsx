@@ -11,14 +11,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Icon } from 'react-native-elements';
 import { ParamListBase, RouteProp, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import ModalAddDevice from '../../components/Modals/ModalAddDevice';
 import { setImage, setModalAdd, setNameDevice, setPin, setType } from '../../redux/slices/GreenHouseSlice';
 import DeviceScanScreen from '../../screens/app/DeviceScan/DeviceScanScreen';
 import LoadingScreen from '../../screens/app/LoaddingScreen/LoadingScreen';
-import { AuthScreen } from '../../../App';
-import { Login } from '../../screens';
-import { logout } from '../../redux/slices/authSlice';
-import { NavigationActions } from 'react-navigation';
 
 const Drawer = createDrawerNavigator();
 
