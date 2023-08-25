@@ -30,6 +30,7 @@ import RelayDB from '../../services/Relays/RelayDB';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationActions } from 'react-navigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { logout } from '../../redux/slices/authSlice';
 const Relay = new RelayDB();
 const Sensor = new SensorDB();
 const DeviceScan = new DeviceScanDB();
@@ -54,6 +55,7 @@ const CustomDrawer = (props: any) => {
 	const HandleLogOut = async () => {
 		try {
 			await AsyncStorage.clear();
+			dispatch(logout());
 			navigation.navigate('Login')
 		}
 		catch (e: any) {
@@ -179,8 +181,9 @@ const CustomDrawer = (props: any) => {
 						);
 					})}
 				</View>
-
-				<DrawerItem labelStyle = {{color: '#FFF'}} label='Đăng xuất' onPress={HandleLogOut}/>
+				<TouchableOpacity style = {styles.item} onPress={HandleLogOut}>
+					<Text style = {styles.itemname}>ĐĂNG XUẤT</Text>
+				</TouchableOpacity>
 			</DrawerContentScrollView>
 		</View>
 	);
@@ -241,13 +244,13 @@ const styles = StyleSheet.create({
 		marginLeft: 20,
 		color: 'white',
 		fontSize: 13,
-		fontWeight: '400',
+		fontWeight: '600',
 	},
 	itemname: {
 		paddingHorizontal: 10,
 		color: 'white',
-		fontSize: 14,
-		fontWeight: '400',
+		fontSize: 13,
+		fontWeight: '700',
 		lineHeight: 40,
 	},
 });

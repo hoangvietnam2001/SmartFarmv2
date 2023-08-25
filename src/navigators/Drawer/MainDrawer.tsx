@@ -48,33 +48,6 @@ const MainDrawer = () => {
 	setTimeout(() => {
 		setIsLoading(false);
 	}, 2000);
-	// const handleLogOut = () => {
-	// 	// AsyncStorage.clear()
-
-	// 	// .then{()=>{
-	// 	// 	dispatch(logout())
-	// 	// 	navigation.navigate('Login')
-	// 	// }	
-	// }}
-	// const HandleLogOut = async () => {
-	// 	try {
-	// 		await AsyncStorage.clear();
-	// 		const navigationAction = NavigationActions.navigate({
-	// 			routeName: 'Login',
-	// 			params: {}
-	// 		})
-	// 		if (navigation) {
-	// 			navigation.dispatch(navigationAction);
-	// 		}
-	// 	}
-	// 	catch (e: any) {
-	// 		console.log(e.message);
-	// 	}
-	// 	useEffect(() => {
-	// 		HandleLogOut();
-	// 	}, [])
-	// 	// return null
-	// }
 
 	return (
 		<>
