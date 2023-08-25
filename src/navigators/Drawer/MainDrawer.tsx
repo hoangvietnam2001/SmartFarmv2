@@ -1,39 +1,42 @@
-import React, {useEffect, useState} from 'react';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import React, { useEffect, useState } from 'react';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import MainTab from '../Tab/MainTab';
 import Notification from '../../screens/app/Notification/Notification';
 import CustomDrawer from './CustomDrawer';
 import AccountScreen from '../../screens/app/MyAccount/AccountScreen';
-import {View, Text, TouchableOpacity, Modal} from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import ScheduleScreen from '../../screens/app/Setting/ScheduleScreen';
 import ScriptScreen from '../../screens/app/Setting/ScriptScreen';
-import Spinner from 'react-native-spinkit';
-import {StyleSheet} from 'react-native';
-import {HEIGHT} from '../../constants/Size';
-import {useDispatch, useSelector} from 'react-redux';
-import {Icon} from 'react-native-elements';
-import {useNavigation} from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { Icon } from 'react-native-elements';
+import { ParamListBase, RouteProp, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ModalAddDevice from '../../components/Modals/ModalAddDevice';
 import { setImage, setModalAdd, setNameDevice, setPin, setType } from '../../redux/slices/GreenHouseSlice';
 import DeviceScanScreen from '../../screens/app/DeviceScan/DeviceScanScreen';
 import LoadingScreen from '../../screens/app/LoaddingScreen/LoadingScreen';
-import {AuthScreen} from '../../../App';
-import {Login} from '../../screens';
-import {logout} from '../../redux/slices/authSlice';
+import { AuthScreen } from '../../../App';
+import { Login } from '../../screens';
+import { logout } from '../../redux/slices/authSlice';
+import { NavigationActions } from 'react-navigation';
 
 const Drawer = createDrawerNavigator();
-const MainDrawer = ({navigation}: {navigation: any}) => {
+
+
+
+
+const MainDrawer = () => {
+	const navigation = useNavigation();
 	const [isLoading, setIsLoading] = useState(true);
 	const [refreshToken, setToken] = useState('');
 	const farm = useSelector((state: any) => state.farm);
 	const dispatch = useDispatch();
-	const handleModalAdd = () =>{
+	const handleModalAdd = () => {
 		dispatch(setNameDevice(''))
 		dispatch(setImage(''));
 		dispatch(setPin(-1))
 		dispatch(setType({}))
-		dispatch(setModalAdd({status:true, type: 0}));
+		dispatch(setModalAdd({ status: true, type: 0 }));
 	}
 	useEffect(() => {
 		async function GetToken() {
@@ -45,6 +48,33 @@ const MainDrawer = ({navigation}: {navigation: any}) => {
 	setTimeout(() => {
 		setIsLoading(false);
 	}, 2000);
+	// const handleLogOut = () => {
+	// 	// AsyncStorage.clear()
+
+	// 	// .then{()=>{
+	// 	// 	dispatch(logout())
+	// 	// 	navigation.navigate('Login')
+	// 	// }	
+	// }}
+	// const HandleLogOut = async () => {
+	// 	try {
+	// 		await AsyncStorage.clear();
+	// 		const navigationAction = NavigationActions.navigate({
+	// 			routeName: 'Login',
+	// 			params: {}
+	// 		})
+	// 		if (navigation) {
+	// 			navigation.dispatch(navigationAction);
+	// 		}
+	// 	}
+	// 	catch (e: any) {
+	// 		console.log(e.message);
+	// 	}
+	// 	useEffect(() => {
+	// 		HandleLogOut();
+	// 	}, [])
+	// 	// return null
+	// }
 
 	return (
 		<>
@@ -57,7 +87,7 @@ const MainDrawer = ({navigation}: {navigation: any}) => {
 							fontSize: 16,
 							color: '#FFF',
 						},
-						headerStyle: {backgroundColor: '#2C698D'},
+						headerStyle: { backgroundColor: '#2C698D' },
 						headerTitleAlign: 'center',
 					}}
 					drawerContent={props => <CustomDrawer {...props} />}>
@@ -68,11 +98,11 @@ const MainDrawer = ({navigation}: {navigation: any}) => {
 									key={index}
 									name={doc.name}
 									component={MainTab}
-									initialParams={{GreenHouse: doc}}
+									initialParams={{ GreenHouse: doc }}
 									options={{
 										headerRight: () => (
 											<TouchableOpacity
-												style={{width: 50}}
+												style={{ width: 50 }}
 												onPress={handleModalAdd}>
 												<Icon
 													name="add-box"
@@ -91,21 +121,20 @@ const MainDrawer = ({navigation}: {navigation: any}) => {
 					<Drawer.Screen name="Lập lịch" component={ScheduleScreen} />
 					<Drawer.Screen name="Kịch bản" component={ScriptScreen} />
 					<Drawer.Screen name="CẬP NHẬT" component={ScriptScreen} />
-					<Drawer.Screen
+					{/* <Drawer.Screen
 						name="Đăng xuất"
-						listeners={async () => {
+						component={HandleLogOut}
+					/> */}
+					{/* listeners={async () => {
 							await AsyncStorage.clear();
 							dispatch(logout());
 							navigation.navigate('Login');
-						}}
-						// component={ScriptScreen}
-					>
-						{()=>null}
-					</Drawer.Screen>
+						}} */}
 					<Drawer.Screen name="QUÉT THIẾT BỊ" component={DeviceScanScreen} />
 				</Drawer.Navigator>
 			)}
 		</>
 	);
 };
+
 export default MainDrawer;
