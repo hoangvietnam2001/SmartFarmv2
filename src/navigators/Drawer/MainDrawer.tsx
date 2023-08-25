@@ -9,16 +9,12 @@ import ScheduleScreen from '../../screens/app/Setting/ScheduleScreen';
 import ScriptScreen from '../../screens/app/Setting/ScriptScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { Icon } from 'react-native-elements';
-import { ParamListBase, RouteProp, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import ModalAddDevice from '../../components/Modals/ModalAddDevice';
 import { setImage, setModalAdd, setNameDevice, setPin, setType } from '../../redux/slices/GreenHouseSlice';
 import DeviceScanScreen from '../../screens/app/DeviceScan/DeviceScanScreen';
 import LoadingScreen from '../../screens/app/LoaddingScreen/LoadingScreen';
-import { AuthScreen } from '../../../App';
-import { Login } from '../../screens';
-import { logout } from '../../redux/slices/authSlice';
-import { NavigationActions } from 'react-navigation';
+
 
 const Drawer = createDrawerNavigator();
 
@@ -26,7 +22,6 @@ const Drawer = createDrawerNavigator();
 
 
 const MainDrawer = () => {
-	const navigation = useNavigation();
 	const [isLoading, setIsLoading] = useState(true);
 	const [refreshToken, setToken] = useState('');
 	const farm = useSelector((state: any) => state.farm);
@@ -94,15 +89,6 @@ const MainDrawer = () => {
 					<Drawer.Screen name="Lập lịch" component={ScheduleScreen} />
 					<Drawer.Screen name="Kịch bản" component={ScriptScreen} />
 					<Drawer.Screen name="CẬP NHẬT" component={ScriptScreen} />
-					{/* <Drawer.Screen
-						name="Đăng xuất"
-						component={HandleLogOut}
-					/> */}
-					{/* listeners={async () => {
-							await AsyncStorage.clear();
-							dispatch(logout());
-							navigation.navigate('Login');
-						}} */}
 					<Drawer.Screen name="QUÉT THIẾT BỊ" component={DeviceScanScreen} />
 				</Drawer.Navigator>
 			)}

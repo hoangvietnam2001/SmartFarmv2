@@ -1,55 +1,48 @@
 import {
 	DrawerContentScrollView,
-	DrawerItem,
-	DrawerItemList,
 } from '@react-navigation/drawer';
-import React, {useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import {
 	View,
 	Text,
 	StyleSheet,
 	Dimensions,
 	ToastAndroid,
-	Modal,
 } from 'react-native';
-import {Badge, Icon, Image} from 'react-native-elements';
-import {State, TouchableOpacity} from 'react-native-gesture-handler';
+import { Badge, Icon } from 'react-native-elements';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
-import {ArrayDrawer} from './ArrayDrawer';
-import {useDispatch, useSelector} from 'react-redux';
+import { ArrayDrawer } from './ArrayDrawer';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-	setGreenHouse,
 	setGreenHouseId,
 } from '../../redux/slices/GreenHouseSlice';
 import HeaderDrawer from '../../components/Layout/HeaderDrawer';
-import {setRelay} from '../../redux/slices/GreenHouseSlice';
+import { setRelay } from '../../redux/slices/GreenHouseSlice';
 import SensorDB from '../../services/Sensors/SensorDB';
-import {setSensor} from '../../redux/slices/sensorSlice';
-import DeviceScanDB from '../../services/DeviceScan/DeviceScanDB';
+import { setSensor } from '../../redux/slices/sensorSlice';
 import RelayDB from '../../services/Relays/RelayDB';
 import { useNavigation } from '@react-navigation/native';
-import { NavigationActions } from 'react-navigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { logout } from '../../redux/slices/authSlice';
 const Relay = new RelayDB();
 const Sensor = new SensorDB();
-const DeviceScan = new DeviceScanDB();
 
-	const HandleLogOut = async () => {
-		const navigation: any = useNavigation();
-		try {
-			navigation.reset({
-				index: 0,
-				routes: [{name:'Login'}]
-			  });
-		}
-		catch (e: any) {
-			console.log(e.message);
-		}
-
+const HandleLogOut = async () => {
+	const navigation: any = useNavigation();
+	try {
+		navigation.reset({
+			index: 0,
+			routes: [{ name: 'Login' }]
+		});
 	}
+	catch (e: any) {
+		console.log(e.message);
+	}
+
+}
 const CustomDrawer = (props: any) => {
-	const {state, descriptors, navigation} = props;
+	const { state, descriptors, navigation } = props;
 	const GreenHouses = useSelector((state: any) => state.farm.GreenHouses);
 	const dispatch = useDispatch();
 	const HandleLogOut = async () => {
@@ -111,7 +104,7 @@ const CustomDrawer = (props: any) => {
 							<View key={route.id}>
 								{route.parentID === 0 && (
 									<TouchableOpacity
-										style={[styles.item, {backgroundColor: color}]}
+										style={[styles.item, { backgroundColor: color }]}
 										onPress={() => {
 											handleShowMenu(route, index); // Chuyển đến màn hình tương ứng với mục được chọn
 										}}>
@@ -130,13 +123,13 @@ const CustomDrawer = (props: any) => {
 										return (
 											<TouchableOpacity
 												key={index}
-												style={[styles.childitem, {backgroundColor: color}]}
+												style={[styles.childitem, { backgroundColor: color }]}
 												onPress={() => {
 													handleChild(item); // Chuyển đến màn hình tương ứng với mục được chọn
 												}}>
 												<Text style={styles.itemchildname}>{item.name}</Text>
-												{item.name === 'THÔNG BÁO' && (
-													<View style={{width: 25, right: 20}}>
+												{item.name === 'Thông báo' && (
+													<View style={{ width: 25, right: 30 }}>
 														<Icon
 															name="notifications"
 															color={'white'}
@@ -149,10 +142,10 @@ const CustomDrawer = (props: any) => {
 															containerStyle={{
 																position: 'absolute',
 																top: -5,
-																left: 15,
+																left: 10,
 															}}
-															textStyle={{fontSize: 10}}
-															badgeStyle={{width: 20, height: 15}}
+															textStyle={{ fontSize: 10 }}
+															badgeStyle={{ width: 20, height: 15 }}
 														/>
 													</View>
 												)}
@@ -168,7 +161,7 @@ const CustomDrawer = (props: any) => {
 										return (
 											<TouchableOpacity
 												key={index}
-												style={[styles.childitem, {backgroundColor: color}]}
+												style={[styles.childitem, { backgroundColor: color }]}
 												onPress={() => {
 													handleChild(item); // Chuyển đến màn hình tương ứng với mục được chọn
 												}}>
@@ -176,13 +169,13 @@ const CustomDrawer = (props: any) => {
 											</TouchableOpacity>
 										);
 									})}
-								
+
 							</View>
 						);
 					})}
 				</View>
-				<TouchableOpacity style = {styles.item} onPress={HandleLogOut}>
-					<Text style = {styles.itemname}>ĐĂNG XUẤT</Text>
+				<TouchableOpacity style={styles.item} onPress={HandleLogOut}>
+					<Text style={styles.itemname}>Đăng xuất</Text>
 				</TouchableOpacity>
 			</DrawerContentScrollView>
 		</View>
@@ -229,7 +222,7 @@ const styles = StyleSheet.create({
 	// Option
 	optionView: {},
 	item: {
-		height: 40,
+		height: 50,
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
@@ -241,16 +234,16 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	itemchildname: {
-		marginLeft: 20,
+		marginLeft: 30,
 		color: 'white',
-		fontSize: 13,
+		fontSize: 14,
 		fontWeight: '600',
 	},
 	itemname: {
-		paddingHorizontal: 10,
+		paddingHorizontal: 20,
 		color: 'white',
-		fontSize: 13,
-		fontWeight: '700',
+		fontSize: 17,
+		fontWeight: '600',
 		lineHeight: 40,
 	},
 });

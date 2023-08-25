@@ -1,5 +1,5 @@
 import React, { useState, useEffect, } from "react";
-import { Button, Switch, TouchableOpacity, TextInput, Alert, TouchableWithoutFeedback } from "react-native";
+import {Switch } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet } from "react-native";
 import { Text, View, Image } from "react-native";
