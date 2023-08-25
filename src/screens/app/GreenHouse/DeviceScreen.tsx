@@ -37,7 +37,7 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
             {
                 greenhouseId: GreenHouse.id,
                 name: nameDevice,
-                avatar: image,
+                avatar: image?image:'icon TT22 (9).png',
                 type: TYPE.value,
                 pin: PIN,
             }
@@ -61,7 +61,7 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
             setIsLoading(true);
             const response = await Relay.Update(RelayID,{
                 name: nameDevice,
-                avatar: image,
+                avatar: image?image:'icon TT22 (17).png',
             })
             if (response === 200){
                 setIsLoading(false);
@@ -119,7 +119,7 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
                     return (
                         <>
                             {
-                                item.type === 1 ?
+                                item.item.type === 3 ?
                                     (
                                         <Light
                                             key={item.index}

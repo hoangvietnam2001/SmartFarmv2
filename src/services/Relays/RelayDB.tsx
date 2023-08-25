@@ -81,5 +81,19 @@ export default class RelayDB {
             }
         }
     }
+    async UpdateStatus(relayID: any, param: any){
+        try{
+            const response = await axios.patch(URL_RELAYS+relayID, param);
+            return response.data.code;
+        }
+        catch(error: any){
+            if(error.response && error.response.data && error.response.data.message){
+                ToastAndroid.show(error.response.data.message, ToastAndroid.SHORT);
+            }
+            else{
+                throw error;
+            }
+        }
+    }
 
 }

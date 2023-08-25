@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
 	},
 	itemchildname: {
 		marginLeft: 30,
-		color: 'white',
+		color: '#DDDDDD',
 		fontSize: 14,
 		fontWeight: '600',
 	},
