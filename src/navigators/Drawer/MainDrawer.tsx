@@ -17,9 +17,6 @@ import LoadingScreen from '../../screens/app/LoaddingScreen/LoadingScreen';
 
 const Drawer = createDrawerNavigator();
 
-
-
-
 const MainDrawer = () => {
 	const navigation = useNavigation();
 	const [isLoading, setIsLoading] = useState(true);
@@ -43,33 +40,6 @@ const MainDrawer = () => {
 	setTimeout(() => {
 		setIsLoading(false);
 	}, 2000);
-	// const handleLogOut = () => {
-	// 	// AsyncStorage.clear()
-
-	// 	// .then{()=>{
-	// 	// 	dispatch(logout())
-	// 	// 	navigation.navigate('Login')
-	// 	// }	
-	// }}
-	// const HandleLogOut = async () => {
-	// 	try {
-	// 		await AsyncStorage.clear();
-	// 		const navigationAction = NavigationActions.navigate({
-	// 			routeName: 'Login',
-	// 			params: {}
-	// 		})
-	// 		if (navigation) {
-	// 			navigation.dispatch(navigationAction);
-	// 		}
-	// 	}
-	// 	catch (e: any) {
-	// 		console.log(e.message);
-	// 	}
-	// 	useEffect(() => {
-	// 		HandleLogOut();
-	// 	}, [])
-	// 	// return null
-	// }
 
 	return (
 		<>
@@ -116,15 +86,6 @@ const MainDrawer = () => {
 					<Drawer.Screen name="Lập lịch" component={ScheduleScreen} />
 					<Drawer.Screen name="Kịch bản" component={ScriptScreen} />
 					<Drawer.Screen name="CẬP NHẬT" component={ScriptScreen} />
-					{/* <Drawer.Screen
-						name="Đăng xuất"
-						component={HandleLogOut}
-					/> */}
-					{/* listeners={async () => {
-							await AsyncStorage.clear();
-							dispatch(logout());
-							navigation.navigate('Login');
-						}} */}
 					<Drawer.Screen name="QUÉT THIẾT BỊ" component={DeviceScanScreen} />
 				</Drawer.Navigator>
 			)}
