@@ -35,7 +35,6 @@ export default function ChooseGateway({
 
 	// lấy ra danh sách id farmList
 	useEffect(() => {
-		console.log(isAuthenticated)
 		const getFarmList = async () => {
 			const user = await AsyncStorage.getItem('user');
 			if (user) {

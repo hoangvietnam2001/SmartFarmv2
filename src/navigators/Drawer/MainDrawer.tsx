@@ -14,11 +14,7 @@ import { setImage, setModalAdd, setNameDevice, setPin, setType } from '../../red
 import DeviceScanScreen from '../../screens/app/DeviceScan/DeviceScanScreen';
 import LoadingScreen from '../../screens/app/LoaddingScreen/LoadingScreen';
 
-
 const Drawer = createDrawerNavigator();
-
-
-
 
 const MainDrawer = () => {
 	const [isLoading, setIsLoading] = useState(true);
