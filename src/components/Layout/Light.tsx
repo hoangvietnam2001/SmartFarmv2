@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Button, Switch, TouchableOpacity } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet } from "react-native";
 import { Text, View, Image } from "react-native";
 import { StyleProp } from "react-native";
 import { ViewStyle } from "react-native";
-import { CheckBox } from "react-native-elements/dist/checkbox/CheckBox";
 import IconSim from 'react-native-vector-icons/SimpleLineIcons'
 import IconEn from 'react-native-vector-icons/Entypo'
 import { Slider } from "react-native-elements";
 import { URL } from "../../assets/images/imageurl";
 import { shortenText } from "../../constants/Function";
-import { useDispatch } from "react-redux";
-import { setModalDelete } from "../../redux/slices/GreenHouseSlice";
 import OptionModal from "./OptionModify";
 
 
@@ -31,14 +27,14 @@ const Light: React.FC<Props> = (props: Props) => {
     const handleSlider = (value: number) => {
         setValue(value)
     }
-    const handleClick = () =>{
+    const handleClick = () => {
         setOpen(false);
     }
     useEffect(() => {
         if (Open)
-        setTimeout(() => {
-            setOpen(false)
-        }, 1800);
+            setTimeout(() => {
+                setOpen(false)
+            }, 1800);
     }, [Open])
     return (
         <View style={[styles.waterbox, props.style]}>
@@ -62,7 +58,7 @@ const Light: React.FC<Props> = (props: Props) => {
             </View>
             <View style={styles.box}>
                 <View style={styles.imagebox}>
-                    <Image style={styles.image} source={{ uri: URL + props.route.avatar }}></Image>
+                    <Image style={styles.image} source={{ uri: URL + (props.route.avatar === 'null'?'icon TT22 (9).png':props.route.avatar) }}></Image>
                 </View>
                 <View style={{}}>
                     <View style={styles.boxStatus}>

@@ -1,20 +1,19 @@
 import { StyleSheet, Text, View, Image, } from 'react-native'
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { HEIGHT } from '../../constants/Size'
 import { Icon } from 'react-native-elements'
-import { useSelector } from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 interface Props {
 }
 export default function HeaderDrawer(props: Props) {
-    const [user, setuser]: any = useState({}); 
-    useEffect(()=>{
+    const [user, setuser]: any = useState({});
+    useEffect(() => {
         async function GetUSER() {
-            const USER: any =await AsyncStorage.getItem('user');
+            const USER: any = await AsyncStorage.getItem('user');
             setuser(JSON.parse(USER));
         }
         GetUSER();
-    },[])
+    }, [])
     return (
         <View style={styles.header}>
             <View style={styles.imageView}>

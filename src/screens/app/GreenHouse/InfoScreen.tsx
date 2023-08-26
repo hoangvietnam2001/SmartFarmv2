@@ -3,11 +3,9 @@ import {
 	Dimensions,
 	Image,
 	SafeAreaView,
-	StyleProp,
 	StyleSheet,
 	Text,
 	View,
-	ViewStyle,
 } from 'react-native';
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
@@ -17,7 +15,6 @@ const GreenHouseInfo = () => {
 			<View style={styles.item}>
 				<View style={styles.box}>
 					<View style={styles.devicebox}>
-						{/* <IconFon name="arrow-swap" size={WIDTH/7.1} color={'#27AE60'}/> */}
 						<Image
 							style={styles.deviceimage}
 							source={require('../../../assets/images/swap.png')}></Image>
@@ -27,7 +24,6 @@ const GreenHouseInfo = () => {
 				</View>
 				<View style={styles.box}>
 					<View style={styles.devicebox}>
-						{/* <IconAwe name="temperature-high" size={WIDTH/7.1} color={'red'}/> */}
 						<Image
 							style={styles.sensorimage}
 							source={require('../../../assets/images/temperature.png')}></Image>
@@ -48,6 +44,8 @@ const styles = StyleSheet.create({
 		backgroundColor: 'white',
 	},
 	item: {
+		position: 'absolute',
+		bottom:0,
 		flexDirection: 'row',
 	},
 	box: {

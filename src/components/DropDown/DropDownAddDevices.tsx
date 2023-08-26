@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { Text, TouchableOpacity, StyleSheet } from 'react-native'
 import React from 'react'
 import { ScrollView } from 'react-native'
 import { useDispatch } from 'react-redux'
@@ -13,22 +13,22 @@ export default function DropDownAddDevice(props: Props) {
     const data = props.data;
 
     const handleSelected = (value: any) => {
-        if (!isNaN(value)){
+        if (!isNaN(value)) {
             dispatch(setShowPin(false))
             dispatch(setPin(value))
         }
-        else{
+        else {
             dispatch(setShowType(false))
             dispatch(setType(value))
         }
     };
     return (
-        <ScrollView style={styles.containder} showsVerticalScrollIndicator = {false}>
+        <ScrollView style={styles.containder} showsVerticalScrollIndicator={false}>
             {
                 data.map((item) => (
-                    <TouchableOpacity style={styles.item} key={item.name?item.name: item} onPress={() => handleSelected(item)}>
+                    <TouchableOpacity style={styles.item} key={item.name ? item.name : item} onPress={() => handleSelected(item)}>
                         <Text style={styles.text}>
-                            {item.name?item.name: item}
+                            {item.name ? item.name : item}
                         </Text>
                     </TouchableOpacity>
                 ))

@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import moment from 'moment';
@@ -7,14 +7,15 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 export default function ItemSensor({item}: {item: any}) {
 	const sensors = useSelector((state: any) => state.sensor.Sensors);
 	const [sensor, setSensor] = useState(sensors);
-
+	const [showModal, setShowModal] = useState(false);
 	useEffect(() => {
 		setSensor(sensors);
 	}, [sensors]);
-	
-	const formattedDate = moment(sensor.updatedAt).format(
-		'DD/MM/YYYY, HH:mm:ss A',
-	);
+
+	const formattedDate = moment(sensor.updatedAt)
+		.format('DD/MM/YYYY, HH:mm:ss A')
+		.replace('AM', 'sáng')
+		.replace('PM', 'chiều');
 	// khai bao cac bien su dung trong item
 	let status = '';
 	let unit = '';
@@ -40,21 +41,29 @@ export default function ItemSensor({item}: {item: any}) {
 	}
 
 	if (item.active) {
-		status = 'hoạt động';
+		status = 'bật';
 	} else {
-		status = 'không hoạt động';
+		status = 'tắt';
 	}
 
 	return (
 		<View style={styles.itemRound}>
 			<View style={styles.left}>
-				<Text style={styles.name}>{item.name}</Text>
+				<View style={styles.nameRound}>
+					<Text style={styles.name}>{item.name}</Text>
+					<TouchableOpacity onPress={() => setShowModal(true)}>
+						<Icon name="edit" color={'#000'} size={20} />
+					</TouchableOpacity>
+				</View>
 				<Text style={styles.time}>{formattedDate}</Text>
 				<Text style={styles.status}>
 					Trạng thái:{' '}
 					<Text style={[styles.active, {color: item.active ? 'green' : 'red'}]}>
 						{status}
 					</Text>
+				</Text>
+				<Text style={styles.time}>
+					Cập nhật sau: <Text>{item.timeUpdate} phút</Text>{' '}
 				</Text>
 				<View style={styles.wrapValue}>
 					<Text style={styles.value}>{item.curValue}</Text>
@@ -90,6 +99,11 @@ const styles = StyleSheet.create({
 	},
 	left: {
 		flex: 7,
+	},
+	nameRound: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
 	},
 	name: {
 		fontFamily: 'Roboto-Regular',

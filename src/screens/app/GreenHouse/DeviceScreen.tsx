@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Modal, ScrollView, Switch, ToastAndroid, RefreshControl, ActivityIndicator, TouchableWithoutFeedback, FlatList } from "react-native";
+import { Modal, ToastAndroid, RefreshControl, ActivityIndicator, FlatList } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet } from "react-native";
 import WaterPump from "../../../components/Layout/WaterPump";
 import RelayDB from "../../../services/Relays/RelayDB";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Notifi from "../../../components/Layout/Notifi";
 import Light from "../../../components/Layout/Light";
 import { useDispatch, useSelector } from "react-redux";
 import ModalAddDevice from "../../../components/Modals/ModalAddDevice";
@@ -38,7 +37,7 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
             {
                 greenhouseId: GreenHouse.id,
                 name: nameDevice,
-                avatar: image,
+                avatar: image?image:'icon TT22 (9).png',
                 type: TYPE.value,
                 pin: PIN,
             }
@@ -62,7 +61,7 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
             setIsLoading(true);
             const response = await Relay.Update(RelayID,{
                 name: nameDevice,
-                avatar: image,
+                avatar: image?image:'icon TT22 (17).png',
             })
             if (response === 200){
                 setIsLoading(false);
@@ -120,7 +119,7 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
                     return (
                         <>
                             {
-                                item.type === 1 ?
+                                item.item.type === 3 ?
                                     (
                                         <Light
                                             key={item.index}

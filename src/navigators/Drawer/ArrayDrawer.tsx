@@ -1,17 +1,17 @@
 export const ArrayDrawer = [
     {
         id: 1,
-        name:"NHÀ KÍNH",
+        name:"Nhà kính",
         parentID: 0,
     },
     {
         id: 2,
-        name:'THÔNG BÁO',
+        name:'Thông báo',
         parentID: 10,
     },
     ,{
         id : 7,
-        name: 'CÀI ĐẶT',
+        name: 'Cài đặt',
         parentID: 0,
     },
     {
@@ -26,22 +26,17 @@ export const ArrayDrawer = [
     },
     {
         id: 3, 
-        name:'TÀI KHOẢN CỦA TÔI',
+        name:'Tài khoản của tôi',
         parentID: 0,
     },
     {
         id: 10, 
-        name: 'CẬP NHẬT',
+        name: 'Cập nhật',
         parentID: 0,
     },
-    // {
-    //     id: 11, 
-    //     name: 'Đăng xuất',
-    //     parentID: 10,
-    // },
     {
         id: 13, 
-        name:'QUÉT THIẾT BỊ',
+        name:'Quét thiết bị',
         parentID: 0,
     },
 ];

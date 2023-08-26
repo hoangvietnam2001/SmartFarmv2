@@ -82,6 +82,7 @@ const ModalAddDevice = (props: Props) => {
                     renderItem={(item: any) => {
                         const handleSelect = () => {
                             setSelect(item.item);
+                            console.log(item.item)
                             dispatch(setImage(item.item))
                         }
                         return (
