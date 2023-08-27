@@ -1,5 +1,5 @@
 import React, { useState, useEffect, } from "react";
-import {Switch } from "react-native";
+import { ActivityIndicator, Switch } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet } from "react-native";
 import { Text, View, Image } from "react-native";
@@ -9,52 +9,73 @@ import IconSim from 'react-native-vector-icons/SimpleLineIcons'
 import { URL } from "../../assets/images/imageurl";
 import OptionModal from "./OptionModify";
 import RelayDB from "../../services/Relays/RelayDB";
+import { useSelector } from "react-redux";
 
 const Relay = new RelayDB();
 interface Props {
     style?: StyleProp<ViewStyle>
     route: any,
-    status: boolean,
     onReturnID: (value: string) => void
     onClick?: () => void
 }
 
 
-const WaterPump: React.FC<Props> = ({ style, route, status, onReturnID }) => {
+const WaterPump: React.FC<Props> = ({ style, route, onReturnID }) => {
+    const [data, setData] = useState(route);
+    const [loading, setIsLoading] = useState(false);
     const [isEnabled, setEnable] = useState(route.status === 1 ? true : false);
     const [Open, setOpen] = useState(false);
-    const handleWater = async() => {
+    const ModalAddCLose = useSelector((state: any) => state.farm.enableModalAdd)
+    const handleWater = async () => {
         setEnable(!isEnabled);
-        // await Relay.UpdateStatus(route.id, {});
+        setIsLoading(true)
+        const reponse = await Relay.UpdateStatus(route.id, { status: (isEnabled === false ? 1 : 0) });
+        if (reponse.code === 200) {
+            setData(reponse.body)
+            setIsLoading(false);
+        }
+        else {
+            setIsLoading(false)
+        }
+
     };
     const handleClick = () => {
         setOpen(false);
-
     }
     useEffect(() => {
+        if (ModalAddCLose.status === false) {
+            async function setRoute() {
+                const reponse = await Relay.GetARelay(route.id);
+                setData(reponse)
+            }
+            setRoute();
+        }
+    }, [ModalAddCLose])
+    useEffect(() => {
         if (Open)
-        setTimeout(() => {
-            setOpen(false)
-        }, 1800);
+            setTimeout(() => {
+                setOpen(false)
+            }, 1800);
     }, [Open])
     return (
         <>
-            <View style={[styles.waterbox, style]}>
+            <View style={[styles.waterbox, style, loading ? { backgroundColor: '#8B8989' } : {}]}>
                 <View style={styles.header}>
                     <View>
                         <Text
                             style={styles.title}
-                        >{route.name}</Text>
+                        >{data.name}</Text>
                     </View>
                     <IconSim name="options-vertical" size={20} style={styles.icon} onPress={() => {
-                        onReturnID(route.id)
-                        console.log(route)
-                        setOpen(!Open)
+                        if (!loading) {
+                            onReturnID(route.id)
+                            setOpen(!Open)
+                        }
 
                     }} />
                     {Open && (
                         <OptionModal
-                            item={route}
+                            item={data}
                             onClick={handleClick}
                             style={styles.option}
                         />
@@ -62,22 +83,35 @@ const WaterPump: React.FC<Props> = ({ style, route, status, onReturnID }) => {
                 </View>
                 <View style={styles.box}>
                     <View style={styles.imagebox}>
-                        <Image style={styles.image} source={{ uri: URL + (route.avatar === 'null'?'icon TT22 (9).png':route.avatar)}}></Image>
+                        <Image style={styles.image} source={{ uri: URL + (data.avatar === 'null' ? 'icon TT22 (9).png' : data.avatar) }}></Image>
                     </View>
                     <View style={{}}>
                         <View style={styles.boxStatus}>
                             <Text>Trạng thái:</Text>
-                            <Switch
-                                style={{ marginLeft: 42 }}
-                                value={isEnabled}
-                                trackColor={{ false: '#767577', true: '#81b0ff' }}
-                                thumbColor={'#81b0ff'}
-                                onChange={handleWater}
-                            />
+                            {!loading &&
+                                <Switch
+                                    style={{ marginLeft: 42 }}
+                                    value={isEnabled}
+                                    trackColor={{ false: '#767577', true: '#81b0ff' }}
+                                    thumbColor={'#81b0ff'}
+                                    onChange={handleWater}
+                                    disabled={loading ? true : false}
+                                />
+                            }
                         </View>
                         <Text style={styles.statustitle}>Đang {isEnabled ? 'Bật' : 'Tắt'}</Text>
                     </View>
                 </View>
+                {
+                    loading &&
+                ( 
+                    <ActivityIndicator
+                    style={styles.loading}
+                    size={"large"}
+                    color={'#FFF'}
+                    />
+                    )
+                }
             </View>
         </>
 
@@ -131,7 +165,7 @@ const styles = StyleSheet.create({
         height: 130,
         borderBottomWidth: 1,
         borderColor: '#DDDDDD',
-        marginTop: 5,
+        justifyContent: 'center'
     },
     box: {
         flexDirection: 'row',
@@ -156,11 +190,10 @@ const styles = StyleSheet.create({
         color: 'black',
         marginBottom: 5,
     },
-    boxCheck: {
-        flexDirection: 'row',
-        alignItems: "center",
-        marginBottom: 8,
-    },
+    loading: {
+        position:'absolute',
+        alignSelf:'center'
+    }
 
 });
 export default WaterPump;

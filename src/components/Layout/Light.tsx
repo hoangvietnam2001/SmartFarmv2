@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Dimensions } from "react-native";
+import { ActivityIndicator, Dimensions } from "react-native";
 import { StyleSheet } from "react-native";
 import { Text, View, Image } from "react-native";
 import { StyleProp } from "react-native";
@@ -10,8 +10,10 @@ import { Slider } from "react-native-elements";
 import { URL } from "../../assets/images/imageurl";
 import { shortenText } from "../../constants/Function";
 import OptionModal from "./OptionModify";
+import RelayDB from "../../services/Relays/RelayDB";
+import { useSelector } from "react-redux";
 
-
+const Relay = new RelayDB();
 
 interface Props {
     style?: StyleProp<ViewStyle>
@@ -21,15 +23,37 @@ interface Props {
 
 
 const Light: React.FC<Props> = (props: Props) => {
+    const [data, setData] = useState(props.route)
     const [Open, setOpen] = useState(false);
-    const [value, setValue] = useState(0);
-
+    const [value, setValue] = useState(props.route.values[0].value);
+    const [loading, setIsLoading] = useState(false);
+    const ModalAddCLose = useSelector((state: any) => state.farm.enableModalAdd)
     const handleSlider = (value: number) => {
         setValue(value)
     }
     const handleClick = () => {
         setOpen(false);
     }
+    const handleSave = async (value: any) => {
+        setIsLoading(true);
+        const response = await Relay.UpdateStatus(props.route.id, { values: [{ name: "DIM", value: value }] })
+        if (response.code === 200) {
+            setData(response.body);
+            setIsLoading(false);
+        }
+        else {
+            setIsLoading(false);
+        }
+    }
+    useEffect(() => {
+        if (ModalAddCLose.status === false) {
+            async function setRoute() {
+                const reponse = await Relay.GetARelay(data.id);
+                setData(reponse)
+            }
+            setRoute();
+        }
+    }, [ModalAddCLose])
     useEffect(() => {
         if (Open)
             setTimeout(() => {
@@ -37,20 +61,22 @@ const Light: React.FC<Props> = (props: Props) => {
             }, 1800);
     }, [Open])
     return (
-        <View style={[styles.waterbox, props.style]}>
+        <View style={[styles.container, props.style, { backgroundColor: loading ? '#8B8989' : '#FFF' }]}>
             <View style={styles.header}>
                 <View>
-                    <Text style={styles.title}>{shortenText(props.route.name)}</Text>
+                    <Text style={styles.title}>{shortenText(data.name)}</Text>
                 </View>
                 <IconSim name="options-vertical" size={20} style={styles.icon} onPress={() => {
-                    if (props.onReturnID)
-                        props.onReturnID(props.route.id)
-                    setOpen(!Open)
+                    if (!loading) {
+                        if (props.onReturnID)
+                            props.onReturnID(props.route.id)
+                        setOpen(!Open)
+                    }
                 }
                 } />
                 {Open && (
                     <OptionModal
-                        item={props.route}
+                        item={data}
                         onClick={handleClick}
                         style={styles.option}
                     />
@@ -58,7 +84,7 @@ const Light: React.FC<Props> = (props: Props) => {
             </View>
             <View style={styles.box}>
                 <View style={styles.imagebox}>
-                    <Image style={styles.image} source={{ uri: URL + (props.route.avatar === 'null'?'icon TT22 (9).png':props.route.avatar) }}></Image>
+                    <Image style={styles.image} source={{ uri: URL + (data.avatar === 'null' ? 'icon TT22 (9).png' : data.avatar) }}></Image>
                 </View>
                 <View style={{}}>
                     <View style={styles.boxStatus}>
@@ -68,43 +94,59 @@ const Light: React.FC<Props> = (props: Props) => {
                             <Text style={{ color: 'black' }}>%</Text>
                         </View>
                     </View>
-                    <View style={styles.slider}>
-                        <Text style={styles.sliderstatus}>OFF</Text>
-                        <Slider
-                            minimumValue={0}
-                            maximumValue={100}
-                            step={1}
-                            allowTouchTrack
-                            value={value}
-                            onValueChange={handleSlider}
-                            thumbTouchSize={{ width: 20, height: 20 }}
-                            thumbProps={{
-                                children: (
-                                    <IconEn color={'#FFFF00'} name="light-down" size={20} />
-                                )
-                            }}
-                            thumbStyle={{ width: 20, height: 20, backgroundColor: 'black' }}
-                            minimumTrackTintColor="#FFFF00"
-                            maximumTrackTintColor="black"
-                            style={{
-                                width: 150,
-                                marginHorizontal: 10
-                            }}
-                        />
-                        <Text style={styles.sliderstatus}>ON</Text>
-                    </View>
+                    {
+                        !loading &&
+                        <View style={[styles.slider]}>
+                            <Text style={styles.sliderstatus}>OFF</Text>
+                            <Slider
+                                minimumValue={0}
+                                maximumValue={100}
+                                step={1}
+                                value={value}
+                                onValueChange={handleSlider}
+                                onSlidingComplete={(value: any) => handleSave(value)}
+                                thumbProps={{
+                                    children: (
+                                        <IconEn color={'#FFFF00'} name="light-down" size={20} />
+                                    )
+                                }}
+                                thumbStyle={{ width: 20, height: 20, backgroundColor: 'black' }}
+                                minimumTrackTintColor="#FFFF00"
+                                maximumTrackTintColor="black"
+                                style={{
+                                    width: 150,
+                                    marginHorizontal: 10
+                                }}
+                            />
+                            <Text style={styles.sliderstatus}>ON</Text>
+                        </View>
+                    }
                 </View>
             </View>
+            {
+                loading &&
+                (
+                    <ActivityIndicator
+                        size={'large'}
+                        color={'white'}
+                        style={styles.loading}
+                    />
+                )
+            }
+
         </View>
-
     );
-
-
-
 };
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
 const styles = StyleSheet.create({
+    container: {
+        width: WIDTH,
+        height: 130,
+        borderBottomWidth: 1,
+        borderColor: '#DDDDDD',
+        justifyContent: 'center'
+    },
     header: {
         marginLeft: 28,
         marginTop: 5,
@@ -134,13 +176,7 @@ const styles = StyleSheet.create({
     item: {
 
     },
-    waterbox: {
-        width: WIDTH,
-        height: 130,
-        borderBottomWidth: 1,
-        borderColor: '#DDDDDD',
-        marginTop: 5,
-    },
+
     box: {
         flexDirection: 'row',
         alignItems: 'center'
@@ -178,11 +214,16 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: "center",
         marginBottom: 5,
+        height: 40,
     },
     sliderstatus: {
         color: 'black',
         fontSize: 13,
-        fontWeight: '700'
+        fontWeight: '700',
+    },
+    loading: {
+        position: 'absolute',
+        alignSelf: 'center'
     },
 });
 export default Light;

@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator, Modal } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch } from 'react-redux'
-import { setModalDelete, setRefreshing } from '../../redux/slices/GreenHouseSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { setModalDelete, setRefreshing, setRelay } from '../../redux/slices/GreenHouseSlice'
 import RelayDB from '../../services/Relays/RelayDB'
 
 const Relay = new RelayDB();
@@ -12,14 +12,18 @@ interface Props {
 }
 export default function ModalDeleteDevice(props: Props) {
     const [loading, setIsLoading] = useState(false);
+    const Relays:[] = useSelector((state: any) => state.farm.Relays);
     const dispatch = useDispatch();
     const handleDelete = async () => {
         setIsLoading(true)
         const response = await Relay.Delete(props.RelayID);
         if (response === 200) {
-            setIsLoading(false);
             dispatch(setModalDelete(false));
+            setIsLoading(false);
             dispatch(setRefreshing(true));
+        }
+        else{
+            setIsLoading(false);
         }
     }
     const handleCancle = () => {
@@ -29,17 +33,19 @@ export default function ModalDeleteDevice(props: Props) {
         <SafeAreaView style={styles.container}>
             <Text style={styles.title}>Bạn có chắc muốn xoá thiết bị này ?</Text>
             <View style={styles.viewBtn} >
-                <TouchableOpacity style={styles.btn} onPress={handleDelete}>
-                    <Text style={styles.titleBtn}>Xoá</Text>
+                <TouchableOpacity style={styles.btn} onPress={loading ? () => { } : handleDelete}>
+                    {
+                        loading === true ?
+                            (<ActivityIndicator size={'small'} style={styles.indicator} />)
+                            :
+                            (<Text style={styles.titleBtn}>Xoá</Text>)
+                    }
                 </TouchableOpacity>
                 <Text style={{ borderLeftWidth: 0.3 }}></Text>
-                <TouchableOpacity style={styles.btn} onPress={handleCancle}>
+                <TouchableOpacity style={styles.btn} onPress={loading ? () => { } : handleCancle}>
                     <Text style={styles.titleBtn}>Huỷ</Text>
                 </TouchableOpacity>
             </View>
-            <Modal visible = {loading} transparent>
-                <ActivityIndicator size={'large'} style={styles.indicator} />
-            </Modal>
         </SafeAreaView>
     )
 }
@@ -76,8 +82,6 @@ const styles = StyleSheet.create({
         fontWeight: '500'
     },
     indicator: {
-        // position:'absolute',
         alignItems: 'center',
-        top: 300,
     }
 })

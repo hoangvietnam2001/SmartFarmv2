@@ -1,78 +1,79 @@
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const GreenHouseSlice = createSlice({
   name: "GreenHouse",
   initialState: {
     farmID: '',
-	greenHouseId: '',
+    greenHouseId: '',
     GreenHouses: [],
     Relays: [],
-    enableModalAdd: {status:false},
+    enableModalAdd: { status: false },
     showDropDownTypes: false,
     showDropDownPin: false,
-    Type: {value:'', name:''},
+    Type: { value: '', name: '' },
     Pin: -1,
-    nameDevice:'',
+    nameDevice: '',
     GreenHouse: {},
     image: '',
     enableModalDelete: false,
     refreshing: false,
-    RelayUpdate:{},
+    RelayUpdate: {},
   },
   reducers: {
     setFarmID: (state: any, action: any) => {
       state.farmID = action.payload;
     },
-	setGreenHouseId: (state: any, action: any) => {
-		state.greenHouseId = action.payload;
-	},
-    setGreenHouses:(state: any, action: any)=>{
+    setGreenHouseId: (state: any, action: any) => {
+      state.greenHouseId = action.payload;
+    },
+    setGreenHouses: (state: any, action: any) => {
       state.GreenHouses = action.payload;
     },
-    setRelay: (state: any, action: any)=>{
+    setRelay: (state: any, action: any) => {
       state.Relays = action.payload;
     },
-    setModalAdd:(state: any, action)=>{
+    setModalAdd: (state: any, action) => {
       state.enableModalAdd = action.payload;
     },
-    setShowType:(state: any, action)=>{
+    setShowType: (state: any, action) => {
       state.showDropDownTypes = action.payload;
     },
-    setShowPin:(state, action)=>{
+    setShowPin: (state, action) => {
       state.showDropDownPin = action.payload;
-    }, 
-    setType: (state, action)=>{
+    },
+    setType: (state, action) => {
       state.Type = action.payload;
     },
-    setPin: (state,action)=>{
+    setPin: (state, action) => {
       state.Pin = action.payload;
     },
-    setGreenHouse: (state: any,action)=>{
+    setGreenHouse: (state: any, action) => {
       state.GreenHouse = action.payload;
     },
-    setNameDevice:  (state,action)=>{
+    setNameDevice: (state, action) => {
       state.nameDevice = action.payload;
     },
-    setImage: (state,action)=>{
+    setImage: (state, action) => {
       state.image = action.payload;
     },
-    setModalDelete: (state: any, action)=>{
+    setModalDelete: (state: any, action) => {
       state.enableModalDelete = action.payload
     },
-    setRefreshing: (state, action)=>{
+    setRefreshing: (state, action) => {
       state.refreshing = action.payload
     },
-    setRelayUpdate: (state, action)=>{
+    setRelayUpdate: (state, action) => {
       state.refreshing = action.payload
     },
-    
-}})
 
-export const { setFarmID, 
-  setGreenHouses, 
-  setRelay, 
-  setModalAdd , 
-  setShowType, 
+  }
+})
+
+export const { setFarmID,
+  setGreenHouses,
+  setRelay,
+  setModalAdd,
+  setShowType,
   setShowPin,
   setType,
   setPin,

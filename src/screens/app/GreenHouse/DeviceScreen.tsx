@@ -11,6 +11,7 @@ import ModalAddDevice from "../../../components/Modals/ModalAddDevice";
 import { setImage, setModalAdd, setNameDevice, setPin, setRefreshing, setRelay, setType } from "../../../redux/slices/GreenHouseSlice";
 import ModalDeleteDevice from "../../../components/Modals/ModalDeleteDevice";
 import { arrTypes } from "../../../constants/dataTyeDevices";
+import BLE from "../../../components/Layout/BLE";
 const Relay = new RelayDB();
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
@@ -20,8 +21,7 @@ const HEIGHT = Dimensions.get('screen').height;
 const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
     const [RelayID, setRelayID] = useState('')
     const [loading, setIsLoading] = useState(false);
-    const [close, setClose] = useState(false);
-    const Relays = useSelector((state: any) => state.farm.Relays);
+    const Relays:[] = useSelector((state: any) => state.farm.Relays);
     const enableModalAdd = useSelector((state: any) => state.farm.enableModalAdd);
     const GreenHouse = useSelector((state: any) => state.farm.GreenHouse);
     const PIN = useSelector((state: any) => state.farm.Pin)
@@ -37,7 +37,7 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
             {
                 greenhouseId: GreenHouse.id,
                 name: nameDevice,
-                avatar: image?image:'icon TT22 (9).png',
+                avatar: image ? image : 'icon TT22 (9).png',
                 type: TYPE.value,
                 pin: PIN,
             }
@@ -56,20 +56,18 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
                 setIsLoading(false);
             }
         }
-        else
-        {
+        else {
             setIsLoading(true);
-            const response = await Relay.Update(RelayID,{
+            const response = await Relay.Update(RelayID, {
                 name: nameDevice,
-                avatar: image?image:'icon TT22 (17).png',
+                avatar: image ? image : 'icon TT22 (17).png',
             })
-            if (response === 200){
+            if (response === 200) {
                 setIsLoading(false);
                 dispatch(setNameDevice(''))
                 dispatch(setPin(-1));
                 dispatch(setType({}));
                 dispatch(setModalAdd({ status: false }));
-                onRefresh();
             }
         }
 
@@ -85,9 +83,8 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
         dispatch(setRelay(response));
         setTimeout(() => {
             dispatch(setRefreshing(false));
-        }, 100);
+        }, 1000);
     };
-
 
     // Chinh sửa cho cập nhật
     const saveInfo = async (value: any) => {
@@ -112,34 +109,40 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
                     }}
                     refreshing={refreshing}
                 />}
-                data={Relays}
+                data={(Relays)}
                 showsVerticalScrollIndicator={false}
                 keyExtractor={(item: any, index) => index.toString()}
                 renderItem={(item: any) => {
                     return (
                         <>
-                            {
-                                item.item.type === 3 ?
-                                    (
-                                        <Light
+                            {(() => {
+                                switch (item.item.type) {
+                                    case 1:
+                                        return (
+                                            <BLE
+                                                key={item.index}
+                                                route={item.item}
+                                                onReturnID={(value) => saveInfo(value)}
+                                            />
+                                        );
+                                    case 2:
+                                        return(
+                                            <Light
                                             key={item.index}
                                             route={item.item}
                                             onReturnID={(value) => saveInfo(value)}
-                                        />
-                                    )
-                                    :
-                                    (
-                                        <WaterPump
-                                            key={item.index}
-                                            status={close}
-                                            route={item.item}
-                                            onReturnID={(value) => {
-                                                saveInfo(value)
-                                            }}
-                                        />
-                                    )
-                            }
-
+                                            />
+                                        )
+                                    default:
+                                        return (
+                                            <WaterPump
+                                                key={item.index}
+                                                route={item.item}
+                                                onReturnID={(value) => saveInfo(value)}
+                                            />
+                                        );
+                                }
+                            })()}
                         </>
                     )
                 }}
