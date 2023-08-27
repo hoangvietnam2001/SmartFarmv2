@@ -27,24 +27,6 @@ export const arrImage = Array(29).fill(null).map((_, index) => 'icon TT22 (' + (
 
 
 
-export function dataAdd(){
-    const GreenHouse = useSelector((state: any) => state.farm.GreenHouse);
-    const PIN = useSelector((state: any) => state.farm.Pin)
-    const TYPE = useSelector((state: any) => state.farm.Type)
-    const nameDevice = useSelector((state: any) => state.farm.nameDevice)
-    const image = useSelector((state: any) => state.farm.image)
-    
-    const object = 
-        {
-            greenhouseId: GreenHouse.id,
-            name: nameDevice,
-            avatar: image,
-            type: TYPE.value,
-            pin: PIN,
-        }
-    return object;
-
-}
 
 
 

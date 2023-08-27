@@ -34,7 +34,6 @@ const ModalAddDevice = (props: Props) => {
     const handleChangeText = (value: string) => {
         dispatch(setNameDevice(value));
     }
-
     return (
         <SafeAreaView style={styles.constainer}>
 
@@ -82,7 +81,6 @@ const ModalAddDevice = (props: Props) => {
                     renderItem={(item: any) => {
                         const handleSelect = () => {
                             setSelect(item.item);
-                            console.log(item.item)
                             dispatch(setImage(item.item))
                         }
                         return (
