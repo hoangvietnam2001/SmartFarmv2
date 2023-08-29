@@ -11,11 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import DeviceScanScreen from '../../screens/app/DeviceScan/DeviceScanScreen';
 import LoadingScreen from '../../screens/app/LoaddingScreen/LoadingScreen';
 
-
 const Drawer = createDrawerNavigator();
-
-
-
 
 const MainDrawer = () => {
 	const [isLoading, setIsLoading] = useState(true);

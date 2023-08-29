@@ -28,19 +28,6 @@ import { logout } from '../../redux/slices/authSlice';
 const Relay = new RelayDB();
 const Sensor = new SensorDB();
 
-const HandleLogOut = async () => {
-	const navigation: any = useNavigation();
-	try {
-		navigation.reset({
-			index: 0,
-			routes: [{ name: 'Login' }]
-		});
-	}
-	catch (e: any) {
-		console.log(e.message);
-	}
-
-}
 const CustomDrawer = (props: any) => {
 	const { state, descriptors, navigation } = props;
 	const GreenHouses = useSelector((state: any) => state.farm.GreenHouses);
@@ -54,8 +41,7 @@ const CustomDrawer = (props: any) => {
 		catch (e: any) {
 			console.log(e.message);
 		}
-
-	}
+	};
 	return (
 		<View style={styles.container}>
 			<LinearGradient
