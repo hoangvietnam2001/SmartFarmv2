@@ -114,7 +114,7 @@ const Light: React.FC<Props> = (props: Props) => {
                                 minimumTrackTintColor="#FFFF00"
                                 maximumTrackTintColor="black"
                                 style={{
-                                    width: 150,
+                                    width: Dimensions.get('window').width/3,
                                     marginHorizontal: 10
                                 }}
                             />
@@ -133,12 +133,11 @@ const Light: React.FC<Props> = (props: Props) => {
                     />
                 )
             }
-
         </View>
     );
 };
-const WIDTH = Dimensions.get('screen').width;
-const HEIGHT = Dimensions.get('screen').height;
+const WIDTH = Dimensions.get('window').width;
+const HEIGHT = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     container: {
         width: WIDTH,
@@ -183,7 +182,6 @@ const styles = StyleSheet.create({
     },
     imagebox: {
         width: WIDTH / 3.5,
-        // height: WIDTH / 5.5,
         justifyContent: "center",
         alignItems: "center",
     },

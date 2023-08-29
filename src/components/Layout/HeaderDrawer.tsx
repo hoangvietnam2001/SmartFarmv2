@@ -32,17 +32,12 @@ export default function HeaderDrawer(props: Props) {
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#2C698D',
-    },
     header: {
         height: HEIGHT / 4.7,
-        marginBottom: 20,
     },
     imageView: {
         marginLeft: 20,
-        marginTop: 15,
+        marginTop: 35,
     },
     accountimage: {
         width: 60,
