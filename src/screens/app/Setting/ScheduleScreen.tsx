@@ -1,29 +1,33 @@
-import React, {useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import RelayDB from '../../../services/Relays/RelayDB';
-import axios from 'axios';
 import GreenHouseDB from '../../../services/Relays/GreenHouseDB';
+import HeaderLayout from '../../../components/Layout/HeaderLayout';
 const Relay = new RelayDB();
 const GreenHouse = new GreenHouseDB();
-const ScheduleScreen = () => {
-	const [arr, setArr] = useState([]);
-	useEffect(() => {
-		async function name() {
-			const a = await Relay.GetAllRelays();
-			if (a !== null) {
-				setArr(a);
-			}
-		}
-
-		name();
-	}, []);
+interface Props {
+	navigation: any
+}
+const ScheduleScreen = (props: Props) => {
 	return (
-		<View>
-			{arr.map((route: any, index: number) => (
-				<Text key={index}>{route.name}</Text>
-			))}
-			<Text>Lập lịch ở đây</Text>
-		</View>
+		<SafeAreaView>
+			<HeaderLayout
+			headerTitle='Lập lịch'
+			/>
+			<View>
+				<Text>Lap lich</Text>
+			</View>
+		</SafeAreaView>
 	);
 };
+
+const styles = StyleSheet.create({
+	headerTitle: {
+		color: 'white',
+		lineHeight: 30,
+		fontSize: 16,
+		fontWeight: '600'
+	}
+})
+
 export default ScheduleScreen;

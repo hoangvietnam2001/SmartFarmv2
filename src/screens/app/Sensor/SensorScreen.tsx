@@ -1,14 +1,19 @@
-import {StyleSheet, Text, View, FlatList} from 'react-native';
+import {StyleSheet, Text, View, FlatList, SafeAreaView} from 'react-native';
 import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
 import ItemSensor from '../../../components/ItemSensor/ItemSensor';
+import HeaderLayout from '../../../components/Layout/HeaderLayout';
 
 export default function SensorScreen() {
 	const sensors = useSelector((state: any) => state.sensor.Sensors);
 	const [sensor, setSensor] = useState(sensors);
 
 	return (
-		<View style={styles.container}>
+		<SafeAreaView style={styles.container}>
+			<HeaderLayout
+			headerTitle='Cảm biến'
+			/>
+			<View style = {styles.content}>
 			{sensor.length === 0 ? (
 				<>
 					<Text style={styles.error}>Không tìm thấy cảm biến nào</Text>
@@ -20,17 +25,17 @@ export default function SensorScreen() {
 						data={sensor}
 						renderItem={({item})=>{return <ItemSensor item={item}/>}}
 						keyExtractor={item => item.id}
-					/>
+						/>
 				</>
 			)}
-		</View>
+			</View>
+		</SafeAreaView>
 	);
 }
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: 'center',
 		backgroundColor: '#fff',
 	},
 	error: {
@@ -40,7 +45,9 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 	},
 	flatlist: {},
-
+	content:{
+		justifyContent:'center'
+	},
 	itemRound: {
 		flex: 1,
 		flexDirection: 'row',

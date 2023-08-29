@@ -92,7 +92,6 @@ const BLE: React.FC<Props> = (props: Props) => {
                 <IconSim name="options-vertical" size={20} style={styles.icon} onPress={() => {
                     if (props.onReturnID)
                         props.onReturnID(props.route.id)
-                        console.log(data);
                     if (!loading)
                         setOpen(!Open)
                 }
@@ -136,7 +135,7 @@ const BLE: React.FC<Props> = (props: Props) => {
                                     minimumTrackTintColor="#FFFF00"
                                     maximumTrackTintColor="black"
                                     style={{
-                                        width: 150,
+                                        width: Dimensions.get('window').width/3,
                                         marginHorizontal: 10
                                     }}
                                 />
@@ -165,7 +164,7 @@ const BLE: React.FC<Props> = (props: Props) => {
                                     minimumTrackTintColor="#FFFF00"
                                     maximumTrackTintColor="black"
                                     style={{
-                                        width: 150,
+                                        width: Dimensions.get('window').width/3,
                                         marginHorizontal: 10
                                     }}
                                 />
