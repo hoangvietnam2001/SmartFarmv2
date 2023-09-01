@@ -9,12 +9,14 @@ const Relay = new RelayDB();
 
 interface Props {
     RelayID: string
+    onDelete: (value: boolean) => void
 }
 export default function ModalDeleteDevice(props: Props) {
     const [loading, setIsLoading] = useState(false);
     const Relays:[] = useSelector((state: any) => state.farm.Relays);
     const dispatch = useDispatch();
     const handleDelete = async () => {
+        props.onDelete(true)
         setIsLoading(true)
         const response = await Relay.Delete(props.RelayID);
         if (response === 200) {
@@ -27,11 +29,12 @@ export default function ModalDeleteDevice(props: Props) {
         }
     }
     const handleCancle = () => {
+        props.onDelete(false)
         dispatch(setModalDelete(false))
     }
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.title}>Bạn có chắc muốn xoá thiết bị này ?</Text>
+            <Text style={styles.title}>Bạn có chắc muốn xoá chứ ?</Text>
             <View style={styles.viewBtn} >
                 <TouchableOpacity style={styles.btn} onPress={loading ? () => { } : handleDelete}>
                     {
