@@ -91,6 +91,9 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
     const handleModalAdd = () => {
         dispatch(setModalAdd({ status: true, type: 0 }));
     }
+    const handleDeleteModal = (value: boolean) => {
+        console.log(value)
+    }
     useEffect(() => {
         onRefresh();
     }, [refreshing])
@@ -178,6 +181,7 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
             >
                 <ModalDeleteDevice
                     RelayID={RelayID}
+                    onDelete={(value)=>handleDeleteModal(value)}
                 />
             </Modal>
        </SafeAreaView>

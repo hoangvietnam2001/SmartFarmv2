@@ -23,7 +23,9 @@ export default function HeaderLayout(props: Props) {
                     text: props.headerTitle,
                     style: styles.headerTitle,
                 }}
-                rightComponent= {props.headerRight}
+                rightComponent= {
+                    props.headerRight
+                }
             />
         </SafeAreaView>
     )

@@ -9,6 +9,8 @@ import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
 import java.util.List;
+import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage; 
+
 // import com.react.rnspinkit.RNSpinkitPackage;
 // import org.devio.rn.splashscreen.SplashScreenReactPackage;
 
@@ -27,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
+          // packages.add(new RNDateTimePickerPackage());
           return packages;
         }
 
@@ -49,7 +52,7 @@ public class MainApplication extends Application implements ReactApplication {
         }
 
         @Override
-        protected Boolean isHermesEnabled() {
+        protected Boolean isHermesEnabled(){
           return BuildConfig.IS_HERMES_ENABLED;
         }
       };

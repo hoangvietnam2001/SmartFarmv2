@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DeviceScanScreen from '../../screens/app/DeviceScan/DeviceScanScreen';
 import LoadingScreen from '../../screens/app/LoaddingScreen/LoadingScreen';
+import ScheduleStack from '../Stack/ScheduleStack';
 
 const Drawer = createDrawerNavigator();
 
@@ -51,7 +52,7 @@ const MainDrawer = () => {
 						})}
 					<Drawer.Screen name="Thông báo" component={Notification} />
 					<Drawer.Screen name="Tài khoản của tôi" component={AccountScreen} />
-					<Drawer.Screen name="Lập lịch" component={ScheduleScreen} options={{headerShown:false}}/>
+					<Drawer.Screen name="Lập lịch" component={ScheduleStack} options={{headerShown:false}}/>
 					<Drawer.Screen name="Kịch bản" component={ScriptScreen} options={{headerShown:false}}/>
 					<Drawer.Screen name="Cập nhật" component={ScriptScreen} />
 					<Drawer.Screen name="Quét thiết bị" component={DeviceScanScreen} />

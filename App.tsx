@@ -13,7 +13,7 @@ import {Splash, Login, ChooseGateway} from './src/screens';
 import MainDrawer from './src/navigators/Drawer/MainDrawer';
 import {Provider} from 'react-redux';
 import store from './src/redux/store/store';
-import MyTabs from './src/navigators/Tab/Demo';
+import MyComponent from './src/screens/Demo';
 
 const Stack = createNativeStackNavigator();
 
@@ -47,7 +47,6 @@ export default function App() {
 						<Stack.Screen name="AuthScreen" component={AuthScreen} />
 						<Stack.Screen name="AppScreen" component={AppScreen} />
 					</Stack.Navigator>
-					{/* <MyTabs/> */}
 				</NavigationContainer>
 			</Provider>
 		</>
