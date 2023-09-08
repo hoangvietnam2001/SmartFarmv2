@@ -2,6 +2,7 @@ import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Header } from 'react-native-elements'
 import { DrawerActions, useNavigation } from '@react-navigation/native'
+import { HEIGHT } from '../../constants/Size'
 interface Props {
     navigation?: any
     headerRight?: any

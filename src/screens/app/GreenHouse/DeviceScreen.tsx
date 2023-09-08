@@ -104,7 +104,7 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
                 headerTitle='Thiết bị'
                 headerRight={{
                 icon: 'add-box',
-               size: 30,
+                size: 30,
                 color: '#FFF',
                 onPress: handleModalAdd,
                 }}
@@ -112,7 +112,9 @@ const GreenHouseDevice = ({ navigation }: { navigation: any }) => {
             {/* Main */}
             <View>
 
-            <FlatList refreshControl={
+            <FlatList 
+            style={{height:HEIGHT-HEIGHT/15-HEIGHT/15-30}}
+            refreshControl={
                 <RefreshControl
                     onRefresh={() => {
                         dispatch(setRefreshing(true));

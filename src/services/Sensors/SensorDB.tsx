@@ -10,7 +10,16 @@ export default class SensorDB {
 			return data.filter((item: any) => {
 				return item.greenhouseId === greenHouseID;
 			});
-            // return data;
+			// return data;
+		} catch (error) {
+			console.log('Query sensor error :', error);
+		}
+	}
+
+	async UpdateSensor(sensorID: string, data: any) {
+		try {
+			const response = await axios.patch(URL_GET_SENSOR + sensorID, data);
+			return response.data;
 		} catch (error) {
 			console.log('Query sensor error :', error);
 		}

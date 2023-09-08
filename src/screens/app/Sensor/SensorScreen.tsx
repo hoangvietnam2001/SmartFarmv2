@@ -7,27 +7,38 @@ import HeaderLayout from '../../../components/Layout/HeaderLayout';
 export default function SensorScreen() {
 	const sensors = useSelector((state: any) => state.sensor.Sensors);
 	const [sensor, setSensor] = useState(sensors);
-
+	const handleModalAdd=()=>{
+		console.log('Nhu boài');
+		
+	}
 	return (
 		<SafeAreaView style={styles.container}>
 			<HeaderLayout
-			headerTitle='Cảm biến'
+				headerTitle="Cảm biến"
+				headerRight={{
+					icon: 'add-box',
+					size: 30,
+					color: '#FFF',
+					onPress: handleModalAdd,
+				}}
 			/>
-			<View style = {styles.content}>
-			{sensor.length === 0 ? (
-				<>
-					<Text style={styles.error}>Không tìm thấy cảm biến nào</Text>
-				</>
-			) : (
-				<>
-					<FlatList
-						style={styles.flatlist}
-						data={sensor}
-						renderItem={({item})=>{return <ItemSensor item={item}/>}}
-						keyExtractor={item => item.id}
+			<View style={styles.content}>
+				{sensor.length === 0 ? (
+					<>
+						<Text style={styles.error}>Không tìm thấy cảm biến nào</Text>
+					</>
+				) : (
+					<>
+						<FlatList
+							style={styles.flatlist}
+							data={sensor}
+							renderItem={({item}) => {
+								return <ItemSensor item={item} />;
+							}}
+							keyExtractor={item => item.id}
 						/>
-				</>
-			)}
+					</>
+				)}
 			</View>
 		</SafeAreaView>
 	);
@@ -45,8 +56,8 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 	},
 	flatlist: {},
-	content:{
-		justifyContent:'center'
+	content: {
+		justifyContent: 'center',
 	},
 	itemRound: {
 		flex: 1,

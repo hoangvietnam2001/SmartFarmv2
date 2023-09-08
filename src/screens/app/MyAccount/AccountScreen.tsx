@@ -1,20 +1,39 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, StyleSheet, Image} from 'react-native';
+import {
+	Text,
+	View,
+	StyleSheet,
+	Image,
+	TextInput,
+	TouchableOpacity,
+	ToastAndroid,
+} from 'react-native';
 import {WIDTH} from '../../../constants/Size';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import UserDB from '../../../services/User/UserDB';
+import { setNameUser } from '../../../redux/slices/nameSlice';
+import { useDispatch } from 'react-redux';
+const userDB = new UserDB();
 type User = {
+	[x: string]: any;
 	name: string;
 	username: string;
 	role: number;
 };
 const AccountScreen = () => {
 	const [user, setUser] = useState<User>({name: '', username: '', role: -1});
+	const [onHover, setOnHover] = useState(false);
+	const [name, setName] = useState<any>('');
+	const dispatch = useDispatch();
+
 	useEffect(() => {
 		const getUser = async () => {
 			try {
 				const data: any = (await AsyncStorage.getItem('user')) || {};
 				const user = JSON.parse(data);
 				setUser(user);
+				setName(user.name);
 			} catch (error) {
 				console.log('Get user failed with :', error);
 			}
@@ -22,6 +41,7 @@ const AccountScreen = () => {
 		getUser();
 	}, []);
 
+	// hiện quyền người dùng
 	const getRoleText = () => {
 		if (user.role === 1) {
 			return 'Người dùng';
@@ -31,8 +51,39 @@ const AccountScreen = () => {
 			return 'Không xác định';
 		}
 	};
+	// cập nhật lại người dùng
+	const handleUpdateUser = async () => {
+		if (name === '') {
+			ToastAndroid.showWithGravity(
+				'Vui lòng nhập thông tin',
+				ToastAndroid.CENTER,
+				ToastAndroid.SHORT,
+			);
+		} else {
+			const userData = {
+				username: 'user1234',
+				password: 'User@123',
+				name: name,
+				role: user.role,
+			};
 
-	console.log('User:', user);
+			try {
+				const response = await userDB.UpdateUser(user.id, userData);
+				if (response.code === 200) {
+					console.log('Cập nhật thành công', response);
+					setOnHover(false);
+					dispatch(setNameUser(name));
+					console.log(name);
+					
+					await AsyncStorage.setItem('user', JSON.stringify(response.body));
+				} else {
+					console.log('Cập nhật thất bại');
+				}
+			} catch (error) {
+				console.error('Lỗi khi cập nhật:', error);
+			}
+		}
+	};
 
 	return (
 		<View style={styles.container}>
@@ -43,7 +94,28 @@ const AccountScreen = () => {
 			/>
 			<View style={styles.roundtext}>
 				<Text style={styles.title}>Tên người dùng :</Text>
-				<Text style={styles.value}>{user.name}</Text>
+				{onHover ? (
+					<>
+						<TextInput
+							style={styles.inputValue}
+							value={name}
+							onChangeText={text => setName(text)}
+							autoFocus
+						/>
+						<TouchableOpacity
+							onPress={handleUpdateUser}
+							style={styles.iconSave}>
+							<Icon name="edit" color={'#000'} size={24} />
+						</TouchableOpacity>
+					</>
+				) : (
+					<Text
+						style={styles.value}
+						onPress={() => setOnHover(true)}
+						numberOfLines={1}>
+						{name}
+					</Text>
+				)}
 			</View>
 			<View style={styles.roundtext}>
 				<Text style={styles.title}>Tên đăng nhập :</Text>
@@ -84,11 +156,24 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		fontFamily: 'Roboto-Regular',
 		fontWeight: '700',
-		marginHorizontal: 12,
+		marginHorizontal: 8,
 	},
 	value: {
 		fontSize: 18,
 		fontFamily: 'Roboto-Regular',
+		width: 150,
+	},
+	inputValue: {
+		fontSize: 18,
+		fontFamily: 'Roboto-Regular',
+		width: 150,
+	},
+	iconSave: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '#fff',
+		position: 'absolute',
+		right: 10,
 	},
 });
 export default AccountScreen;

@@ -42,6 +42,7 @@ export default function ButtonLogin({
 				if (response.data.code === 200) {
 
 					const user = response.data.body.user;
+					console.log('user :',user);
 					
 					navigation.navigate('AppScreen', {
 						screen: 'ChooseGateway'
