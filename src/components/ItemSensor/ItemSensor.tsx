@@ -1,8 +1,20 @@
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import {
+	StyleSheet,
+	Text,
+	View,
+	Image,
+	TouchableOpacity,
+	Modal,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import SensorDB from '../../services/Sensors/SensorDB';
+import {HEIGHT, WIDTH} from '../../constants/Size';
+import ModalUpdateSensor from '../Modals/ModalUpdateSensor';
+
+const sensorDB = new SensorDB();
 
 export default function ItemSensor({item}: {item: any}) {
 	const sensors = useSelector((state: any) => state.sensor.Sensors);
@@ -11,6 +23,10 @@ export default function ItemSensor({item}: {item: any}) {
 	useEffect(() => {
 		setSensor(sensors);
 	}, [sensors]);
+
+	// console.log(
+	// 	sensorDB.UpdateSensor('64de6c72afcf16c1b4de7739', {timeUpdate: 10}),
+	// );
 
 	const formattedDate = moment(sensor.updatedAt)
 		.format('DD/MM/YYYY, HH:mm:ss A')
@@ -51,9 +67,23 @@ export default function ItemSensor({item}: {item: any}) {
 			<View style={styles.left}>
 				<View style={styles.nameRound}>
 					<Text style={styles.name}>{item.name}</Text>
-					<TouchableOpacity onPress={() => setShowModal(true)}>
+					<TouchableOpacity onPress={() => setShowModal(true)} style={styles.iconRound}>
 						<Icon name="edit" color={'#000'} size={20} />
 					</TouchableOpacity>
+
+					<Modal
+						animationType="fade"
+						transparent={true}
+						visible={showModal}
+						onRequestClose={() => {
+							setShowModal(!showModal);
+						}}
+						// style={{alignItems:'center',justifyContent:'center'}}
+					>
+						<ModalUpdateSensor 
+						setShowModal={setShowModal}
+						item={item} />
+					</Modal>
 				</View>
 				<Text style={styles.time}>{formattedDate}</Text>
 				<Text style={styles.status}>
@@ -112,6 +142,13 @@ const styles = StyleSheet.create({
 		lineHeight: 28.4,
 		letterSpacing: 0.5,
 		color: '#13313D',
+	},
+	iconRound:{
+		backgroundColor:'#fff',
+		width:32,
+		height:32,
+		justifyContent:'center',
+		alignItems:'center'
 	},
 	time: {
 		fontFamily: 'Roboto-Regular',

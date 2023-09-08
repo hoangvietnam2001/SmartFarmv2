@@ -7,6 +7,7 @@ import {useDispatch} from 'react-redux';
 import RelayDB from '../../services/Relays/RelayDB';
 import {setGreenHouse, setRelay} from '../../redux/slices/GreenHouseSlice';
 import SensorScreen from '../../screens/app/Sensor/SensorScreen';
+import { HEIGHT } from '../../constants/Size';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 const Relay = new RelayDB();
@@ -30,7 +31,9 @@ const MainTab = ({navigation, route}: {navigation: any; route: any}) => {
 				tabBarLabelStyle: {
 					marginBottom: 15,
 				},
-				tabBarStyle: {},
+				tabBarStyle: {
+					height:HEIGHT/15
+				},
 			}}>
 			<Tab.Screen
 				name="Thông tin"
