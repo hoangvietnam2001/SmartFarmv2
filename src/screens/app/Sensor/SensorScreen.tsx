@@ -8,8 +8,7 @@ export default function SensorScreen() {
 	const sensors = useSelector((state: any) => state.sensor.Sensors);
 	const [sensor, setSensor] = useState(sensors);
 	const handleModalAdd=()=>{
-		console.log('Nhu boài');
-		
+		console.log('Đang thêm');
 	}
 	return (
 		<SafeAreaView style={styles.container}>
